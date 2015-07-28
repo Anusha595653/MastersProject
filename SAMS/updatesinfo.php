@@ -90,7 +90,15 @@ else
 ?>
  <script type="text/javascript">
  <?php
+
+if($_POST["usertype"]=="2")
  echo "window.location = 'begin.php?update=1';";
+else  if($_POST["usertype"]=="1")
+ echo "window.location = 'faculty.php?update=1';";
+else if($_POST["usertype"]=="4")
+ echo "window.location = 'staff.php?update=1';";
+else 
+{}
 ?>
 </script>
 </body>

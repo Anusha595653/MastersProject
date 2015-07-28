@@ -58,7 +58,6 @@ echo '<html>
 function closewindow()
 {
   
-window.location = 'begin.php?msg=1';
 }
 </script>
 <?php
@@ -149,7 +148,19 @@ $subject = "New user account created";
 $body = "Your account for the Student Advisement System has been created. Your Username : ".$_POST['uname']." and Password :".$_POST['password'].". Please Change your password on your first login.";
 $faculty = $_POST['email'];
 sendmail();
+$validus="";
+if($_POST['usertypeadd']=="1")
+header('Location:begin.php?msg=1');
+
+else if($_POST['usertypeadd']=="2")
+header('Location:faculty.php?msg=1');
+
+else if($_POST['usertypeadd']=="3")
+header('Location:staff.php?msg=1');
  
+else
+{}
+
 ?>
  <script type="text/javascript">
 

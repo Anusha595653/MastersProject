@@ -2,13 +2,7 @@
 error_reporting(0);
 $meta = '<meta http-equiv="Refresh" content="3" />';
  
-include("headers.php");
-include("files.php");
-include("container.php");
-getheader();
-if($_SESSION['user_id']=='')
-header ('location:index.php');
- require_once ('mysql_connect.php');
+  require_once ('mysql_connect.php');
  global $q,$hint,$sid;
 	$q=$_GET['aptid'];
 	$sid=$_GET['sid'];
@@ -49,31 +43,42 @@ $r2 = @mysql_query ($q2);
 		}//close php while
 	}//close php rows if
 
-?>
-
-<div class="panel panel-primary" style="margin-top:-20px; border-radius:0px;">
-
-      <div class="panel-body" >
-	  
-  <div style="height:100%" >
- 
+?><div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <h4 class="modal-title">Update Appointment</h4>
+            </div>	<!-- /modal-header -->
+            <div class="modal-body">
+             
   <label style="font-size:20px;color:orange">Student Details</label>
  <?php
-echo "<table style='font-size:15px;'><tr><td>Name</td><td>&nbsp;&nbsp;:</td><td><b>$sname</b></td></tr>";
-echo "<tr ><td>Student ID </td><td>&nbsp;&nbsp;:</td><td><b> $sid</b></td></tr>";
-echo "<tr><td>Phone #</td><td>&nbsp;&nbsp;:</td><td>		<b> $phone</b></td></tr>";
-echo '<tr><td>E-Mail</td><td>&nbsp;&nbsp;:</td><td><b>  <a href="mailto:'.$email.'">'.$email.'</a></b></td></tr> ';
-echo "<tr><td>Concentration</td><td>&nbsp;&nbsp;:</td><td> <b> $major</b></td></tr>";
-echo "<tr><td>Level</td><td>&nbsp;&nbsp;:</td><td><b>  $level</b></td></tr></table>";
+echo "<table style='font-size:15px;'><tr><td><b>Name</b></td><td>&nbsp;&nbsp;:</td><td>$sname </td></tr>";
+echo "<tr ><td><b>Student ID </b></td><td>&nbsp;&nbsp;:</td><td>  $sid  </tr>";
+echo "<tr><td><b>Phone #</b></td><td>&nbsp;&nbsp;:</td><td>		  $phone </td></tr>";
+echo '<tr><td><b>E-Mail</b></td><td>&nbsp;&nbsp;:</td><td>   <a href="mailto:'.$email.'">'.$email.'</a> </td></tr> ';
+echo "<tr><td><b>Concentration</b></td><td>&nbsp;&nbsp;:</td><td>  $major </td></tr>";
+echo "<tr><td><b>Level</b></td><td>&nbsp;&nbsp;:</td><td>  $level</b> </tr></table>";
 ?>
 	
 	
+	<?php
 	
+	 $st = mysql_fetch_row(mysql_query("select note,description  from appts where apptid = $q  "));
+$updatenote= $st[0] ;	
+$description=$st[1];
+ 
+	?>
+	
+	</br>
 
-	
-	
-	</br>	<label style="color:orange;font-size:20px;">Enter Notes Here</label> 
-<form id="newappt" name="newappt" method="post"  action="appupdate.php">
+
+
+<form id="my-form">
+<label style="color:orange;font-size:20px">Purpose</label> 
+<input type="text" class="form-control" name="epurpose" value="<?php echo $description;?>">
+
+<label style="color:orange;font-size:20px">Notes</label> 
+ 
+
 <input type="hidden" name="sid" id="sid" value="<?php echo $sid; ?>" />
 <input type="hidden" name="time" id="time" value=""/>
 <input type ="hidden" name="Purpose" id="Purpose" value="  " />
@@ -82,81 +87,102 @@ echo "<tr><td>Level</td><td>&nbsp;&nbsp;:</td><td><b>  $level</b></td></tr></tab
 <div class="table-responsive">  
   <table class="table" >
 <tr><td>
-<textarea name="Note" id="Note" rows="5" cols="100"></textarea>&nbsp; </br>  </br>
-<input name="Submit" type="submit" onclick="return etext()" value="Submit" class="btn btn-warning" />
-</td></tr></table></div>	
+
+<textarea name="Note" class="form-control" id="Note" rows="15" ><?php echo $updatenote; ?></textarea>&nbsp; </br>  </br>
+
+</td></tr>
+<tr>
+<td><div class="form-group">
+              <label for="usrname" style="color:orange;font-size:20px">Upload Files(Choose or Drag&Drop)</label>
+			  <input name='documents[]' multiple='multiple' type='file' id="mulitplefileuploader"/>
+			<!--  <input type="file" class="form-control" multiple> --> </div>
+      <div id="status"></div> </td>
+</tr>
+<tr>
+<td>
+
+<input name="Submit" type="submit" onclick="return etext()" id="notesbutton" value="Submit" class="btn btn-warning" />
+</td></tr>
+
+ </tr>
+
+</table></div>	
+</form>
+<div id="special"/>
 </form>
 
-<br>
+ 
+
+ 
+<script>
+    (function($){
+        function processForm( e ){
+            $.ajax({
+                url: 'sampledata.php',
+                dataType: 'text',
+                type: 'post',
+                contentType: 'application/x-www-form-urlencoded',
+                data: $(this).serialize(),
+                success: function( data, textStatus, jQxhr ){
+                    $('#response pre').html("Updated Successfully");
+					$('#Note').html( data );
+					    alert(data);
+   location.reload(true);
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log( errorThrown );
+                }
+            });
+
+            e.preventDefault();
+        }
+
+        $('#my-form').submit( processForm );
+    })(jQuery);
+</script>
+ 
+ 
+<script>
+
+$(document).ready(function()
+{
+var st=document.getElementById('appid').value;
+var settings = {
+	url: "testingfile1.php",
+	method: "POST",
+	formData: {appid:st},
+	allowedTypes:"jpg,png,gif,doc,pdf,zip",
+	fileName: "myfile",
+	multiple: true,
+	onSuccess:function(files,data,xhr)
+	{
+		$("#status").html("<font color='green'>Upload is success</font>");
+		
+	},
+    afterUploadAll:function()
+    {
+        alert("All files/images uploaded!!");
+    },
+	onError: function(files,status,errMsg)
+	{		
+		$("#status").html("<font color='red'>Upload Failed</font>");
+	}
+}
+$("#mulitplefileuploader").uploadFile(settings);
+
+});
+</script>
 
 	
 
-    <div class="table-responsive">    
-  <table class="table">
-    <thead>
  
-<tr height='15px' id='fordisplay'><td style='border: 1px solid black;text-align:center'>S.No</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Created</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>By</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Note</td>
-
-</tr>
-    </thead>
- <?php
- if($_SESSION["updatecounter"]=="1")
- {
-	 echo "<script>alert('Notes added successfully')</script>";
-$_SESSION["updatecounter"]=0;
-	 }
- if($_SESSION["updatecounter"]=="2")
- {
-	 echo "<script>alert('File Deleted successfully')</script>";
-$_SESSION["updatecounter"]=0;
-	 }
-	 $q1="select * from appts where apptid=".$q;
-		$i1=0;
-		$r1 = @mysql_query ($q1);
-	if (@mysql_num_rows($r1) !=0) 
-	{//open php rows if
-	//	$sid=$row1['sid'];
-	echo "</br><label style='color:orange;font-size:20px'>Notes</label>	
-	";
-		while ($row1 = @mysql_fetch_assoc($r1))
-		{//open php while
-
-		$part1="<p><u>Appointment Date:</u><br/> ".$row1['start_date']."<br/><br/> <u>Appointment Purpose: </u><br/> ".$row1['description']."<br/><br/>";
-		$part2="</tr<tr>";
-		$q2="select distinct *,TIME_FORMAT(time,'%h:%i %p') as time from apptnote where apptid = $q order by TIME_FORMAT(date,time) desc";
-		$r2 = @mysql_query ($q2);
-		if (@mysql_num_rows($r2) !=0) 
-			{//open php rows if 2
-			while ($row2 = @mysql_fetch_assoc($r2))
-				{//open php while 2
-			$i1++;
-				$q3 = "select First_Name,Last_Name from users where user_id = ".$row2['fid'];
-							$r3 = @mysql_query ($q3);
-								$row3 = @mysql_fetch_assoc($r3);
-			$part2=$part2."<td style='text-align:center; border: 1px solid black;'>".$i1."</td><td style='text-align:center; border: 1px solid black;'>".$row2['date']." &nbsp;".$row2['time']." </td><td style='text-align:center; border: 1px solid black;'>  ".$row3['First_Name']."  ".$row3['Last_Name']." </td><td style='text-align:center; border: 1px solid black;'>".$row2['note']."</td></tr>";
-				}//close php while 2
-			}//close php rows if 2
-		}//close php while
-		echo $part2;
-		if($i1==0)
-			echo "<font color=red><br>Sorry No Records</font>";
-	}
-	?>
-	</table>
-	</div>
-  </div> 
 <div class="table-responsive">    
-
-	  <br>      
+ <label for="usrname" style="color:orange;font-size:20px">Uploaded Files</label>     
   <table class="table">
 <tr height='15px' ><td style='border: 1px solid black;text-align:center'>S.No</td>
 <td style='border: 1px solid black;width:2%'>Icon</td>
 <td style='border: 1px solid black;text-align:center;valign=baseline'>Name</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Size(Bytes)</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Created</td>
+ 
 <td style='border: 1px solid black;text-align:center;valign=baseline'>Download</td>
 <td style='border: 1px solid black;text-align:center;valign=baseline'>Delete</td>
 </tr> 
@@ -172,20 +198,20 @@ $_SESSION["updatecounter"]=0;
 	//if the appointment is still open, create the form for uploading files and attach it to $hint
 	if ($status=="open")
 	{
-		$hint=$hint.'
+		/*$hint=$hint.'
 			<p ><Br><br><label style=font-size:20px;color:orange>File Upload:</label>
 			<form action="" method="post" enctype="multipart/form-data">
-			<input type="file" name="uploaded_file"  class="btn btn-primary">
+			<input type="file" name="uploaded_file" required class="btn btn-primary">
 			<input type="submit" name="addfile" value="Upload file" class="btn btn-warning">
 			<input type="hidden" name="apptid" id="apptid" value="'.$q.'"/>
 			<input type="hidden" name="studentid" id="studentid" value="'.$sid.'"/>
 			
-			<br/><br/>';
+			<br/><br/>';*/
 	}
 	//create title for uploaded files and attach to $hint
-	$hint=$hint.'<p><label style=font-size:20px;color:orange>Uploaded Files</label><br/>';
+	//$hint=$hint.'<p><label style=font-size:20px;color:orange>Uploaded Files</label><br/>';
 	// Query for a list of all existing files and format the date
-	$sql = "select *,Date_FORMAT(created,'%Y-%d-%m %h:%m %p') as created from file where apptid = ".$q." order by id desc";
+	$sql = "select *,Date_FORMAT(created,'%Y-%d-%m %h:%m %p') as created from file where apptid = ".$_GET['aptid']." order by id desc";
 	//run the query
 	$i=0;
 	$result = @mysql_query($sql);
@@ -250,8 +276,6 @@ $_SESSION["updatecounter"]=0;
                 <td style='text-align:center; border: 1px solid black;'>".$i."</td>
 					<td style='text-align:center; border: 1px solid black;'><a href='get_file.php?id={$row['id']}'><img src='".$iconLocation."' title='".$doctype."' width='25' height='25' /></a></td>
                     <td style='text-align:center; border: 1px solid black;'>{$row['name']}</td>
-                    <td style='text-align:center; border: 1px solid black;'>{$row['size']}</td>
-                    <td style='text-align:center; border: 1px solid black;'>{$row['created']}</td>
                     <td style='text-align:center; border: 1px solid black;'><a href='#' onclick='Download({$row['id']})'>Download</a></td>
 					";
 					
@@ -289,7 +313,10 @@ $_SESSION["updatecounter"]=0;
 	if(isset($_POST['addfile']))
 	{
 		addfile();
-		 echo "<script>alert('File added successfully')</script>";
+                if($hint=="")
+		 echo "<script>alert('Select file before you upload')</script>";
+                  else
+ 		echo "<script>alert('File added successfully')</script>";
 		echo $meta;
 	}
 	?>
@@ -307,6 +334,7 @@ $_SESSION["updatecounter"]=0;
 	}
 	</script>
 	</table>
-</div>	</div></div><?php
-include('footer.php');
-?>
+</div>	</div></div>   </div>	<!-- /modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               </div>	<!-- /modal-footer -->

@@ -66,9 +66,9 @@ body{background-color:#D8DDD8}
 
 
         <li class='active'><a href='begin.php'>HOME</a></li>
-        <li><a href='AddStudent.php'>ADD STUDENT</a></li>
+        <li><a href='AddStudent.php?type=1'>ADD STUDENT</a></li>
         <li><a href='AddFaculty.php'>ADD FACULTY/STAFF</a></li> 
-        <li><a href='viewstds.php'>VIEW STUDENTS</a></li> 
+      
 		<li><a href='Chart.php'>CHART BUILDER</a></li> 
 		 <li class='dropdown'>
           <a class='dropdown-toggle' data-toggle='dropdown' href='#'>SETTINGS
@@ -80,7 +80,7 @@ body{background-color:#D8DDD8}
         </li>
       </ul>
 	  <ul class='nav navbar-nav navbar-right'>
-        <li><a href='logout.php'><span class='glyphicon glyphicon-log-in'></span> Logout</a></li>
+        <li><a href='logout.php'> <span class='glyphicon glyphicon-log-out'>LOGOUT</span></a></li>
       </ul>
     </div>
   </div>
@@ -177,20 +177,26 @@ body{background-color:#D8DDD8}
  
       <li><a href='student.php'><span>HOME</span></a></li>
  
-	  <li><a href='student.php'><span>VIEW APPOINTMENTS</span></a></li>
-	  <li><a href='changepwd.php'><span>CHANGE PASSWORD</span></a></li>
-	 <li></li>
+<li class='dropdown'>
+          <a class='dropdown-toggle' data-toggle='dropdown' href='#'>SETTINGS
+          <span class='caret'></span></a>
+          <ul class='dropdown-menu'>
+
+
+ <li><a href='changepwd.php'><span>CHANGE PASSWORD</span></a></li>
+	 
 	 <li><a href='updateinfo.php?q=".$_SESSION['stu_id']."&t=2&u=1'><span>UPDATE PROFILE</span></a>
 
 	 
-	 </li>
+	 </li> </ul>
+        </li>
 
 
 
 
       </ul>
 	  <ul class='nav navbar-nav navbar-right'>
-        <li><a href='logout.php'><span class='glyphicon glyphicon-log-in'></span> Logout</a></li>
+        <li><a href='logout.php'> <span class='glyphicon glyphicon-log-out'> LOGOUT</span></a></li>
       </ul>
     </div>
   </div>
@@ -286,16 +292,23 @@ body{background-color:#D8DDD8}
       <ul class='nav navbar-nav'>
 	  
 	        <li><a href='staff.php'><span>HOME</span></a></li>
-      <li><a href='viewapts.php'><span>VIEW APPOINTMENTS</span></a></li>
-	        <li><a href='viewstds.php'><span>VIEW STUDENTS</span></a></li>
+
+        <li><a href='AddStudent.php?type=3'>ADD STUDENT</a></li>
+<li class='dropdown'>
+          <a class='dropdown-toggle' data-toggle='dropdown' href='#'>SETTINGS
+          <span class='caret'></span></a>
+          <ul class='dropdown-menu'>
+
 	  <li><a href='changepwd.php'><span>CHANGE PASSWORD</span></a></li>
 	 
 	 <li><a href='updateinfo.php?q=".$_SESSION['stu_id']."&t=1&u=1'><span>UPDATE PROFILE</span></a>
  
 	 </li>
+          </ul>
+        </li>
 </ul>
 	  <ul class='nav navbar-nav navbar-right'>
-        <li><a href='logout.php'><span class='glyphicon glyphicon-log-in'></span> LOGOUT</a></li>
+        <li><a href='logout.php'> <span class='glyphicon glyphicon-log-out'> LOGOUT</span></a></li>
       </ul>
     </div>
   </div>
@@ -391,18 +404,25 @@ body{background-color:#D8DDD8}
 
       <ul class='nav navbar-nav'>
 	      <li><a href='faculty.php'><span>HOME</span></a></li>
-      <li><a href='viewapts.php'><span>VIEW APPOINTMENTS</span></a></li>
-	        <li><a href='viewstds.php'><span>VIEW STUDENTS</span></a></li>
-	  <li><a href='changepwd.php'><span>CHANGE PASSWORD</span></a></li>
-	 <li></li>
-	 <li><a href='updateinfo.php?q=".$_SESSION['stu_id']."&t=1&u=1'><span>UPDATE PROFILE</span></a>
 
+        <li><a href='AddStudent.php?type=2'>ADD STUDENT</a></li>
+     <!-- <li><a href='viewapts.php'><span>VIEW APPOINTMENTS</span></a></li>
+	        <li><a href='viewstds.php'><span>VIEW STUDENTS</span></a></li>-->
+<li class='dropdown'>
+          <a class='dropdown-toggle' data-toggle='dropdown' href='#'>SETTINGS
+          <span class='caret'></span></a>
+          <ul class='dropdown-menu'>
+	  <li><a href='changepwd.php'><span>CHANGE PASSWORD</span></a></li>
+	 
+	 <li><a href='updateinfo.php?q=".$_SESSION['stu_id']."&t=1&u=1'><span>UPDATE PROFILE</span></a>
+ </ul>
+        </li>
 	 
 	 </li>
   
 	  </ul>
 	  <ul class='nav navbar-nav navbar-right'>
-        <li><a href='logout.php'><span class='glyphicon glyphicon-log-in'></span> LOGOUT</a></li>
+        <li><a href='logout.php'> <span class='glyphicon glyphicon-log-out'> LOGOUT</span></a></li>
       </ul>
     </div>
   </div>

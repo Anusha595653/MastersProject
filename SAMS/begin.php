@@ -85,10 +85,11 @@ if($_GET["update"]=="success")
     <div class="form-group" style="text-align:left">
 	
       <label class="control-label col-sm-5" for="email"></label>
-	  <h2 width="20%">&nbsp;&nbsp;&nbsp;Student Search:	<label class="glyphicon glyphicon-search"></label>
+	  <h2 width="20%">&nbsp;&nbsp;&nbsp;Student Search 	<!--<label class="glyphicon glyphicon-search"></label>-->
     </h2>
-      <div class="col-sm-4" align="center" style="text-align:center">
-	   <input type="text"  style="display:none" id="srch" value="0">
+ <input type="text"  style="display:none" id="srch" value="0">
+	  
+      <div  align="center"  class="col-sm-5" style="text-align:center" width="25%">
 	   <input type="text" class="form-control"  id="dd_user_input" placeholder="Type User ID or Name Here" id="dd_user_input" type="text" onkeyup="search()" onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value==this.defaultValue)this.value='';" >	
 		</div>
 	  
@@ -177,9 +178,10 @@ if(getUrl != '#') {
 location.href = getUrl;
 }
 },
-html: true, 
+html: true,
 open: function(event, ui) {
  		$(".ui-autocomplete").css("z-index", 1000);
+ 
 }
 });
 });

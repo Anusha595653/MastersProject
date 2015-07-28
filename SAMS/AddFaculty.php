@@ -307,7 +307,7 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">Password:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control"  name="password" id="password" placeholder="Enter Password">
+        <input type="password" class="form-control"  name="password" id="password" placeholder="Enter Password">
       </div>
     </div>
 	
@@ -317,7 +317,7 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">Confirm-Password:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control"  name="confirm" id="confirm" placeholder="Enter Confirm Password">
+        <input type="password" class="form-control"  name="confirm" id="confirm" placeholder="Enter Confirm Password">
       </div>
     </div>
 	

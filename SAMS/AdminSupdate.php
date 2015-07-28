@@ -227,7 +227,7 @@ document.form1.confirm.value=document.form1.password.value;
 <form id="form1" name="form1" method="post"  action="updatesinfo.php" class="form-horizontal">
 
   <input type="hidden" name="updateid" id="updateid" value="<?php echo $q; ?>">
-
+  <input type="hidden" name="usertype"   value="<?php echo $_GET['type']; ?>">
     <div class="form-group">
 	
       <label class="control-label col-sm-2" for="email">First Name:</label>
@@ -359,7 +359,7 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">Password:</label>
       <div class="col-sm-4">
-	<input type="text" name="password" id="password" class="form-control"> 
+	<input type="password" name="password" id="password" class="form-control"> 
 	 </div></div>
 	 
     
@@ -370,7 +370,7 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">Confirm-Password:</label>
       <div class="col-sm-4">
-	<input type="text" class="form-control" name="confirm" id="confirm"> </div></div>
+	<input type="password" class="form-control" name="confirm" id="confirm"> </div></div>
 	
 
 
@@ -401,7 +401,7 @@ document.form1.confirm.value=document.form1.password.value;
       <label class="control-label col-sm-2" for="email"> </label>
       <div class="col-sm-4">
 <button class="btn btn-primary" onclick= "errorcheck()" name="submit" type="submit">Submit</button>
-<button class="btn btn-warning" onclick= "cancel()" name="submit" type="submit">Cancel</button>
+ 
 </div></div>
 
   </p>

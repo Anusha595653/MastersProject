@@ -104,7 +104,7 @@ body{background-color:#D8DDD8}
 		<?php
 if(isset($_POST["submit"])&&isset($_POST["dbn"]))
 {
-	$conn=mysql_connect("localhost","root","root");
+	$conn=mysql_connect("localhost","root","");
 	$sql="CREATE DATABASE ".$_POST["dbn"];
 	if(mysql_query($sql,$conn))
 	{
@@ -155,7 +155,7 @@ $code="<?php  # mysql_connect.php
 //required for all pages
 // Define constants for connection
 define ('DB_USER', 'root');      // replace xxxx with your mysql username    
-define ('DB_PASSWORD', 'root');  // replace yyyy with your mysql password
+define ('DB_PASSWORD', '');  // replace yyyy with your mysql password
 define ('DB_HOST', 'localhost');
 define ('DB_NAME', '".$_POST['dbn']."');      // replace zzzzzz with your database name
 

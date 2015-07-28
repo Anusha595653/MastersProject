@@ -1,10 +1,5 @@
 <?php 
-include("headers.php");
-include("container.php");
-getheader();
-if($_SESSION['user_id']=='')
-header ('location:index.php');
- require_once ('mysql_connect.php');
+  require_once ('mysql_connect.php');
  global $q,$hint,$sid;
 	$q=$_GET['aptid'];
 	$sid=$_GET['sid'];
@@ -44,34 +39,45 @@ $r2 = @mysql_query ($q2);
 		}//close php while
 	}//close php rows if
 ?>
-<div class="panel panel-primary" style="margin-top:-20px; border-radius:0px;">
-
-      <div class="panel-body" >
-	  
-  <div style="height:100%" >
- 
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <h4 class="modal-title">Appointment Details</h4>
+            </div>	<!-- /modal-header -->
+            <div class="modal-body"> 
   
 <label style="color:orange;font-size:20px">Student Details</label>
  <?php
-echo "<table style='font-size:15px;'><tr><td>Name</td><td>&nbsp;&nbsp;:</td><td><b>$sname</b></td></tr>";
-echo "<tr ><td>Student ID </td><td>&nbsp;&nbsp;:</td><td><b> $_GET[sid]</b></td></tr>";
-echo "<tr><td>Phone #</td><td>&nbsp;&nbsp;:</td><td>		<b> $phone</b></td></tr>";
-echo '<tr><td>E-Mail</td><td>&nbsp;&nbsp;:</td><td><b>  <a href="mailto:'.$email.'">'.$email.'</a></b></td></tr> ';
-echo "<tr><td>Concentration</td><td>&nbsp;&nbsp;:</td><td> <b> $major</b></td></tr>";
-echo "<tr><td>Level</td><td>&nbsp;&nbsp;:</td><td><b>  $level</b></td></tr></table>";
+echo "<table style='font-size:15px;'><tr><b><td><b>Name</b></td><td>&nbsp;&nbsp;:</td><td>$sname</td></tr>";
+echo "<tr ><td><b>Student ID </b></td><td>&nbsp;&nbsp;:</td><td> $_GET[sid]</td></tr>";
+echo "<tr><td><b>Phone #</b></td><td>&nbsp;&nbsp;:</td><td>	 $phone</td></tr>";
+echo '<tr><td><b>E-Mail</b></td><td>&nbsp;&nbsp;:</td><td>  <a href="mailto:'.$email.'">'.$email.'</a></td></tr> ';
+echo "<tr><td><b>Concentration</b></td><td>&nbsp;&nbsp;:</td><td> $major</td></tr>";
+echo "<tr><td><b>Level</b></td><td>&nbsp;&nbsp;:</td><td> $level</td></tr></table>";
 ?>
 <br>
 
-<label style="color:orange">View Uploaded Files and Notes Here</label><br/>
+<?php
+	
+$st = mysql_fetch_row(mysql_query("select note,description  from appts where apptid = $q  "));
+$updatenote= $st[0] ;	
+$description=$st[1];
+ 
+?>
+
+<label style="color:orange;font-size:20px">Purpose</label> 
+<input type="text" style="background-color:white;" class="form-control" name="epurpose" value="<?php echo $description;?>" readonly>
+
+<label style="color:orange;font-size:20px">Entered Notes</label><br/>
+<div class='panel panel-default'>
+<div><p><?php echo $updatenote;?></p></div></div>
+<label style="color:orange;font-size:20px">  Uploaded Files  </label><br/>
   <div class="table-responsive">          
   <table class="table">
     <thead>
 <tr height='15px' id='fordisplay' ><td style='border: 1px solid black;text-align:center'>S.No</td>
 <td style='border: 1px solid black;width:2%;text-align:center;v'>Icon</td>
 <td style='border: 1px solid black;text-align:center;valign=baseline'>Name</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Size(Bytes)</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Created</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Download</td>
+ <td style='border: 1px solid black;text-align:center;valign=baseline'>Download</td>
  
 </tr> 
 	
@@ -97,9 +103,9 @@ echo "<tr><td>Level</td><td>&nbsp;&nbsp;:</td><td><b>  $level</b></td></tr></tab
 			<br/><br/>';*/
 	}
 	//create title for uploaded files and attach to $hint
-	$hint=$hint.'<label style=color:orange>Uploaded Files:<br/>';
+	//$hint=$hint.'<label style=color:orange>Uploaded Files:<br/>';
 	// Query for a list of all existing files and format the date
-	$sql = "select *,Date_FORMAT(created,'%Y-%d-%m %h:%m %p') as created from file where apptid = ".$q." order by id desc";
+	$sql = "select *,Date_FORMAT(created,'%Y-%d-%m %h:%m %p') as created from file where apptid = ".$_GET['aptid']." order by id desc";
 	//run the query
 	$i=0;
 	$result = @mysql_query($sql);
@@ -160,8 +166,6 @@ $couns=0;
                 <td style='text-align:center; border: 1px solid black;'>".$i."</td>
 					<td style='text-align:center; border: 1px solid black;'><a href='get_file.php?id={$row['id']}'><img src='".$iconLocation."' title='".$doctype."' width='25' height='25' /></a></td>
                     <td style='text-align:center; border: 1px solid black;'>{$row['name']}</td>
-                    <td style='text-align:center; border: 1px solid black;'>{$row['size']}</td>
-                    <td style='text-align:center; border: 1px solid black;'>{$row['created']}</td>
                     <td style='text-align:center; border: 1px solid black;'><a href='#' onclick='Download({$row['id']})'>Download</a></td>
 					";
 					
@@ -193,52 +197,8 @@ $couns=0;
 	?>
 
 </table></div>   
-  <div class="table-responsive">          
-  <table class="table">
-<tr height='15px' id='fordisplay'><td style='border: 1px solid black;text-align:center'>S.No</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline; border: 1px solid black;'>Created</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>By</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Note</td>
-</tr>	
-	<?php
-		$q1="select * from appts where apptid=".$q;
-		$i1=0;
-		$r1 = @mysql_query ($q1);
-	if (@mysql_num_rows($r1) !=0) 
-	{//open php rows if
-	//	$sid=$row1['sid'];
-	echo "
-	<br><br><label style='color:orange'>Notes</label>
- ";
-$i2=0;
-		while ($row1 = @mysql_fetch_assoc($r1))
-		{//open php while
-
-		$part1="<p><u>Appointment Date:</u><br/> ".$row1['start_date']."<br/><br/> <u>Appointment Purpose: </u><br/> ".$row1['description']."<br/><br/>";
-		$part2="</tr<tr>";
-		$q2="select distinct *,TIME_FORMAT(time,'%h:%i %p') as time from apptnote where apptid = $q order by date desc, time desc";
-		$r2 = @mysql_query ($q2);
-		if (@mysql_num_rows($r2) !=0) 
-			{//open php rows if 2
-		$i2=0;
-			while ($row2 = @mysql_fetch_assoc($r2))
-				{//open php while 2
-			$i1++;
-			
-				$q3 = "select First_Name,Last_Name from users where user_id = ".$row2['fid'];
-							$r3 = @mysql_query ($q3);
-								$row3 = @mysql_fetch_assoc($r3);
-			$part2=$part2."<td style='text-align:center; border: 1px solid black;'>".$i1."</td><td style='text-align:center; border: 1px solid black;'>".$row2['date']." &nbsp;".$row2['time']." </td><td style='text-align:center; border: 1px solid black;'>  ".substr($row3['First_Name'],0,1).$row3['Last_Name']." </td><td style='text-align:center; border: 1px solid black;'>".$row2['note']."</td></tr>";
-				}//close php while 2
-	 
-			
-			}
-			//close php rows if 2
-		}//close php while
- 	echo $part2."</table>";
-
-	}
-	?>
+ 
+	
 	
 		<script>
 	function Download(vari)
@@ -247,7 +207,8 @@ $i2=0;
 		
 	}
 	</script>
-  </div></div></div></div>
-<?php
-include('footer.php');
-?>
+  </div></div></div></div></div>	<!-- /modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                
+            </div>	<!-- /modal-footer -->

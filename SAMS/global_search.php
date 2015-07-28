@@ -29,7 +29,7 @@ while($recResult = mysql_fetch_assoc($recSql)) {
  //$json_arr["id"] = "./studentsrch.php?id="+$recResult['user_id'];
 
   $json_arr["value"] = $recResult['First_Name'];
-  $json_arr["label"] =$recResult['First_Name']."-".$recResult['Last_Name']."(". $recResult['user_id'].")";
+  $json_arr["label"] ="(".$recResult['user_id'].") ".$recResult['First_Name']." ".$recResult['Last_Name'];
    
   array_push($display_json, $json_arr);
 }

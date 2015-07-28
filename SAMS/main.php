@@ -170,25 +170,30 @@ if (@mysql_num_rows($r1) !=0)
 		if ($u_type == 3)
 		{
 			$_SESSION['stu_id']=$user;
-			$meta = '<meta http-equiv="Refresh" content="3;url=student.php?q='.$_SESSION["user_id"].'&start=1" />';
+			header('Location:student.php');
+		
+		//$meta = '<meta http-equiv="Refresh" content="0;url=student.php?q='.$_SESSION["user_id"].'&start=1" />';
 		}
 		else
 		if ($u_type == 1)
 		{
 			$_SESSION['stu_id']=0;
-			$meta = '<meta http-equiv="Refresh" content="3;url=faculty.php" />';
+			header('Location:faculty.php');
+			//$meta = '<meta http-equiv="Refresh" content="0;url=faculty.php" />';
 		}
 		else
 		if ($u_type == 2)
 		{
 			$_SESSION['stu_id']=$user;
-			$meta = '<meta http-equiv="Refresh" content="3;url=begin.php" />';
+		header('Location:begin.php');
+			//$meta = '<meta http-equiv="Refresh" content="0;url=begin.php" />';
 		}
 		else
 		if ($u_type == 4)
 		{
 			$_SESSION['stu_id']=$user;
-			$meta = '<meta http-equiv="Refresh" content="3;url=staff.php" />';
+			header('Location:staff.php');
+			//$meta = '<meta http-equiv="Refresh" content="0;url=staff.php" />';
 		}
 		
 	}

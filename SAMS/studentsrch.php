@@ -1,3 +1,4 @@
+
 <?php
 error_reporting(0);
 Session_start();
@@ -12,7 +13,7 @@ if($_SESSION['user_id']=='')
 header ('location:index.php');
  
 $q=$_GET["sid"];
- $user = $_SESSION['user_id'];
+$user = $_SESSION['user_id'];
  
 $qa = "select apptid,status from appts where sid = $q and fid = $user and status = 2";
 $q1="select * from users where user_id = $q";
@@ -56,30 +57,32 @@ $r2 = @mysql_query ($q2);
       <div class="panel-body" >
 	  
   <div style="height:301px" >
- 
+
   
   <label style="color:orange;font-size:20px">
  Student Information</label></p> 
  
  
  <?php
-echo "<table><tr><td id='t'>Name</td><td>&nbsp;&nbsp;:</td><td><b>$sname</b></td></tr>";
-echo "<tr><td id='t'>Student ID </td><td>&nbsp;&nbsp;:</td><td><b> $q</b></td></tr>";
-echo "<tr><td id='t'>Phone #</td><td>&nbsp;&nbsp;:</td><td>		<b> $phone</b></td></tr>";
-echo '<tr><td id=t>E-Mail</td><td>&nbsp;&nbsp;:</td><td><b>  <a href="mailto:'.$email.'">'.$email.'</a></b></td></tr> ';
-echo "<tr><td id='t'>Concentration</td><td>&nbsp;&nbsp;:</td><td> <b> $major</b></td></tr>";
-echo "<tr><td id='t'>Level</td><td>&nbsp;&nbsp;:</td><td><b>  $level</b></td></tr>";
-echo "<tr><td id='t'>Status</td><td>&nbsp;&nbsp;:</td><td> <b> $status</b></td></tr>";
-echo "<tr><td id='t'>Processed On</td><td>&nbsp;&nbsp;:</td><td> <b> $admissiondate</b></td></tr>";
-echo "<tr><td id='t'>Graduated On</td><td>&nbsp;&nbsp;:</td><td><b>  $graddate </b></td></tr>";
-echo "<tr><td id='t'>Comments </td><td>&nbsp;&nbsp;:</td><td><b>  $comments </b></td></tr></table>";
+echo "<table><tr><td id='t'><b>Name</b></td><td>&nbsp;&nbsp;:</td><td>$sname</td></tr>";
+echo "<tr><td id='t'><b>Student ID</b> </td><td>&nbsp;&nbsp;:</td><td> $q</td></tr>";
+echo "<tr><td id='t'><b>Phone #</b></td><td>&nbsp;&nbsp;:</td><td>		 $phone</td></tr>";
+echo '<tr><td id=t><b>E-Mail</b></td><td>&nbsp;&nbsp;:</td><td>  <a href="mailto:'.$email.'">'.$email.'</a></td></tr> ';
+echo "<tr><td id='t'><b>Concentration</b></td><td>&nbsp;&nbsp;:</td><td>  $major</td></tr>";
+echo "<tr><td id='t'><b>Level</b></td><td>&nbsp;&nbsp;:</td><td>  $level</td></tr>";
+echo "<tr><td id='t'><b>Status</b></td><td>&nbsp;&nbsp;:</td><td>  $status</td></tr>";
+echo "<tr><td id='t'><b>Processed On</b></td><td>&nbsp;&nbsp;:</td><td>  $admissiondate</td></tr>";
+echo "<tr><td id='t'><b>Graduated On</b></td><td>&nbsp;&nbsp;:</td><td>  $graddate </td></tr>";
+echo "<tr><td id='t'><b>Comments </b></td><td>&nbsp;&nbsp;:</td><td>  $comments </td></tr></table>";
 ?>
 
  <?php
 if($_SESSION['u_type']!="4")
 {
  ?>
- <button type="button" class="btn btn-warning" id="myBtn1">Create Appointment</button>
+ 
+
+<button type="button" class="btn btn-warning" id="myBtn1">Create Appointment</button>
 <script>
 $(document).ready(function(){
     $("#myBtn1").click(function(){
@@ -104,10 +107,11 @@ $(document).ready(function(){
 ?>
 &nbsp; 
 <?php
-if($_SESSION['u_type']=="2")
+if($_SESSION['u_type']!=3)
 {
+$type=$_SESSION['u_type'];
  ?>
- <a href='AdminSupdate.php?student_id=<?php echo  $q;?>' style='color:#00A4D3;font-size:15px;'>  
+ <a href=AdminSupdate.php?student_id=<?php echo  $q;?>&type=<?php echo $type; ?> style='color:#00A4D3;font-size:15px;'>  
  <button type="button" class="btn btn-warning" id="myBtn2">Update Information</button>
 </a>
 <?php
@@ -117,13 +121,13 @@ if($_SESSION['u_type']=="2")
 
 </div>
 
- <label style="color:orange;font-size:20px">Appointment History</label>
-
+ <label style="color:orange;font-size:20px">Appointment History</label><br>
+ 
 
 <script>
 function selectaction(apptid,sid)
 {
-	  var x;
+var x;
  if (confirm("Do you want to continue to close the status of the appointment") == true) {
     window.location.href='closeit.php?apptid='+apptid+"&sid="+sid;  
     } 
@@ -134,29 +138,68 @@ function selectaction(apptid,sid)
  
  
  <div class="table-responsive">          
+ 
+ 
 
+ <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.2.0/respond.js"></script>
+	  
+
+<div class="modal fade" id="myModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+           </div> 
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+  
+  
+  <div class="modal fade" id="myModals1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+           </div> 
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+  
+  <script>
+  $(document).ready(function()
+{
+  $('#myModals').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+});
+  </script>
+    <script>
+	$(document).ready(function()
+{
+  $('#myModals1').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+});
+  </script>
   
  <table class="table" width="80px" >
     
-<tr >
-<td style='border: 1px solid black;text-align:center'>S.No</td>
-<td style='border: 1px solid black;width:2%'>ID</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Appointment_Date</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Purpose</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Faculty_Name</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Status</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>View</td>
+<thead>
+<tr>
+<th style='border: 1px solid black;text-align:center'>S.No</th>
+<th style='border: 1px solid black;width:2%'>ID</th>
+<th style='border: 1px solid black;text-align:center;valign=baseline'>Appointment_Date</th>
+<th style='border: 1px solid black;text-align:center;valign=baseline'>Purpose</th>
+<th style='border: 1px solid black;text-align:center;valign=baseline'>Faculty_Name</th>
+<th style='border: 1px solid black;text-align:center;valign=baseline'>Status</th>
+<th style='border: 1px solid black;text-align:center;valign=baseline'>View</th>
 <?php
  if($_SESSION['u_type']!="4")
  {
  ?>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Action</td>
+<th style='border: 1px solid black;text-align:center;valign=baseline'>Action</th>
 
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Edit</td>
+<th style='border: 1px solid black;text-align:center;valign=baseline'>Edit</th>
 <?php
  }
 ?> 
-</tr> <?php
+</tr>
+</thead> <?php
  
 
  if($_SESSION['u_type']!="4")
@@ -179,15 +222,18 @@ $view="";
 $Note="";
  if($row2['status']=='2'){
 	 $status="Open"; 
+	$view="<a data-toggle='modal' class='btn btn-info' href='viewappoint.php?aptid=$row2[apptid]&sid=$_GET[sid]' data-target='#myModals1'>View</a>";
 	  if($_SESSION['u_type']!="4"){
 	$action="<a href=# onclick=selectaction('$row2[apptid]','$row2[sid]')>Close Appointment</a>";
-	$Note="<a href=addnote.php?aptid=$row2[apptid]&sid=$_GET[sid]>Note</a>";
+	$view="<a data-toggle='modal' class='btn btn-info' href='addnote.php?aptid=$row2[apptid]&sid=$_GET[sid]' data-target='#myModals'>View</a>";
+	$Note="<a data-toggle='modal' class='btn btn-info' href='addnote.php?aptid=$row2[apptid]&sid=$_GET[sid]' data-target='#myModals'>Note</a>";
  }
  }
  if($row2['status']=='3')
  {
 $status="Close"; 
  $action="Closed";
+$view="<a data-toggle='modal' class='btn btn-info' href='viewappoint.php?aptid=$row2[apptid]&sid=$_GET[sid]' data-target='#myModals1'>View</a>";
  $Note="No Edit";
  }
 $studentinfo="".
@@ -197,8 +243,9 @@ $studentinfo="".
    "<td cellpadding=20 style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$row2['description']."</td>".
      "<td style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$row2['First_Name'].$row2['Last_Name']."</td>
 	 <td style='border: 1px solid black;text-align:center'>".$status."</td>
-	 <td style='border: 1px solid black;text-align:center;valign=baseline'><a href=viewappoint.php?aptid=$row2[apptid]&sid=$_GET[sid]>View</a></td>
-	 <td style='text-align:center;border: 1px solid black'>".$action."</td>".
+	 <td style='border: 1px solid black;text-align:center;valign=baseline'>".$view."</td>";	
+if($_SESSION['u_type']!="4")
+ $studentinfo=$studentinfo."<td style='text-align:center;border: 1px solid black'>".$action."</td>".
   "<td style='border: 1px solid black;text-align:center;valign=baseline'>".$Note."</td> "; 
 		if($i%2==0)
            echo "<tr id='fortd1'>".$studentinfo;
@@ -332,20 +379,73 @@ else
 
  
 
-
+<style>
+#mulitplefileuploader
+{
+	
+}
+</style>
 
  </div>
    <?php
 include("footer.php");
- ?> 
+ ?> <script>
  
+$(document).ready(function()
+{
+ 
+var settings = {
+    url: "testingfile.php",
+    method: "POST",
+    allowedTypes:"jpg,png,gif,doc,pdf,zip",
+    fileName: "myfile",
+    multiple: true,	
+    onSuccess:function(files,data,xhr)
+    {
+        $("#status").html("<font color='green'>Upload is success</font>");
+ 
+    },
+    onError: function(files,status,errMsg)
+    {       
+        $("#status").html("<font color='red'>Upload is Failed</font>");
+    }
+}
+$("#mulitplefileuploader").uploadFile(settings);
+ 
+
+
+ $('#refresh').click(function() {
+    location.reload(true);
+});
+
+
+
+
+});
+
+
+
+</script>
+
+
+
+<script>
+  $("#mulitplefileuploader.upload form").text("Browse"); 
+  </script>
+
+     
+
 <div class="modal fade" id="myModal1" role="dialog" >
+  <link href="upsrc/css/uploadfilemulti.css" rel="stylesheet">
+ 
+<script src="upsrc/js/jquery.fileuploadmulti.min.js"></script>
+<script src="upsrc/js/bootstrap-filestyle.js"></script>
     <div class="modal-dialog">
 
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header" style="">
-		<form id="newappt" name="newappt" method="post"  action=" ">
+	<form id="my-form">
 
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 style="color:red;"><span class="glyphicon glyphicon-lock"></span> Create Appointment</h4>
@@ -356,15 +456,25 @@ include("footer.php");
 			<input type="hidden" name="studentid" id="studentid" value="<?php echo $_GET['sid']; ?>"/>
 <input type="hidden" name="time" id="time" value=""/>
 
-              <label for="usrname">Purpose</label>
-              <input type="text" class="form-control" name="Purpose" placeholder="Enter purpose">
+              <label for="usrname" style="color:orange;font-size:20px">Purpose</label>
+              <input type="text" class="form-control" name="Purpose" placeholder="Enter purpose" required>
             </div>
            <div class="form-group">
-              <label for="usrname">Notes</label>
-          <textarea colspan="15" class="form-control" rowspan="15" name="aNote"></textarea>  </div>
+              <label for="usrname" style="color:orange;font-size:20px">Notes</label>
+          <textarea  class="form-control" rows="15" name="aNote"></textarea>  </div>
+		  
+		  
+		        <div class="form-group">
+  
+              <label for="usrname" style="color:orange;font-size:20px">Upload File(Choose or Drag&Drop)</label>
+            <input name='documents[]' multiple='multiple'  type='file'  id="mulitplefileuploader"/> </div>	
           
+		  
             <button type="submit" name="apsubmit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Submit</button>
-          </form>
+</tr>
+       
+
+		 </form>
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
@@ -373,3 +483,31 @@ include("footer.php");
       </div>
     </div>
   </div> 
+  
+ <script>
+    (function($){
+        function processForm( e ){
+            $.ajax({
+                url: 'App_sampledata.php',
+                dataType: 'text',
+                type: 'post',
+                contentType: 'application/x-www-form-urlencoded',
+                data: $(this).serialize(),
+                success: function( data, textStatus, jQxhr ){
+                    $('#response pre').html( data );
+			    alert(data);
+   location.reload(true);
+					 
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log( errorThrown );
+                }
+            });
+
+            e.preventDefault();
+        }
+
+        $('#my-form').submit( processForm );
+    })(jQuery);
+
+   </script> 
