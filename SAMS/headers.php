@@ -80,7 +80,7 @@ body{background-color:#D8DDD8}
         </li>
       </ul>
 	  <ul class='nav navbar-nav navbar-right'>
-        <li><a href='logout.php'> <span class='glyphicon glyphicon-log-out'>LOGOUT</span></a></li>
+        <li><a href='logout.php'> <span class='glyphicon glyphicon-log-out'> LOGOUT</span></a></li>
       </ul>
     </div>
   </div>

@@ -63,6 +63,14 @@ $meta = '<meta http-equiv="Refresh" content="3;url=addnote.php" />';
 //echo "window.location = 'addnote.php?sid=".$_POST['studentid']."&aptid=".$apptid."';";
 }
 
+if($_GET['id1']&&$_GET['Delete']=="Delete")
+{
+	
+	//	header('Location:studentsrch.php');
+}
+
+
+
 if($_GET['id']&&$_GET['student']==''){
 	$id=$_GET['id'];
  

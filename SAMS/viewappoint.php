@@ -70,40 +70,32 @@ $description=$st[1];
 <label style="color:orange;font-size:20px">Entered Notes</label><br/>
 <div class='panel panel-default'>
 <div><p><?php echo $updatenote;?></p></div></div>
-<label style="color:orange;font-size:20px">  Uploaded Files  </label><br/>
-  <div class="table-responsive">          
-  <table class="table">
-    <thead>
-<tr height='15px' id='fordisplay' ><td style='border: 1px solid black;text-align:center'>S.No</td>
-<td style='border: 1px solid black;width:2%;text-align:center;v'>Icon</td>
-<td style='border: 1px solid black;text-align:center;valign=baseline'>Name</td>
- <td style='border: 1px solid black;text-align:center;valign=baseline'>Download</td>
- 
-</tr> 
-	
-	<?php
-		 
-	
+<div class="table-responsive">    
+<label for="usrname" style="color:orange;font-size:20px">Uploaded Files</label>     
+<table class="table" id="delTable">
+	<?php 
+	$st1 = mysql_fetch_row(mysql_query("select status from appts where apptid = $q  "));
+	$status= $st1[0] ;
 	//set part1 to be blank
 	$part1="";
 	//set part 2 to be blank
 	$part2="";
-	$status="open";
+	//$status="open";
 	//if the appointment is still open, create the form for uploading files and attach it to $hint
-	if ($status=="open")
+	if ($status==2)
 	{
 		/*$hint=$hint.'
-			<p ><Br><br><label>File Upload:</h2></label><br>
-			<form action="add_file.php" method="post" enctype="multipart/form-data">
-			<input type="file" name="uploaded_file"><br>
-			<input type="submit" value="Upload file">
+			<p ><Br><br><label style=font-size:20px;color:orange>File Upload:</label>
+			<form action="" method="post" enctype="multipart/form-data">
+			<input type="file" name="uploaded_file" required class="btn btn-primary">
+			<input type="submit" name="addfile" value="Upload file" class="btn btn-warning">
 			<input type="hidden" name="apptid" id="apptid" value="'.$q.'"/>
 			<input type="hidden" name="studentid" id="studentid" value="'.$sid.'"/>
 			
 			<br/><br/>';*/
 	}
 	//create title for uploaded files and attach to $hint
-	//$hint=$hint.'<label style=color:orange>Uploaded Files:<br/>';
+	//$hint=$hint.'<p><label style=font-size:20px;color:orange>Uploaded Files</label><br/>';
 	// Query for a list of all existing files and format the date
 	$sql = "select *,Date_FORMAT(created,'%Y-%d-%m %h:%m %p') as created from file where apptid = ".$_GET['aptid']." order by id desc";
 	//run the query
@@ -114,11 +106,15 @@ $description=$st[1];
 	{//open php rows if
  		// Print the top of a table
 
-$couns=0; 
+		$part1= '
+                <tr>
+					
+                </tr>';
+ $j=0;
 		while ($row = @mysql_fetch_assoc($result))
 		{//open php while
 		$i++;
-			//pick icon
+		$j++;	//pick icon
 			//set $mime to be the mimetype of the file in the db
 			$mime=$row['mime'];
 			//check to see if the uploaded files matches the description of the known file types
@@ -161,53 +157,78 @@ $couns=0;
 				$iconLocation = "./icons/file.bmp";
 				$doctype = "Document";
 			}
-			//once icon is determined, create the link and output file info in the table, do for each file found during loop
+			//once icon is determined, create the link and output file info in the table, do for each file found during looponclick='Download({$row['id']})'
 			$part2="
-                <td style='text-align:center; border: 1px solid black;'>".$i."</td>
-					<td style='text-align:center; border: 1px solid black;'><a href='get_file.php?id={$row['id']}'><img src='".$iconLocation."' title='".$doctype."' width='25' height='25' /></a></td>
-                    <td style='text-align:center; border: 1px solid black;'>{$row['name']}</td>
-                    <td style='text-align:center; border: 1px solid black;'><a href='#' onclick='Download({$row['id']})'>Download</a></td>
-					";
+                <td style='text-align:left; ' id='{$row['id']}'>
+		<a href='#' onclick='Download({$row['id']})'><img src='".$iconLocation."' title='".$doctype."' width='25' height='25' /></a><br>
+                <a href='#' onclick='Download({$row['id']})'>{$row['name']}</a>";
 					
-			
-			$couns=0;
-			if($status == "open")
+			if($status==2)
 			{
+				
 				//if the appointment is still open, give link for deleting file, no file deleting after appointment is closed
-				$part2=$part2."";
+				$part2=$part2."<br><a href='#' class='delete'>Delete</a>";
 			}
-          $part2=$part2;
-		  	if($i%2==0)
-		  echo "<tr>".$part2;
+          	//$part2=$part2;
+		  if($j>=5){
+			$j=1;
+			echo  "</tr><tr id='fortd1'>".$part2;
+		  
+		  }
+		  else 
+			  echo "</td>".$part2;
+		/*  	if($i%2==0)
+		  echo "<tr id='fortd1'>".$part2;
 				else
-		 		  echo "<tr>".$part2;
+		 		  echo "<tr id='fortd2'>".$part2;*/
+			  
 		}//close php while
 		// Close table
-        $part3='</table>';
+		
+        $part3='';
+
 		//add all parts to $hint
 		$hint=$hint.$part1.$part3;
 		echo $hint;
+		if($i==0)
+			echo "<font color=red>Sorry No Records</font>";
 	}//close php rows if
 	//if no files have been uploaded
 	else
 	{	
-		$hint=$hint."No uploaded files found for appointment number ".$q;
+		$hint=$hint."No uploaded files";
 		echo $hint;
-}
+	}
+	
+	echo "<Br><br>";
 	?>
-
-</table></div>   
- 
-	
-	
-		<script>
-	function Download(vari)
+	<?php
+	if(isset($_POST['addfile']))
 	{
-		window.location.href='files.php?id='+vari;
+		addfile();
+                if($hint=="")
+		 echo "<script>alert('Select file before you upload')</script>";
+                  else
+ 		echo "<script>alert('File added successfully')</script>";
+		echo $meta;
+	}
+	?>
+	<script>
+	function Download(vari1)
+	{
+		window.location.href='files.php?id='+vari1;
+		
+	}
+	function Delete(vari1)
+	{
+		var vari2="Delete";
+ window.location.href='files.php?id1='+vari1+"&Delete="+vari2;
 		
 	}
 	</script>
-  </div></div></div></div></div>	<!-- /modal-body -->
+	</table>
+</div>
+</div></div></div>	<!-- /modal-body -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 

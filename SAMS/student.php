@@ -126,8 +126,8 @@ echo "<tr><td><b>Comments </b></td><td>&nbsp;&nbsp;:</td><td>  $comments </td></
 <th style='border: 1px solid black;text-align:center;valign=baseline'>Purpose</th>
 <th style='border: 1px solid black;text-align:center;valign=baseline'>Faculty Name</th>
 <th style='border: 1px solid black;text-align:center;valign=baseline'>Status</th>
-<th style='border: 1px solid black;text-align:center;valign=baseline'>View</th>
-<th style='border: 1px solid black;text-align:center;valign=baseline'>Edit</th>
+<!--<th style='border: 1px solid black;text-align:center;valign=baseline'>View</th>-->
+<!--<th style='border: 1px solid black;text-align:center;valign=baseline'>Edit</th>-->
  
 </tr>
 </thead>
@@ -155,33 +155,46 @@ if(! $retval )
 }
 $i=0;
 $status="";
+$image="";
 while($row2 = mysql_fetch_array($retval, MYSQL_ASSOC))
 {
+
+	$apptid=$row2['apptid'];
+	$q3="select * from file where apptid='$apptid'";
+	$r3 = @mysql_query ($q3);
+	$purpose=$row2['description'];
+	if (@mysql_num_rows($r3) !=0) 
+	{//open php rows if
+
+		$image="<span class='glyphicon glyphicon-paperclip'></span>";
+		$space=" ";
+		$purpose=$purpose.$space.$image;
+	}//close php rows if
 $i++;
 $action="";
 $view="";
 $Note="";
+$color="";
  if($row2['status']=='2'){
 	$status="Open"; 
-//	$action="<a href=# onclick=selectaction('$row2[apptid]','$row2[Sid]')>Close Appointment</a>";
-	$view="<a data-toggle='modal' class='btn btn-info' href='addnote.php?aptid=$row2[apptid]&sid=$user' data-target='#myModals'>View</a>";
-	$Note="<a data-toggle='modal' class='btn btn-info' href='addnote.php?aptid=$row2[apptid]&sid=$user' data-target='#myModals'>Note</a>";
+	$color="blue";
+	$view="<a data-toggle='modal' href='addnote.php?aptid=$row2[apptid]&sid=$user' data-target='#myModals'>".$purpose."</a>";
+	//$Note="<a data-toggle='modal' class='btn btn-info' href='addnote.php?aptid=$row2[apptid]&sid=$user' data-target='#myModals'>Note</a>";
  }
  if($row2['status']=='3')
  {
-$status="Close"; 
- $action="Closed";
-$view="<a data-toggle='modal' class='btn btn-info' href='viewappoint.php?aptid=$row2[apptid]&sid=$user' data-target='#myModals1'>View</a>";
- $Note="No Edit";
+$status="Closed"; 
+ $color="red";
+$view="<a data-toggle='modal' href='viewappoint.php?aptid=$row2[apptid]&sid=$user' data-target='#myModals1'>".$purpose."</a>";
+ //$Note="No Edit";
  }
 $studentinfo="".
 "<td style='border: 1px solid black;width:2%;text-align:center;valign=baseline'>".$i."</td>".
 "<td style='border: 1px solid black;width:2%;text-align:center;valign=baseline'>".$row2['id']."</td>".
 		 "<td style='border: 1px solid black;text-align:center;valign=baseline'>".$row2['start_date']."</td>".
-   "<td cellpadding=20 style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$row2['description']."</td>".
-     "<td style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$row2['First_Name'].$row2['Last_Name']."</td><td style='border: 1px solid black;text-align:center'>".$status."</td>".
-   "<td style='border: 1px solid black;text-align:center;valign=baseline'>".$view."</td>".
-  "<td style='border: 1px solid black;text-align:center;valign=baseline'>".$Note."</td> "; 
+   "<td cellpadding=20 style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$view."</td>".
+     "<td style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$row2['First_Name'].$row2['Last_Name']."</td><td style='border: 1px solid black;text-align:center'><font color='".$color."'>".$status."</font></td>";
+
 		if($i%2==0)
            echo "<tr id='fortd1'>".$studentinfo;
         else
@@ -330,7 +343,7 @@ $(document).ready(function()
 var settings = {
     url: "testingfile.php",
     method: "POST",
-    allowedTypes:"jpg,png,gif,doc,pdf,zip",
+    //allowedTypes:"jpg,png,gif,doc,pdf,zip",
     fileName: "myfile",
     multiple: true,
     onSuccess:function(files,data,xhr)

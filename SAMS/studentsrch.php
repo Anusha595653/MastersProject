@@ -183,21 +183,10 @@ var x;
 <tr>
 <th style='border: 1px solid black;text-align:center'>S.No</th>
 <th style='border: 1px solid black;width:2%'>ID</th>
-<th style='border: 1px solid black;text-align:center;valign=baseline'>Appointment_Date</th>
+<th style='border: 1px solid black;text-align:center;valign=baseline'>Appointment Date</th>
 <th style='border: 1px solid black;text-align:center;valign=baseline'>Purpose</th>
-<th style='border: 1px solid black;text-align:center;valign=baseline'>Faculty_Name</th>
+<th style='border: 1px solid black;text-align:center;valign=baseline'>Faculty Name</th>
 <th style='border: 1px solid black;text-align:center;valign=baseline'>Status</th>
-<th style='border: 1px solid black;text-align:center;valign=baseline'>View</th>
-<?php
- if($_SESSION['u_type']!="4")
- {
- ?>
-<th style='border: 1px solid black;text-align:center;valign=baseline'>Action</th>
-
-<th style='border: 1px solid black;text-align:center;valign=baseline'>Edit</th>
-<?php
- }
-?> 
 </tr>
 </thead> <?php
  
@@ -214,39 +203,54 @@ if(! $retval )
 }
 $i=0;
 $status="";
+$image="";
 while($row2 = mysql_fetch_array($retval, MYSQL_ASSOC))
 {
+
+	$apptid=$row2['apptid'];
+	$q3="select * from file where apptid='$apptid'";
+	$r3 = @mysql_query ($q3);
+	$purpose=$row2['description'];
+	if (@mysql_num_rows($r3) !=0) 
+	{//open php rows if
+
+		
+		$image="<span class='glyphicon glyphicon-paperclip'></span>";
+		$space=" ";
+		$purpose=$purpose.$space.$image;
+	}//close php rows if
+
 $i++;
 $action="";
 $view="";
 $Note="";
+$color="";
+$session=$_SESSION['user_id'];
  if($row2['status']=='2'){
 	 $status="Open"; 
-	$view="<a data-toggle='modal' class='btn btn-info' href='viewappoint.php?aptid=$row2[apptid]&sid=$_GET[sid]' data-target='#myModals1'>View</a>";
-	  if($_SESSION['u_type']!="4"){
-	$action="<a href=# onclick=selectaction('$row2[apptid]','$row2[sid]')>Close Appointment</a>";
-	$view="<a data-toggle='modal' class='btn btn-info' href='addnote.php?aptid=$row2[apptid]&sid=$_GET[sid]' data-target='#myModals'>View</a>";
-	$Note="<a data-toggle='modal' class='btn btn-info' href='addnote.php?aptid=$row2[apptid]&sid=$_GET[sid]' data-target='#myModals'>Note</a>";
+	$color="blue";
+	$view="<a data-toggle='modal' href='viewappoint.php?aptid=$row2[apptid]&sid=$_GET[sid]' data-target='#myModals'>".$purpose."</a>";
+	  if($_SESSION['u_type']!="4")
+	{
+	$view="<a data-toggle='modal' href='addnote.php?aptid=$row2[apptid]&sid=$_GET[sid]&usertype=$session' data-target='#myModals'>".$purpose."</a>";
+	
  }
  }
  if($row2['status']=='3')
  {
-$status="Close"; 
- $action="Closed";
-$view="<a data-toggle='modal' class='btn btn-info' href='viewappoint.php?aptid=$row2[apptid]&sid=$_GET[sid]' data-target='#myModals1'>View</a>";
- $Note="No Edit";
+$status="Closed"; 
+$color="red";
+$view="<a data-toggle='modal' href='viewappoint.php?aptid=$row2[apptid]&sid=$_GET[sid]&usertype=$session' data-target='#myModals'>".$purpose."</a>";
+
  }
 $studentinfo="".
 "<td style='border: 1px solid black;width:2%;text-align:center;valign=baseline'>".$i."</td>".
 "<td style='border: 1px solid black;width:2%;text-align:center;valign=baseline'>".$row2['id']."</td>".
 		 "<td style='border: 1px solid black;text-align:center;valign=baseline;'>".$row2['start_date']."</td>".
-   "<td cellpadding=20 style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$row2['description']."</td>".
+   "<td cellpadding=20 style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$view."</td>".
      "<td style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$row2['First_Name'].$row2['Last_Name']."</td>
-	 <td style='border: 1px solid black;text-align:center'>".$status."</td>
-	 <td style='border: 1px solid black;text-align:center;valign=baseline'>".$view."</td>";	
-if($_SESSION['u_type']!="4")
- $studentinfo=$studentinfo."<td style='text-align:center;border: 1px solid black'>".$action."</td>".
-  "<td style='border: 1px solid black;text-align:center;valign=baseline'>".$Note."</td> "; 
+	 <td style='border: 1px solid black;text-align:center'><font color='".$color."'>".$status."</font></td>";
+	 
 		if($i%2==0)
            echo "<tr id='fortd1'>".$studentinfo;
         else
@@ -397,7 +401,8 @@ $(document).ready(function()
 var settings = {
     url: "testingfile.php",
     method: "POST",
-    allowedTypes:"jpg,png,gif,doc,pdf,zip",
+    //allowedTypes:"jpg,png,gif,doc,pdf,zip",
+	//allowedTypes:"*",
     fileName: "myfile",
     multiple: true,	
     onSuccess:function(files,data,xhr)
