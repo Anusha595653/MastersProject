@@ -156,6 +156,7 @@ $description=$st[1];
 $(document).ready(function()
 {
 var st=document.getElementById('appid').value;
+//var childwindow=window.location.href;
 var settings = {
 	url: "testingfile1.php",
 	method: "POST",
@@ -165,11 +166,11 @@ var settings = {
 	multiple: true,
 	onSuccess:function(files,data,xhr)
 	{
-		$("#status").html("<font color='green'>Upload is success</font>");
+		$("#status").html("<font color='green'>File Uploaded Successfully</font>");
 	},
     afterUploadAll:function()
     {
-        alert("All files/images uploaded!!");
+	$( "#filesTable" ).load( "addnote.php?aptid="+st+ " #filesTable ");	
     },
 	onError: function(files,status,errMsg)
 	{		
@@ -186,7 +187,7 @@ $("#mulitplefileuploader").uploadFile(settings);
 	{
 		$('table#delTable td a.delete').click(function()
 		{
-			if (confirm("Are you sure you want to delete this row?"))
+			if (confirm("Are you sure you want to delete this image?"))
 			{
 				var id = $(this).parent().attr('id');
 				var data = 'id=' + id ;
@@ -221,14 +222,12 @@ $("#mulitplefileuploader").uploadFile(settings);
 	
 
  
-<div class="table-responsive">    
+<div class="table-responsive" id="filesTable">    
  <label for="usrname" style="color:orange;font-size:20px">Uploaded Files</label>     
   <table class="table" id="delTable">
  
 	
 	<?php
-		 
-	
 	//set part1 to be blank
 	$part1="";
 	//set part 2 to be blank
@@ -258,7 +257,7 @@ $("#mulitplefileuploader").uploadFile(settings);
 	if (@mysql_num_rows($result) !=0) 
 	{//open php rows if
  		// Print the top of a table
-
+		
 		$part1= '
                 <tr>
 					
@@ -408,4 +407,26 @@ if($userType!=3)
 echo "<a href=# style='float:right' onclick=selectaction('".$q."','".$sid."')><font size='4'><u>Close Appointment</u></font></a>";
 }
 ?>
+<table id="dataTable">
+<thead>
+</thead>
+<tbody>
+</tbody>
+</table>
+<script type="text/javascript" src="jsonTable.js"></script>
+
+<script type="text/javascript">
+$("#dataTable").jsonTable({
+head : ['#','Operating System','Market Share'],
+json : ['apptid', 'note', 'apptid']
+});
+
+$("#dataTable").jsonTableUp<a href=http://www.jqueryscript.net/time-clock/>date</a>
+({
+source : "server.json",
+rowClass : "rowClass",
+callback : function(){
+});
+</script>
+ 
                </div>	<!-- /modal-footer -->

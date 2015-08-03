@@ -11,6 +11,7 @@ header ('location:index.php');
 $q=$_GET["student_id"];
 $q1="select * from users where user_id = $q";
 $q2="select * from sdtinfo where user_id =$q";
+$q3="select * from Logins where user_id =$q";
 $r1 = @mysql_query ($q1);
 	if (@mysql_num_rows($r1) !=0) 
 	{//open php rows if
@@ -23,6 +24,8 @@ $r1 = @mysql_query ($q1);
 			$sname2= $row1['Last_Name'];
 			$phone = $row1['phone'];
 			$email = $row1['email'];
+			$password=$row2['Comments'];
+			$confirmPass=$row2['Comments'];
 		}//close php while
 	}//close php rows if
 	
@@ -40,8 +43,22 @@ $r2 = @mysql_query ($q2);
 			$admissiondate = $row2['admissiondate'];
 			$graddate = $row2['graduationdate'];
 			$comments = $row2['Comments'];
+			
 		}//close php while
 	}//close php rows if
+
+$r3 = @mysql_query ($q3);
+	if (@mysql_num_rows($r3) !=0) 
+	{//open php rows if
+
+		while ($row3 = @mysql_fetch_assoc($r3))
+		{//open php while
+		
+			// create variables for the a items that will be searched and make them all lowercase (what we want to search through)
+			$password=$row3['pwd'];
+		}//close php while
+	}//close php rows if
+	
 
 ?>
 <script src="./content/jquery.js"></script>
@@ -359,7 +376,7 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">Password:</label>
       <div class="col-sm-4">
-	<input type="password" name="password" id="password" class="form-control"> 
+	<input type="password" name="password" id="password" class="form-control" value="<?php echo $password; ?>"> 
 	 </div></div>
 	 
     
@@ -370,7 +387,7 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">Confirm-Password:</label>
       <div class="col-sm-4">
-	<input type="password" class="form-control" name="confirm" id="confirm"> </div></div>
+	<input type="password" class="form-control" name="confirm" id="confirm" value="<?php echo $password; ?>"> </div></div>
 	
 
 

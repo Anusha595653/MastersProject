@@ -229,8 +229,9 @@ document.form1.confirm.value=document.form1.password.value;
       <label class="control-label col-sm-2" for="email">Level:</label>
       <div class="col-sm-4">
 <select name="level" class="form-control">
+			<option selected="selected">Any</option>
 			<option>Undergraduate</option>
-			<option selected="selected">Graduate</option>
+			<option>Graduate</option>
 			<option>Post-Graduate</option>
 			</select>      </div>
     </div>
@@ -241,6 +242,7 @@ document.form1.confirm.value=document.form1.password.value;
       <label class="control-label col-sm-2" for="email">Status:</label>
       <div class="col-sm-4">
 <select name="status" id="status" class="form-control">
+					<option selected="selected">Any</option>
 		    			 <option>FULL</option>
 					 <option>PREQ</option>
 					 <option>DENIED</option>
@@ -254,7 +256,8 @@ document.form1.confirm.value=document.form1.password.value;
       <label class="control-label col-sm-2" for="email" >Ethnicity:</label>
       <div class="col-sm-4">
 <select name="ethnic" class="form-control">
-			<option selected="selected">Caucasian</option>
+			<option selected="selected">Any</option>
+			<option>Caucasian</option>
 			<option>African American</option>
 			<option>Hispanic</option>
 			<option>Asian</option>
@@ -274,7 +277,8 @@ document.form1.confirm.value=document.form1.password.value;
       <div class="col-sm-4">
 
 <select name="residency" class="form-control">
-			<option selected="selected">Resident</option>
+			<option selected="selected">Any</option>
+			<option>Resident</option>
 			<option>Non-Resident</option>
 			<option>International</option>
 			</select>      </div>
@@ -322,16 +326,20 @@ if(isset($_POST["submit"]))
 {
  
 $level=$_POST["level"];
-$status=$_POST["status"];		
+$status=$_POST["status"];
+$ethinicity=$_POST["ethnic"];		
 $residency=$_POST["residency"];		
 $admission=$_POST["admission"];
 $graduation=$_POST["graduation"];	
 $grandquery="";
-if(!empty($level))
+if(!(empty($level)||$level=='Any'))
 $grandquery=$grandquery."  level='".$level."' and ";
-if(!empty($status))
+
+if(!(empty($status)||$status=='Any'))
 $grandquery=$grandquery."  status='".$status."' and ";
-if(!empty($residency))
+if(!(empty($$ethinicity)||$$ethinicity=='Any'))
+$grandquery=$grandquery."  ethnic='".$ethinicity."' and ";
+if(!(empty($residency)||$residency=='Any'))
 $grandquery=$grandquery."  residency='".$residency."' and ";
 if(!empty($admission))
 $grandquery=$grandquery."  admissiondate='".$admission."' and ";
