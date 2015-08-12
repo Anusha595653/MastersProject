@@ -61,7 +61,7 @@ function check_login( $uid = '',$pass = '')
 	}
 	else 
 	{
-		$p = $pass;
+		$p = base64_encode($pass);
 	}
 
 	if (empty($errors)) 

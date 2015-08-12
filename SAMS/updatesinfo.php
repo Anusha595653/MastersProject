@@ -21,10 +21,10 @@ $_POST['email'];
 $_POST['major'];
 $_POST['level'];
 $_POST['status'];
-$password=$_POST['password'];
+$password=base64_encode($_POST['password']); 
 $person=$_POST['updateid'];
 $type=$_SESSION['u_type'];
- $comments=$_POST['comments'];
+$comments=$_POST['comments'];
  
 
 
@@ -57,7 +57,7 @@ if(strlen($password)>=8)
 	$r3 = @mysql_query ($q3);
 	if (@mysql_num_rows($r3) !=0)
 	{
-	$d3=("update Logins set pwd ='" . $_POST['password']."' where user_id = $person");
+	$d3=("update Logins set pwd ='" . $password."' where user_id = $person");
 	}
 }
 
@@ -92,11 +92,20 @@ else
  <?php
 
 if($_POST["usertype"]=="2")
- echo "window.location = 'begin.php?update=1';";
+{
+ echo "window.alert('Updated Successfully');";
+ echo "window.location = 'studentsrch.php?update=1&sid=".$person."';";
+}
 else  if($_POST["usertype"]=="1")
- echo "window.location = 'faculty.php?update=1';";
+{
+ echo "window.alert('Updated Successfully');";
+ echo "window.location = 'studentsrch.php?update=1&sid=".$person."';";
+}
 else if($_POST["usertype"]=="4")
- echo "window.location = 'staff.php?update=1';";
+ {
+ echo "window.alert('Updated Successfully');";
+ echo "window.location = 'studentsrch.php?update=1&sid=".$person."';";
+}
 else 
 {}
 ?>

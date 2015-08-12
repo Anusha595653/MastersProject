@@ -89,7 +89,7 @@ function errorcheck()
 		errorCount=errorCount+1;
 	}
 
-if (lname.length < 1 )
+	if (lname.length < 1 )
 	{
 		inputError[1]=("\n Invalid last name");
 		errorCount=errorCount+1;
@@ -202,7 +202,7 @@ document.form1.confirm.value=document.form1.password.value;
  Enter Faculty/Staff Information</label></p><br />
     <div class="form-group" align="center">
 	
-      <label class="control-label col-sm-2" for="email">First Name:</label>
+      <label class="control-label col-sm-2" for="email">First Name : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
         <input type="text" class="form-control"  name="fname" id="fname" placeholder="Enter First Name">
       </div>
@@ -210,14 +210,14 @@ document.form1.confirm.value=document.form1.password.value;
    
     <div class="form-group">
 	
-      <label class="control-label col-sm-2" for="email">Last Name:</label>
+      <label class="control-label col-sm-2" for="email">Last Name : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
         <input type="text" class="form-control"  name="lname" id="lname" placeholder="Enter Last Name">
       </div>
     </div>
     <div class="form-group">
 	
-      <label class="control-label col-sm-2" for="email">Phone #:</label>
+      <label class="control-label col-sm-2" for="email">Phone # : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
         <input type="text" class="form-control"  name="phone" id="phone" placeholder="Enter Phone Number">
       </div>
@@ -228,9 +228,9 @@ document.form1.confirm.value=document.form1.password.value;
 	
     <div class="form-group">
 	
-      <label class="control-label col-sm-2" for="email">Email:</label>
+      <label class="control-label col-sm-2" for="email">Email : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
-        <input type="email" class="form-control"  name="email" id="email" placeholder="Enter Email">
+        <input type="email" class="form-control"  name="email" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder=""example@ex.com"">
       </div>
     </div>
 		<div class="form-group">
@@ -259,7 +259,7 @@ document.form1.confirm.value=document.form1.password.value;
 	
 	<div class="form-group">
 	
-      <label class="control-label col-sm-2" for="email">User Name:</label>
+      <label class="control-label col-sm-2" for="email">User Name : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
         <input type="text" class="form-control"  name="uname" id="uname" onkeyup="nameSearch(this.value,'name')" placeholder="Enter User Name">
       </div>
@@ -277,7 +277,7 @@ document.form1.confirm.value=document.form1.password.value;
 	
 	<div class="form-group">
 	
-      <label class="control-label col-sm-2" for="email">ID Number:</label>
+      <label class="control-label col-sm-2" for="email">ID Number : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
         <input type="text" class="form-control"  name="idn" id="idn" onkeyup="nameSearch(this.value,'idnumber')" placeholder="Enter ID Number">
       </div>
@@ -294,7 +294,7 @@ document.form1.confirm.value=document.form1.password.value;
 
 	<div class="form-group">
 	
-      <label class="control-label col-sm-2" for="email">Type:</label>
+      <label class="control-label col-sm-2" for="email">Type : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
     <select name="type" class="form-control"><option value="0" selected>Faculty</option><option value="1">Staff</option></select>  </div>
     </div>
@@ -305,7 +305,7 @@ document.form1.confirm.value=document.form1.password.value;
 	
 	<div class="form-group">
 	
-      <label class="control-label col-sm-2" for="email">Password:</label>
+      <label class="control-label col-sm-2" for="email">Password : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
         <input type="password" class="form-control"  name="password" id="password" placeholder="Enter Password">
       </div>
@@ -315,14 +315,14 @@ document.form1.confirm.value=document.form1.password.value;
 	
 	<div class="form-group">
 	
-      <label class="control-label col-sm-2" for="email">Confirm-Password:</label>
+      <label class="control-label col-sm-2" for="email">Confirm-Password : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
         <input type="password" class="form-control"  name="confirm" id="confirm" placeholder="Enter Confirm Password">
       </div>
     </div>
 	
 	
-	<div class="form-group">
+<!---	<div class="form-group">
 	
       <label class="control-label col-sm-2" for="email">(OR) Generate Password :</label>
       <div class="col-sm-4">
@@ -330,7 +330,7 @@ document.form1.confirm.value=document.form1.password.value;
         <button type="button" class="btn btn-primary" onClick="populateform(this.form.thelength.value)">Generate</button>
 
 		</div>
-    </div>
+    </div>--->
 	
 	
 	

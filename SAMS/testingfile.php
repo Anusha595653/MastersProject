@@ -20,17 +20,10 @@ die('Could not select the database: '. mysql_error());
 if(isset($_FILES["myfile"]))
 {
 
-  $st = mysql_fetch_row(mysql_query("SELECT max(apptid) as apptid FROM appts"));
+$st = mysql_fetch_row(mysql_query("SELECT max(apptid) as apptid FROM appts"));
 $version = $st[0] + 1;		 
-
-
-
-
-
 $newaptid1=$version;
-
- 
-		$fileCount1 = count($_FILES["myfile"]['name']);
+$fileCount1 = count($_FILES["myfile"]['name']);
   for($key1=0; $key1 < $fileCount1; $key1++)
 {
         $name =$_FILES['myfile']['name'] ;

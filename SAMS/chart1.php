@@ -24,12 +24,13 @@ header ('location:index.php');
 	                x: -20
 	            },
 	            xAxis: {
+					 
 	                categories: []
 	            },
 	            yAxis: {
 	                min: 0,
 	                title: {
-	                    text: 'x'
+	                    text: 'Number of students'
 	                },
 	                labels: {
 	                    overflow: 'justify'
@@ -57,14 +58,16 @@ header ('location:index.php');
 	                }
 	            },
 	            series: []
-	        }
+	        	}
 	        
 	        $.getJSON("chart/data.php", function(json) {
 				options.xAxis.categories = json[0]['data'];
 	        	options.series[0] = json[1];
-	        	options.series[1] = json[2];
-	 options.series[2] = json[3];
+	        	//options.series[1] = json[2];
+	 		options.series[1] = json[3];
 		        chart = new Highcharts.Chart(options);
+			chart.series[1].options.color = "#FF9933"; 
+			chart.series[1].update(chart.series[1].options);
 	        });
 	    });
 		</script>

@@ -133,7 +133,11 @@ function errorcheck()
 
 function cancel()
 {
-window.location = '';
+var type="<?= $t ?>";
+if(type==1)
+window.location = 'begin.php';
+if(type==2)
+window.location = 'student.php';
 }
 
 </script>
@@ -168,7 +172,7 @@ echo '<label style=color:orange;font-size:20px>Update Personal Information</labe
   <input type="hidden" name="usertype" id="usertype" value="'.$u.'"/>
    <input type="hidden" name="returnto" id="returnto" value="'.$t.'"/>
 
-  <table  width="100%">';
+  <table  width="100%" align=left>';
   
    if ($t == 1)
    {
@@ -235,12 +239,11 @@ else
       <input  type="hidden"  name="admission" id="admission" value="'.$admission.'"/>
       <input  type="hidden"  name="graduation" id="graduation" value="'.$graduation.'"/>';
 }
-echo'
- </p></table>
-  </form>';
-
-echo '<p align=center><label>&nbsp;</label><input type = "button" value = "Submit" name = "submit" onclick= "errorcheck()" class="btn btn-primary"/>
-    </p>';
+echo'</p></table></form>';
+echo '<table align=center><tr><td><p><label>&nbsp;</label><input type = "button" value = "Submit" name = "submit" onclick= "errorcheck()" class="btn btn-primary"/>
+    </p></td>';
+echo '<td><p><label>&nbsp;</label><input type = "button" value = "cancel" name = "submit" onclick="cancel()" class="btn btn-warning"/>
+    </p></td></tr></table>';
 ?>
  </div> </div> </div>
     	 

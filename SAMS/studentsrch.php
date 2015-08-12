@@ -15,7 +15,7 @@ header ('location:index.php');
 $q=$_GET["sid"];
 $user = $_SESSION['user_id'];
  
-$qa = "select apptid,status from appts where sid = $q and fid = $user and status = 2";
+$qa = "select apptid,status from appts where sid = $q and fid = $user and status = 2"; 
 $q1="select * from users where user_id = $q";
 $q2="select * from sdtinfo where user_id =$q";
 $r1 = @mysql_query ($q1);
@@ -176,19 +176,8 @@ var x;
 });
 });
   </script>
-  
- <table class="table" width="80px" >
-    
-<thead>
-<tr>
-<th style='border: 1px solid black;text-align:center'>S.No</th>
-<th style='border: 1px solid black;width:2%'>ID</th>
-<th style='border: 1px solid black;text-align:center;valign=baseline'>Appointment Date</th>
-<th style='border: 1px solid black;text-align:center;valign=baseline'>Purpose</th>
-<th style='border: 1px solid black;text-align:center;valign=baseline'>Faculty Name</th>
-<th style='border: 1px solid black;text-align:center;valign=baseline'>Status</th>
-</tr>
-</thead> <?php
+<table class='table'>
+<?php
  
 
  if($_SESSION['u_type']!="4")
@@ -201,6 +190,14 @@ if(! $retval )
 {
   die('Could not get data: ' . mysql_error());
 }
+if (@mysql_num_rows($retval) !=0) 
+{
+echo "<thead><tr height='15px' id='fordisplay'>";
+echo "<th style='border: 1px solid black;text-align:center;valign=baseline'>Appointment Date</th>";
+echo "<th style='border: 1px solid black;text-align:center;valign=baseline'>Purpose</th>";
+echo "<th style='border: 1px solid black;text-align:center;valign=baseline'>Faculty Name</th>";
+echo "<th style='border: 1px solid black;text-align:center;valign=baseline'>Status</th>";
+echo "</tr></thead>";
 $i=0;
 $status="";
 $image="";
@@ -228,7 +225,7 @@ $color="";
 $session=$_SESSION['user_id'];
  if($row2['status']=='2'){
 	 $status="Open"; 
-	$color="blue";
+	$color="green";
 	$view="<a data-toggle='modal' href='viewappoint.php?aptid=$row2[apptid]&sid=$_GET[sid]' data-target='#myModals'>".$purpose."</a>";
 	  if($_SESSION['u_type']!="4")
 	{
@@ -244,18 +241,24 @@ $view="<a data-toggle='modal' href='viewappoint.php?aptid=$row2[apptid]&sid=$_GE
 
  }
 $studentinfo="".
-"<td style='border: 1px solid black;width:2%;text-align:center;valign=baseline'>".$i."</td>".
-"<td style='border: 1px solid black;width:2%;text-align:center;valign=baseline'>".$row2['id']."</td>".
+//"<td style='border: 1px solid black;width:2%;text-align:center;valign=baseline'>".$i."</td>".
+//"<td style='border: 1px solid black;width:2%;text-align:center;valign=baseline'>".$row2['id']."</td>".
 		 "<td style='border: 1px solid black;text-align:center;valign=baseline;'>".$row2['start_date']."</td>".
    "<td cellpadding=20 style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$view."</td>".
-     "<td style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$row2['First_Name'].$row2['Last_Name']."</td>
+     "<td style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$row2['First_Name']."  ".$row2['Last_Name']."</td>
 	 <td style='border: 1px solid black;text-align:center'><font color='".$color."'>".$status."</font></td>";
 	 
 		if($i%2==0)
            echo "<tr id='fortd1'>".$studentinfo;
         else
 		 echo "<tr id='fortd2'>".$studentinfo;
-	   }  
+	   } 
+}
+else
+{
+	echo "No appointments for this student"; 
+
+} 
  
 mysql_close($conn);
  
@@ -401,14 +404,16 @@ $(document).ready(function()
 var settings = {
     url: "testingfile.php",
     method: "POST",
-    //allowedTypes:"jpg,png,gif,doc,pdf,zip",
-	//allowedTypes:"*",
     fileName: "myfile",
     multiple: true,	
     onSuccess:function(files,data,xhr)
     {
-        $("#status").html("<font color='green'>Upload is success</font>");
+        $("#status").html("<font color='green'>Upload is success</font>"); 
  
+    },
+afterUploadAll:function()
+    {
+	$( "#myModal1" ).load( "studentsrch.php?aptid="+st+ " #myModal1 ");	
     },
     onError: function(files,status,errMsg)
     {       
@@ -472,11 +477,10 @@ $("#mulitplefileuploader").uploadFile(settings);
 		        <div class="form-group">
   
               <label for="usrname" style="color:orange;font-size:20px">Upload File(Choose or Drag&Drop)</label>
-            <input name='documents[]' multiple='multiple'  type='file'  id="mulitplefileuploader"/> </div>	
-          
+            <input name='documents[]' multiple='multiple'  type='file'  id="mulitplefileuploader"/> </div>   
 		  
             <button type="submit" name="apsubmit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Submit</button>
-</tr>
+	</tr>
        
 
 		 </form>

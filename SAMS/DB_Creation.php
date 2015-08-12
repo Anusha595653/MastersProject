@@ -114,7 +114,7 @@ if(isset($_POST["submit"])&&isset($_POST["dbn"]))
 	{
 	 
 
-		$tablecreate1 ="CREATE TABLE  ".$_POST['dbn'].".`Logins` (`user_id` INT( 12 ) NOT NULL ,`username` VARCHAR( 20 ) NOT NULL ,`pwd` VARCHAR( 16 ) NOT NULL ,`user_type` INT( 1 ) NOT NULL,PRIMARY KEY(user_id) ) ENGINE = MYISAM";
+		$tablecreate1 ="CREATE TABLE  ".$_POST['dbn'].".`Logins` (`user_id` INT( 12 ) NOT NULL ,`username` VARCHAR( 20 ) NOT NULL ,`pwd` VARCHAR( 100 ) NOT NULL ,`user_type` INT( 1 ) NOT NULL,PRIMARY KEY(user_id) ) ENGINE = MYISAM";
 $created1 = @mysql_query ($tablecreate1);
 
 $tablecreate2 ="CREATE TABLE  ".$_POST['dbn'].".`users` (`user_id` INT( 12 ) NOT NULL ,`First_Name` VARCHAR( 15 ) NOT NULL,`Last_Name` VARCHAR( 15 ) NOT NULL,`Add2` VARCHAR( 15 ) NULL DEFAULT NULL,`phone` VARCHAR( 15 ) NOT NULL,`email` VARCHAR( 150 ) NOT NULL ) ENGINE = MYISAM";
@@ -140,14 +140,42 @@ $created7 = @mysql_query ($tablecreate7);
 $tablecreate8 ="CREATE TABLE  ".$_POST['dbn'].".`emails` (`user_id` INT( 12 ) NOT NULL ,`email` VARCHAR( 15 ) NOT NULL )";
 $created8 = @mysql_query ($tablecreate8);
 
+$tablecreate9 ="CREATE TABLE  ".$_POST['dbn'].".`dropDown` (`concentration` VARCHAR( 50) ,`level` VARCHAR( 50) ,`status` VARCHAR( 50) ,`ethinicity` VARCHAR( 50) , `residency` VARCHAR( 50))";
+$created9 = @mysql_query ($tablecreate9);
+
 
 
 $q1="INSERT INTO users (user_id,First_Name, Last_Name,phone, email) VALUES ('000000','Admin','Admin','change me2','change me')";
-
 $results1 = @mysql_query ($q1);
 
-$createLogin = "INSERT INTO Logins (user_id,username,pwd,user_type) values ('000000','root','administrator','2')";
-	$results3 = @mysql_query ($createLogin);
+$password=base64_encode(administrator);
+
+$createLogin = "INSERT INTO Logins (user_id,username,pwd,user_type) values ('000000','root','".$password."','2')";
+$results3 = @mysql_query ($createLogin);
+
+$i1="INSERT INTO dropDown(concentration,level,status,ethinicity,residency) VALUES ('Information Systems','Undergraduate','FULL','Caucasian','Resident')";
+$results4 = @mysql_query ($i1);
+
+$i2="INSERT INTO dropDown(concentration,level,status,ethinicity,residency) VALUES ('Computer Science','Graduate','PREQ','African American','Non-Resident')";
+$results5 = @mysql_query ($i2);
+
+$i3="INSERT INTO dropDown(level,status,ethinicity,residency) VALUES ('Post-Graduate','DENIED','Hispanic','International')";
+$results6 = @mysql_query ($i3);
+
+$i4="INSERT INTO dropDown(status,ethinicity) VALUES ('DEFERRED','Asian')";
+$results7 = @mysql_query ($i4);
+
+$i5="INSERT INTO dropDown(status,ethinicity) VALUES ('INACTIVE','Middle eastern')";
+$results8 = @mysql_query ($i5);
+
+$i6="INSERT INTO dropDown(ethinicity) VALUES ('Pacific Islander')";
+$results9 = @mysql_query ($i6);
+
+$i7="INSERT INTO dropDown(ethinicity) VALUES ('Native American/Alaskan')";
+$results10 = @mysql_query ($i7);
+
+$i8="INSERT INTO dropDown(ethinicity) VALUES ('Other')";
+$results11 = @mysql_query ($i8);
 
 $FileName = "mysql_connect.php";
 $FileHandle = fopen($FileName, 'w') or die("can't open file");

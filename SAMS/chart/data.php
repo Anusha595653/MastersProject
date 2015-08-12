@@ -13,10 +13,10 @@ $category = array();
 $category['name'] = 'Month';
 
 $series1 = array();
-$series1['name'] = 'Students who meet the search criteria';
+$series1['name'] = 'Students who meet the search criteria('.$_SESSION["squery1"].')';
 
 $series2 = array();
-$series2['name'] = '.';
+$series2['name'] = '';
 
 $series3 = array();
 $series3['name'] = 'Total Students';
@@ -30,7 +30,7 @@ $value1=0;
 $query1 = mysql_query("select * from sdtinfo ");
 while($r = mysql_fetch_array($query1)) {$value1++;}
  
- $category['data'][] = "Y";
+ $category['data'][] = "Students";
     $series1['data'][] =$value;
     $series3['data'][] =$value1;
 $result = array();

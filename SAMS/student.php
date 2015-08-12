@@ -3,7 +3,7 @@ error_reporting(0);
 Session_start();
  require_once ('mysql_connect.php');
 	session_start();
-include("headers.php");
+include("headers.php"); 
 include("container.php");
 getheader();
  
@@ -117,20 +117,7 @@ echo "<tr><td><b>Comments </b></td><td>&nbsp;&nbsp;:</td><td>  $comments </td></
 });
 });
 </script>         
-  <table class="table">
-<label><b style="color:orange;font-size:20px">Appointment History</b></label>
-<thead>
-<tr height="15px" id="fordisplay"><th style='border: 1px solid black;text-align:center'>S.No</th>
-<th style='border: 1px solid black;width:2%'>ID</th>
-<th style='border: 1px solid black;text-align:center;valign=baseline'>Appointment Date</th>
-<th style='border: 1px solid black;text-align:center;valign=baseline'>Purpose</th>
-<th style='border: 1px solid black;text-align:center;valign=baseline'>Faculty Name</th>
-<th style='border: 1px solid black;text-align:center;valign=baseline'>Status</th>
-<!--<th style='border: 1px solid black;text-align:center;valign=baseline'>View</th>-->
-<!--<th style='border: 1px solid black;text-align:center;valign=baseline'>Edit</th>-->
- 
-</tr>
-</thead>
+  
 <script>
 function selectaction(apptid,sid)
 {
@@ -142,20 +129,28 @@ function selectaction(apptid,sid)
 	
 }
 </script>
-  <?php
- 
+<table class='table'>
+<label><b style="color:orange;font-size:20px">Appointment History</b></label><br>
 
- 
-	$sql = "SELECT distinct a.apptid as id, a.*,c.First_Name,c.Last_Name  FROM appts a,users c where c.user_id=a.fid and  a.sid = ".$user." order by a.apptid desc";
- 
+  <?php
+$sql = "SELECT distinct a.apptid as id, a.*,c.First_Name,c.Last_Name  FROM appts a,users c where c.user_id=a.fid and  a.sid = ".$user." order by a.apptid desc";
 $retval = mysql_query( $sql);
 if(! $retval )
 {
   die('Could not get data: ' . mysql_error());
 }
+if (@mysql_num_rows($retval) !=0) 
+{
+echo "<thead><tr height='15px' id='fordisplay'>";
+echo "<th style='border: 1px solid black;text-align:center;valign=baseline'>Appointment Date</th>";
+echo "<th style='border: 1px solid black;text-align:center;valign=baseline'>Purpose</th>";
+echo "<th style='border: 1px solid black;text-align:center;valign=baseline'>Faculty Name</th>";
+echo "<th style='border: 1px solid black;text-align:center;valign=baseline'>Status</th>";
+echo "</tr></thead>";
 $i=0;
 $status="";
 $image="";
+
 while($row2 = mysql_fetch_array($retval, MYSQL_ASSOC))
 {
 
@@ -177,9 +172,9 @@ $Note="";
 $color="";
  if($row2['status']=='2'){
 	$status="Open"; 
-	$color="blue";
+	$color="green";
 	$view="<a data-toggle='modal' href='addnote.php?aptid=$row2[apptid]&sid=$user' data-target='#myModals'>".$purpose."</a>";
-	//$Note="<a data-toggle='modal' class='btn btn-info' href='addnote.php?aptid=$row2[apptid]&sid=$user' data-target='#myModals'>Note</a>";
+	//$Note="<a data-toggle='modal' class='btn btn-info' href='viewappoint.php?aptid=$row2[apptid]&sid=$user' data-target='#myModals'>Note</a>";
  }
  if($row2['status']=='3')
  {
@@ -189,17 +184,24 @@ $view="<a data-toggle='modal' href='viewappoint.php?aptid=$row2[apptid]&sid=$use
  //$Note="No Edit";
  }
 $studentinfo="".
-"<td style='border: 1px solid black;width:2%;text-align:center;valign=baseline'>".$i."</td>".
-"<td style='border: 1px solid black;width:2%;text-align:center;valign=baseline'>".$row2['id']."</td>".
+//"<td style='border: 1px solid black;width:2%;text-align:center;valign=baseline'>".$i."</td>".
+//"<td style='border: 1px solid black;width:2%;text-align:center;valign=baseline'>".$row2['id']."</td>".
 		 "<td style='border: 1px solid black;text-align:center;valign=baseline'>".$row2['start_date']."</td>".
    "<td cellpadding=20 style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$view."</td>".
-     "<td style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$row2['First_Name'].$row2['Last_Name']."</td><td style='border: 1px solid black;text-align:center'><font color='".$color."'>".$status."</font></td>";
+     "<td style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$row2['First_Name']."  ".$row2['Last_Name']."</td><td style='border: 1px solid black;text-align:center'><font color='".$color."'>".$status."</font></td>";
 
 		if($i%2==0)
            echo "<tr id='fortd1'>".$studentinfo;
         else
 		 echo "<tr id='fortd2'>".$studentinfo;
 	   }  
+}
+else
+{
+	echo "No appointments for this student"; 
+
+}
+
  
 mysql_close($conn);
  

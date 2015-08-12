@@ -74,7 +74,7 @@ body{background-color:#D8DDD8}
           <a class='dropdown-toggle' data-toggle='dropdown' href='#'>SETTINGS
           <span class='caret'></span></a>
           <ul class='dropdown-menu'>
-            <li><a href='changepwd.php'>CHANGE PASSWORD</a></li>
+            <li><a href='changepwd.php?t=1'>CHANGE PASSWORD</a></li>
             <li><a href='updateinfo.php?q=".$_SESSION['stu_id']."&t=1&u=1'>UPDATE PROFILE</a></li>
           </ul>
         </li>
@@ -176,6 +176,7 @@ body{background-color:#D8DDD8}
 	 
  
       <li><a href='student.php'><span>HOME</span></a></li>
+	
  
 <li class='dropdown'>
           <a class='dropdown-toggle' data-toggle='dropdown' href='#'>SETTINGS
@@ -183,7 +184,7 @@ body{background-color:#D8DDD8}
           <ul class='dropdown-menu'>
 
 
- <li><a href='changepwd.php'><span>CHANGE PASSWORD</span></a></li>
+ <li><a href='changepwd.php?t=2'><span>CHANGE PASSWORD</span></a></li>
 	 
 	 <li><a href='updateinfo.php?q=".$_SESSION['stu_id']."&t=2&u=1'><span>UPDATE PROFILE</span></a>
 
@@ -299,7 +300,7 @@ body{background-color:#D8DDD8}
           <span class='caret'></span></a>
           <ul class='dropdown-menu'>
 
-	  <li><a href='changepwd.php'><span>CHANGE PASSWORD</span></a></li>
+	  <li><a href='changepwd.php?t=1'><span>CHANGE PASSWORD</span></a></li>
 	 
 	 <li><a href='updateinfo.php?q=".$_SESSION['stu_id']."&t=1&u=1'><span>UPDATE PROFILE</span></a>
  
@@ -406,13 +407,14 @@ body{background-color:#D8DDD8}
 	      <li><a href='faculty.php'><span>HOME</span></a></li>
 
         <li><a href='AddStudent.php?type=2'>ADD STUDENT</a></li>
+	<li><a href='Chart.php'>CHART BUILDER</a></li>
      <!-- <li><a href='viewapts.php'><span>VIEW APPOINTMENTS</span></a></li>
 	        <li><a href='viewstds.php'><span>VIEW STUDENTS</span></a></li>-->
 <li class='dropdown'>
           <a class='dropdown-toggle' data-toggle='dropdown' href='#'>SETTINGS
           <span class='caret'></span></a>
           <ul class='dropdown-menu'>
-	  <li><a href='changepwd.php'><span>CHANGE PASSWORD</span></a></li>
+	  <li><a href='changepwd.php?t=1'><span>CHANGE PASSWORD</span></a></li>
 	 
 	 <li><a href='updateinfo.php?q=".$_SESSION['stu_id']."&t=1&u=1'><span>UPDATE PROFILE</span></a>
  </ul>

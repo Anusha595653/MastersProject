@@ -41,7 +41,7 @@ $dup = "select * from emails where  email = '".$_POST['email']."'";
 		{
 			while ($row1 = @mysql_fetch_assoc($r))
 			{//open php while
-		    $pwd=$row1["pwd"];
+		    $pwd=base64_decode($row1["pwd"]);
 		    $uname=$row1["username"];
 
 			 

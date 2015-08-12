@@ -52,20 +52,7 @@ error_reporting(0);
 
  <?php
  if($_GET["msg"]=="1"){
-	 echo "
-	 <script type='text/javascript'>
-    $(function () {
-        $('#dialog').dialog({
-            title: 'Success',
-            buttons: {
-                Close: function () {
-                    $(this).dialog('close');
-                }
-            }
-        });
-    });
-</script>
-";
+	 echo "<script type='text/javascript'>alert('Student Created Successfully')</script>";
  echo "<font color=green>Student Created Successfully</font>";}
   if($_GET["msg"]=="11")
 	  {

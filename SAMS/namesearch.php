@@ -14,11 +14,12 @@ exit();
 include ('includes/list_file.inc.php');
 //livesearch is used to search the database based off of the search string entered into the search boxes.  when the function calls liveserach, the appropriate search is run depending onthe variables passed and then returned back.
 
-
 //get the q parameter from URL for search value
 $name=$_GET["name"];
 $email=$_GET["email"];
 $id=$_GET['idn'];
+$oldPass=$_GET["Pass"];
+$userId=$_GET['userid'];
 $idtrim = ltrim($id, "0");
 
 //initialize hint to be blank.
@@ -56,6 +57,26 @@ $q1="select email from emails where email = '".$email."'";
 	if (@mysql_num_rows($r1) !=0) 
 	{//open php rows if
 		$hint='<o>Email already in use</o>';
+	}
+	else
+	{
+	$hint = '';
+	}
+}
+if(isset($oldPass))
+{
+$q1="select pwd from Logins where user_id = '".$userId."'";
+	$r1 = @mysql_query ($q1);
+	if (@mysql_num_rows($r1) !=0) 
+	{//open php rows if
+		while ($row1 = @mysql_fetch_assoc($r1))
+		{
+		$pass=base64_decode($row1['pwd']);
+		if($oldPass!=$pass)
+		$hint='<o>Password entered is incorrect</o>';
+		else
+		$hint='<o>Password entered is correct</o>';
+		}
 	}
 	else
 	{

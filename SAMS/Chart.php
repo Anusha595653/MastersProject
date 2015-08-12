@@ -3,6 +3,7 @@
  
 include("headers.php");
 include("container.php");
+require_once ('mysql_connect.php');
 getheader();
 ?>
 <?php 
@@ -10,19 +11,91 @@ getheader();
 if($_SESSION['user_id']=='')
 header ('location:index.php');
 ?>
+<style>
+
+
+</style>
+
 <script src="./content/jquery.js"></script>
 <!-- JQUERY -->
 <link href="jquery.custom.css" rel="stylesheet" type="text/css"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-<script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script>
+  $(function() {
+    $( "#admissionfrom" ).datepicker({
+      defaultDate: "+1w",
+	dateFormat: 'yy-mm-dd',
+      changeMonth: true,
+      numberOfMonths: 1,
+      onClose: function( selectedDate ) {
+        $( "#graduationfrom" ).datepicker( "option", "minDate", selectedDate );
+	$( "#admissionto" ).datepicker( "option", "minDate", selectedDate );
+      }
+    });
+    $( "#graduationfrom" ).datepicker({
+      defaultDate: "+1w",
+	dateFormat: 'yy-mm-dd',
+      changeMonth: true,
+      numberOfMonths: 1,
+      onClose: function( selectedDate ) {
+        $( "#admissionfrom" ).datepicker( "option", "maxDate", selectedDate );
+	$( "#graduationto" ).datepicker( "option", "minDate", selectedDate );
+      }
+    });
+  });
+
 $(function() {
-    $( "#admission" ).datepicker({dateFormat: 'yy-mm-dd'});
-	
-});
+    $( "#admissionto" ).datepicker({
+      defaultDate: "+1w",
+	dateFormat: 'yy-mm-dd',
+      changeMonth: true,
+      numberOfMonths: 1,
+onClose: function( selectedDate ) {
+        $( "#admissionfrom" ).datepicker( "option", "maxDate", selectedDate );
+      }
+    });
+  });
+
 $(function() {
-    $( "#graduation" ).datepicker({dateFormat: 'yy-mm-dd'});
-	
+    $( "#graduationto" ).datepicker({
+      defaultDate: "+1w",
+	dateFormat: 'yy-mm-dd',
+      changeMonth: true,
+      numberOfMonths: 1,
+      onClose: function( selectedDate ) {
+        $( "#graduationfrom" ).datepicker( "option", "maxDate", selectedDate );
+      }
+    });
+  });
+  </script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#ADR').on('change', function() {
+      if ( this.value == 'Between')
+      {
+        $("#showAT").show();
+      }
+      else
+      {
+        $("#showAT").hide();
+      }
+    });
+	$('#GDR').on('change', function() {
+      if ( this.value == 'Between')
+      {
+        $("#showGT").show();
+      }
+      else
+      {
+        $("#showGT").hide();
+      }
+    });
+
 });
 </script>
 <script type="text/javascript">
@@ -217,7 +290,14 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">Concentration:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control"  name="major" id="major" placeholder="Enter Concentration">
+        <?php
+$query = "SELECT concentration FROM dropDown where concentration IS NOT NULL"; 
+$result = mysql_query($query); ?> 
+<select name="major" class="form-control"> 
+<option selected="selected">Any</option>
+<?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
+<option value="<?php echo $line['concentration'];?>"> 
+<?php echo $line['concentration'];?> </option>   <?php } ?> </select>
       </div>
     </div>
 
@@ -228,12 +308,14 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">Level:</label>
       <div class="col-sm-4">
-<select name="level" class="form-control">
-			<option selected="selected">Any</option>
-			<option>Undergraduate</option>
-			<option>Graduate</option>
-			<option>Post-Graduate</option>
-			</select>      </div>
+<?php
+$query = "SELECT level FROM dropDown where level IS NOT NULL"; 
+$result = mysql_query($query); ?> 
+<select name="level" class="form-control"> 
+<option selected="selected">Any</option>
+<?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
+<option value="<?php echo $line['level'];?>"> 
+<?php echo $line['level'];?> </option>   <?php } ?> </select>      </div>
     </div>
 
 
@@ -241,31 +323,28 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">Status:</label>
       <div class="col-sm-4">
-<select name="status" id="status" class="form-control">
-					<option selected="selected">Any</option>
-		    			 <option>FULL</option>
-					 <option>PREQ</option>
-					 <option>DENIED</option>
-					 <option>DEFERRED</option>
-					 <option>INACTIVE</option>
-				</select>      </div>
+<?php
+$query = "SELECT status FROM dropDown where status IS NOT NULL"; 
+$result = mysql_query($query); ?> 
+<select name="status" id="status" class="form-control"> 
+<option selected="selected">Any</option>
+<?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
+<option value="<?php echo $line['status'];?>"> 
+<?php echo $line['status'];?> </option>   <?php } ?> </select> </div>
     </div>
 
 <div class="form-group">
 	
       <label class="control-label col-sm-2" for="email" >Ethnicity:</label>
       <div class="col-sm-4">
-<select name="ethnic" class="form-control">
-			<option selected="selected">Any</option>
-			<option>Caucasian</option>
-			<option>African American</option>
-			<option>Hispanic</option>
-			<option>Asian</option>
-			<option>Middle eastern</option>
-			<option>Pacific Islander</option>
-			<option>Native American/Alaskan</option>
-			<option>Other</option>
-			</select>      </div>
+<?php
+$query = "SELECT ethinicity FROM dropDown where ethinicity IS NOT NULL"; 
+$result = mysql_query($query); ?> 
+<select name="ethnic" class="form-control"> 
+<option selected="selected">Any</option>
+<?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
+<option value="<?php echo $line['ethinicity'];?>"> 
+<?php echo $line['ethinicity'];?> </option>   <?php } ?> </select> </div>
     </div>
 	
 	
@@ -276,35 +355,74 @@ document.form1.confirm.value=document.form1.password.value;
       <label class="control-label col-sm-2" for="email">Residency:</label>
       <div class="col-sm-4">
 
-<select name="residency" class="form-control">
-			<option selected="selected">Any</option>
-			<option>Resident</option>
-			<option>Non-Resident</option>
-			<option>International</option>
-			</select>      </div>
+<?php
+$query = "SELECT residency FROM dropDown where residency IS NOT NULL"; 
+$result = mysql_query($query); ?> 
+<select name="residency" class="form-control"> 
+<option selected="selected">Any</option>
+<?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
+<option value="<?php echo $line['residency'];?>"> 
+<?php echo $line['residency'];?> </option>   <?php } ?> </select> </div>
     </div>
 	
+
+<div class="form-group">
 	
-	
-	
-	<div class="form-group">
-	
-      <label class="control-label col-sm-2" for="email">Admission Date:</label>
-      <div class="col-sm-4">
-        <input type="text" class="form-control"  name="admission" id="admission" placeholder="Enter Admission Date">
+<label class="control-label col-sm-2" for="email">Admission Date Range:</label>
+<div class="col-sm-4">
+<select name="ADR" id="ADR" class="form-control"> 
+<option selected="selected" value="Before">Before</option>
+<option value="On">On</option>
+<option value="After">After</option>
+<option value="Between">Between</option></select>
       </div>
     </div>
 	
 	
+	<div class="form-group">
+      <label class="control-label col-sm-2" for="email">Admission Date from:</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control"  name="admissionfrom" id="admissionfrom" placeholder="Enter Admission Date">
+      </div>
+	</div>
+
+	<div class="form-group" id="showAT" style="display:none;">
 	
+      <label class="control-label col-sm-2" for="email">Admission Date to:</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control"  name="admissionto" id="admissionto" placeholder="Enter Admission Date">
+      </div>
+    </div>
+
+
+<div class="form-group">
+	
+<label class="control-label col-sm-2" for="email">Graduation Date Range:</label>
+<div class="col-sm-4">
+<select name="GDR" id="GDR" class="form-control"> 
+<option selected="selected">Before</option>
+<option>On</option>
+<option>After</option>
+<option>Between</option></select>
+      </div>
+    </div>
 	
 	<div class="form-group">
 	
-      <label class="control-label col-sm-2" for="email">Graduation Date:</label>
+      <label class="control-label col-sm-2" for="email">Graduation Date From:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control"  name="graduation" id="graduation" placeholder="Enter Graduation">
+        <input type="text" class="form-control"  name="graduationfrom" id="graduationfrom" placeholder="Enter Graduation Date">
       </div>
     </div>
+
+<div class="form-group" id="showGT" style="display:none;">
+	
+      <label class="control-label col-sm-2" for="email">Graduation Date to:</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control"  name="graduationto" id="graduationto" placeholder="Enter Graduation Date">
+      </div>
+    </div>
+
 	
 	
 	
@@ -324,31 +442,115 @@ document.form1.confirm.value=document.form1.password.value;
 <?php
 if(isset($_POST["submit"]))
 {
- 
+$major=$_POST["major"];
 $level=$_POST["level"];
 $status=$_POST["status"];
 $ethinicity=$_POST["ethnic"];		
-$residency=$_POST["residency"];		
-$admission=$_POST["admission"];
-$graduation=$_POST["graduation"];	
+$residency=$_POST["residency"];	
+$adr=$_POST["ADR"];	
+$admissionfrom=$_POST["admissionfrom"];
+$admissionto=$_POST["admissionto"];
+$gdr=$_POST["GDR"];
+$graduationfrom=$_POST["graduationfrom"];
+$graduationto=$_POST["graduationto"];	
 $grandquery="";
+$grand="";
+if(!(empty($major)||$major=='Any'))
+{
+$grandquery=$grandquery."  major='".$major."' and ";
+$grand=$grand."major=".$major;
+}
 if(!(empty($level)||$level=='Any'))
-$grandquery=$grandquery."  level='".$level."' and ";
-
+{
+	$grandquery=$grandquery."  level='".$level."' and ";
+$grand=$grand.", level=".$level;
+	}
 if(!(empty($status)||$status=='Any'))
-$grandquery=$grandquery."  status='".$status."' and ";
-if(!(empty($$ethinicity)||$$ethinicity=='Any'))
-$grandquery=$grandquery."  ethnic='".$ethinicity."' and ";
+{
+		$grandquery=$grandquery."  status='".$status."' and ";
+$grand=$grand.", status=".$status;
+}
+if(!(empty($ethinicity)||$ethinicity=='Any'))
+{
+	$grandquery=$grandquery."  ethnic='".$ethinicity."' and ";
+$grand=$grand.", ethinicity=".$ethinicity;
+}
 if(!(empty($residency)||$residency=='Any'))
-$grandquery=$grandquery."  residency='".$residency."' and ";
-if(!empty($admission))
-$grandquery=$grandquery."  admissiondate='".$admission."' and ";
-if(!empty($graduation))
-$grandquery=$grandquery."  graduationdate='".$graduation."' and ";
+{
+	$grandquery=$grandquery."  residency='".$residency."' and ";
+$grand=$grand.", residency=".$residency;
+}
+if(!empty($admissionfrom))
+{
+	if($adr=='Before')
+	{
+		$grandquery=$grandquery."  admissiondate <'".$admissionfrom."' and ";
+		$grand=$grand.", admitted before ".$admissionfrom;
 
+	}
+	if($adr=='On')
+	{
+		$grandquery=$grandquery."  admissiondate='".$admissionfrom."' and ";
+		$grand=$grand.", admitted on ".$admissionfrom;
+
+	}
+
+	if($adr=='After')
+	{
+		$grandquery=$grandquery."  admissiondate >'".$admissionfrom."' and ";
+		$grand=$grand.", admitted after ".$admissionfrom;
+
+	}
+	if($adr=='Between')
+	{
+		$grandquery=$grandquery."  admissiondate between'".$admissionfrom."' and '".$admissionto."' and ";
+		$grand=$grand.", admitted between ".$admissionfrom."and".$admissionto;
+
+	}
+		
+//$grandquery=$grandquery."  admissiondate='".$admission."' and "; 
+//$grand=$grand.", admissiondate=".$admission;
+}
+if(!empty($graduationfrom))
+{
+	if($gdr=='Before')
+	{
+		$grandquery=$grandquery."  graduationdate <'".$graduationfrom."' and ";
+		$grand=$grand.", graduated before ".$graduationfrom;
+
+	}
+	if($gdr=='On')
+	{
+		$grandquery=$grandquery."  graduationdate='".$graduationfrom."' and ";
+		$grand=$grand.", graduated on ".$graduationfrom;
+
+	}
+
+	if($gdr=='After')
+	{
+		$grandquery=$grandquery."  graduationdate >'".$graduationfrom."' and ";
+		$grand=$grand.", graduated after ".$graduationfrom;
+
+	}
+	if($gdr=='Between')
+	{
+		$grandquery=$grandquery."  graduationdate between'".$graduationfrom."' and '".$graduationto."' and ";
+		$grand=$grand.", graduated between".$graduationfrom."and".$graduationto;
+
+	}
+
+
+
+
+
+	//$grandquery=$grandquery."  graduationdate='".$graduation."' and ";
+//$grand=$grand.", graduationdate=".$graduation;
+}
 $grandquery="select * from sdtinfo where ".$grandquery;
 $grandquery=substr_replace($grandquery,"",-4);
+//$grand=substr_replace($grand,"",-1);
 $_SESSION["query"]=$grandquery;
+$_SESSION["squery1"]=$grand;
 echo "<script>window.location.href='chart1.php'</script>";
 }
 

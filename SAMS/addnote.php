@@ -104,14 +104,18 @@ $description=$st[1];
 
 <textarea name="Note" class="form-control" id="Note" rows="15" ><?php echo $updatenote; ?></textarea>&nbsp; </br>  </br>
 
-</td></tr>
+</td>
+</tr>
 <tr>
 <td>
 <div class="form-group">
+<table width="800px">
+<tr>
+<td>
               <label for="usrname" style="color:orange;font-size:20px">Upload Files(Choose or Drag&Drop)</label>
 			  <input name='documents[]' multiple='multiple' type='file' id="mulitplefileuploader"/>
 			<!--  <input type="file" class="form-control" multiple> --> </div>
-      <div id="status"></div> </td>
+      <div id="status"></td></tr></table></div> </td>
 </tr>
 <tr>
 <td>
@@ -223,7 +227,7 @@ $("#mulitplefileuploader").uploadFile(settings);
 
  
 <div class="table-responsive" id="filesTable">    
- <label for="usrname" style="color:orange;font-size:20px">Uploaded Files</label>     
+ <label for="usrname" style="color:orange;font-size:20px">Uploaded Files</label><br>   
   <table class="table" id="delTable">
  
 	
@@ -320,7 +324,7 @@ $("#mulitplefileuploader").uploadFile(settings);
 			if($status == "open")
 			{
 				//if the appointment is still open, give link for deleting file, no file deleting after appointment is closed
-				$part2=$part2."<br><a href='#' class='delete'>Delete</a>";
+				$part2=$part2."<a href='#' class='delete'><span class='glyphicon glyphicon-remove-sign'></span></a>";
 			}
           $part2=$part2;
 		  if($j>=5){
@@ -381,7 +385,11 @@ $("#mulitplefileuploader").uploadFile(settings);
 	</script>
 	</table>
 </div>
-</div></div>   </div>	<!-- /modal-body -->
+</div>
+</div>   
+</div>	
+
+<!-- /modal-body -->
             <div class="modal-footer">
 		<!---<button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>-->
                 <?php
@@ -404,7 +412,8 @@ if (@mysql_num_rows($r1) !=0)
 //echo "$userType";
 if($userType!=3)
 {
-echo "<a href=# style='float:right' onclick=selectaction('".$q."','".$sid."')><font size='4'><u>Close Appointment</u></font></a>";
+echo "<a href=# style='float:left' onclick=selectaction('".$q."','".$sid."')><font size='4'><u>Close Appointment</u></font></a>";
+//echo "<input type='checkbox' class='form-control' style='float:left;width: 15px; height: 15px;' name='close' value='close'><font size='3'>Close Appointment</font>";
 }
 ?>
 <table id="dataTable">
