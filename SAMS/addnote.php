@@ -104,130 +104,45 @@ $description=$st[1];
 
 <textarea name="Note" class="form-control" id="Note" rows="15" ><?php echo $updatenote; ?></textarea>&nbsp; </br>  </br>
 
+<?php
+$q=$_GET['aptid'];
+$user=$_GET['usertype'];
+$sid=$_GET['sid'];
+//echo "$sid";
+$q1="select * from Logins where user_id = $user";
+$r1=@mysql_query ($q1);
+if (@mysql_num_rows($r1) !=0) 
+	{//open php rows if
+
+		while ($row2 = @mysql_fetch_assoc($r1))
+		{//open php while
+		
+			// create variables for the a items that will be searched and make them all lowercase (what we want to search through)
+			$userType=$row2['user_type'];
+		}//close php while
+	}//close php rows if
+//echo "$userType";
+if($userType!=3)
+{
+//echo "<a href=# style='float:right' onclick=selectaction('".$q."','".$sid."')><font size='4'><u>Close Appointment</u></font></a>";
+echo "<input type='checkbox' name='close' style='width:18px;height:18px;' value='".$sid."'><font style='color:orange;font-size:20px'>   Close Appointment</font>";
+}
+?>
+
 </td>
 </tr>
 <tr>
 <td>
 <div class="form-group">
-<table width="800px">
-<tr>
-<td>
               <label for="usrname" style="color:orange;font-size:20px">Upload Files(Choose or Drag&Drop)</label>
 			  <input name='documents[]' multiple='multiple' type='file' id="mulitplefileuploader"/>
 			<!--  <input type="file" class="form-control" multiple> --> </div>
-      <div id="status"></td></tr></table></div> </td>
+      <div id="status"></div> </td>
 </tr>
 <tr>
 <td>
-<input name="Submit" type="submit" onclick="return etext()" id="notesbutton" value="Submit" class="btn btn-warning" />
-</td>
-</tr>
-</table></div>	
-</form>
-<div id="special"/>
-</form>
-
-<script>
-    (function($){
-        function processForm( e ){
-            $.ajax({
-                url: 'sampledata.php',
-                dataType: 'text',
-                type: 'post',
-                contentType: 'application/x-www-form-urlencoded',
-                data: $(this).serialize(),
-                success: function( data, textStatus, jQxhr ){
-                    $('#response pre').html("Updated Successfully");
-					$('#Note').html( data );
-					    alert(data);
-   location.reload(true);
-                },
-                error: function( jqXhr, textStatus, errorThrown ){
-                    console.log( errorThrown );
-                }
-            });
-
-            e.preventDefault();
-        }
-
-        $('#my-form').submit( processForm );
-    })(jQuery);
-</script>
- 
- 
-<script>
-
-$(document).ready(function()
-{
-var st=document.getElementById('appid').value;
-//var childwindow=window.location.href;
-var settings = {
-	url: "testingfile1.php",
-	method: "POST",
-	formData: {appid:st},
-	//allowedTypes:"jpg,png,gif,doc,pdf,zip",
-	fileName: "myfile",
-	multiple: true,
-	onSuccess:function(files,data,xhr)
-	{
-		$("#status").html("<font color='green'>File Uploaded Successfully</font>");
-	},
-    afterUploadAll:function()
-    {
-	$( "#filesTable" ).load( "addnote.php?aptid="+st+ " #filesTable ");	
-    },
-	onError: function(files,status,errMsg)
-	{		
-		$("#status").html("<font color='red'>Upload Failed</font>");
-	}
-}
-$("#mulitplefileuploader").uploadFile(settings);
-
-});
-</script>
-<script type="text/javascript">
-
-	$(document).ready(function()
-	{
-		$('table#delTable td a.delete').click(function()
-		{
-			if (confirm("Are you sure you want to delete this image?"))
-			{
-				var id = $(this).parent().attr('id');
-				var data = 'id=' + id ;
-				var parent = $(this).parent();
-
-				$.ajax(
-				{
-					   type: "POST",
-					   url: "delete_row.php?id="+id,
-					   data: data,
-					   cache: false,
-					
-					   success: function(data, textStatus, jQxhr)
-					   {
-						   if(data=='done'){
-							  alert('Successfully Deleted');
-						   parent.fadeOut('slow', function() {$(this).remove();});}
-						 else
-							 alert('failed  Try Again');
-					   }
-				 });				
-			}
-		});
-		
-		// style the table with alternate colors
-		// sets specified color for every odd row
-		$('table#delTable tr:odd').css('background',' #FFFFFF');
-	});
-	
-</script>
-
-	
-
- 
 <div class="table-responsive" id="filesTable">    
- <label for="usrname" style="color:orange;font-size:20px">Uploaded Files</label><br>   
+ <label for="usrname" style="color:orange;font-size:20px">Uploaded Files</label>     
   <table class="table" id="delTable">
  
 	
@@ -324,7 +239,7 @@ $("#mulitplefileuploader").uploadFile(settings);
 			if($status == "open")
 			{
 				//if the appointment is still open, give link for deleting file, no file deleting after appointment is closed
-				$part2=$part2."<a href='#' class='delete'><span class='glyphicon glyphicon-remove-sign'></span></a>";
+				$part2=$part2."<br><a href='#' class='delete'>Delete</a>";
 			}
           $part2=$part2;
 		  if($j>=5){
@@ -385,37 +300,120 @@ $("#mulitplefileuploader").uploadFile(settings);
 	</script>
 	</table>
 </div>
-</div>
-</div>   
-</div>	
 
-<!-- /modal-body -->
+</td>
+</tr>
+<tr>
+<td>
+<!--<input name="Submit" type="submit" onclick="return etext()" id="notesbutton" value="Submit" class="btn btn-warning" />-->
+<button type="submit" name="Submit" onclick="return etext()" id="notesbutton" value="Submit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Submit</button>
+</td>
+</tr>
+</table></div>	
+</form>
+<div id="special"/>
+</form>
+
+
+<script>
+    (function($){
+        function processForm( e ){
+            $.ajax({
+                url: 'sampledata.php',
+                dataType: 'text',
+                type: 'post',
+                contentType: 'application/x-www-form-urlencoded',
+                data: $(this).serialize(),
+                success: function( data, textStatus, jQxhr ){
+                    $('#response pre').html("Updated Successfully");
+					$('#Note').html( data );
+					    alert(data);
+   location.reload(true);
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log( errorThrown );
+                }
+            });
+
+            e.preventDefault();
+        }
+
+        $('#my-form').submit( processForm );
+    })(jQuery);
+</script>
+ 
+ 
+<script>
+
+$(document).ready(function()
+{
+var st=document.getElementById('appid').value;
+//var childwindow=window.location.href;
+var settings = {
+	url: "testingfile1.php",
+	method: "POST",
+	formData: {appid:st},
+	//allowedTypes:"jpg,png,gif,doc,pdf,zip",
+	fileName: "myfile",
+	multiple: true,
+	onSuccess:function(files,data,xhr)
+	{
+		$("#status").html("<font color='green'>File Uploaded Successfully</font>");
+	},
+    afterUploadAll:function()
+    {
+	$( "#filesTable" ).load( "addnote.php?aptid="+st+ " #filesTable ");	
+    },
+	onError: function(files,status,errMsg)
+	{		
+		$("#status").html("<font color='red'>Upload Failed</font>");
+	}
+}
+$("#mulitplefileuploader").uploadFile(settings);
+
+});
+</script>
+<script type="text/javascript">
+
+	$(document).ready(function()
+	{
+		$('table#delTable td a.delete').click(function()
+		{
+			if (confirm("Are you sure you want to delete this image?"))
+			{
+				var id = $(this).parent().attr('id');
+				var data = 'id=' + id ;
+				var parent = $(this).parent();
+
+				$.ajax(
+				{
+					   type: "POST",
+					   url: "delete_row.php?id="+id,
+					   data: data,
+					   cache: false,
+					
+					   success: function(data, textStatus, jQxhr)
+					   {
+						   if(data=='done'){
+							  alert('Successfully Deleted');
+						   parent.fadeOut('slow', function() {$(this).remove();});}
+						 else
+							 alert('failed  Try Again');
+					   }
+				 });				
+			}
+		});
+		
+		// style the table with alternate colors
+		// sets specified color for every odd row
+		$('table#delTable tr:odd').css('background',' #FFFFFF');
+	});
+	
+</script>	
+
+</div></div>   </div>	<!-- /modal-body -->
             <div class="modal-footer">
 		<!---<button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>-->
-                <?php
-$q=$_GET['aptid'];
-$user=$_GET['usertype'];
-$sid=$_GET['sid'];
-//echo "$sid";
-$q1="select * from Logins where user_id = $user";
-$r1=@mysql_query ($q1);
-if (@mysql_num_rows($r1) !=0) 
-	{//open php rows if
-
-		while ($row2 = @mysql_fetch_assoc($r1))
-		{//open php while
-		
-			// create variables for the a items that will be searched and make them all lowercase (what we want to search through)
-			$userType=$row2['user_type'];
-		}//close php while
-	}//close php rows if
-//echo "$userType";
-if($userType!=3)
-{
-echo "<a href=# style='float:left' onclick=selectaction('".$q."','".$sid."')><font size='4'><u>Close Appointment</u></font></a>";
-//echo "<input type='checkbox' class='form-control' style='float:left;width: 15px; height: 15px;' name='close' value='close'><font size='3'>Close Appointment</font>";
-}
-?>
 <table id="dataTable">
 <thead>
 </thead>
@@ -439,3 +437,4 @@ callback : function(){
 </script>
  
                </div>	<!-- /modal-footer -->
+
