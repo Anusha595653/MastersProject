@@ -167,7 +167,7 @@ $description=$st[1];
 			{
 				
 				//if the appointment is still open, give link for deleting file, no file deleting after appointment is closed
-				$part2=$part2."<br><a href='#' class='delete'>Delete</a>";
+				$part2=$part2."<br><a href='#' class='delete'><span class='glyphicon glyphicon-remove'></span></a>";
 			}
           	//$part2=$part2;
 		  if($j>=5){
