@@ -181,7 +181,8 @@ var x;
  
 
  if($_SESSION['u_type']!="4")
-	$sql = 'SELECT distinct a.apptid as id, a.*,c.First_Name,c.Last_Name  FROM appts a,users c where c.user_id=a.fid and  a.sid='.$_GET['sid']." and a.fid = $user order by a.apptid desc";
+	//$sql = 'SELECT distinct a.apptid as id, a.*,c.First_Name,c.Last_Name  FROM appts a,users c where c.user_id=a.fid and  a.sid='.$_GET['sid']." and a.fid = $user order by a.apptid desc";
+	$sql = 'SELECT distinct a.apptid as id, a.*,c.First_Name,c.Last_Name  FROM appts a,users c where c.user_id=a.fid and  a.sid='.$_GET['sid']."  order by a.apptid desc";
 else
 	$sql = 'SELECT distinct a.apptid as id, a.*,c.First_Name,c.Last_Name  FROM appts a,users c where c.user_id=a.fid and  a.sid='.$_GET['sid']."  order by a.apptid desc";
  
@@ -229,7 +230,10 @@ $session=$_SESSION['user_id'];
 	$view="<a data-toggle='modal' href='viewappoint.php?aptid=$row2[apptid]&sid=$_GET[sid]' data-target='#myModals'>".$purpose."</a>";
 	  if($_SESSION['u_type']!="4")
 	{
-	$view="<a data-toggle='modal' href='addnote.php?aptid=$row2[apptid]&sid=$_GET[sid]&usertype=$session' data-target='#myModals'>".$purpose."</a>";
+		if($row2['fid']==$user)
+		$view="<a data-toggle='modal' href='addnote.php?aptid=$row2[apptid]&sid=$_GET[sid]&usertype=$session' data-target='#myModals'>".$purpose."</a>";
+		else
+		$view="<a data-toggle='modal' href='viewappoint.php?aptid=$row2[apptid]&sid=$_GET[sid]' data-target='#myModals'>".$purpose."</a>";
 	
  }
  }
