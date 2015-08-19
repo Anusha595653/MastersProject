@@ -233,11 +233,13 @@ $session=$_SESSION['user_id'];
 		if($row2['fid']==$user)
 		{
 		$view="<a data-toggle='modal' href='addnote.php?aptid=$row2[apptid]&sid=$_GET[sid]&usertype=$session' data-target='#myModals'>".$purpose."</a>";
-		$image1="<span class='glyphicon glyphicon-user'></span>";
-		$faculty=$row2['First_Name']."  ".$row2['Last_Name']."  ".$image1;
+		//$image1="<span class='glyphicon glyphicon-user'></span>";
+		$color1="orange";
+		$faculty=$row2['First_Name']."  ".$row2['Last_Name'];
 		}
 		else
 		{
+		$color1="black";
 		$view="<a data-toggle='modal' href='viewappoint.php?aptid=$row2[apptid]&sid=$_GET[sid]' data-target='#myModals'>".$purpose."</a>";
 		$faculty=$row2['First_Name']."  ".$row2['Last_Name'];
 		}
@@ -251,11 +253,13 @@ $color="red";
 $view="<a data-toggle='modal' href='viewappoint.php?aptid=$row2[apptid]&sid=$_GET[sid]&usertype=$session' data-target='#myModals'>".$purpose."</a>";
 if($row2['fid']==$user)
 		{
-		$image1="<span class='glyphicon glyphicon-user'></span>";
-		$faculty=$row2['First_Name']."  ".$row2['Last_Name']."  ".$image1;
+		//$color1="<span class='glyphicon glyphicon-user'></span>";
+		$color1="orange";
+		$faculty=$row2['First_Name']."  ".$row2['Last_Name'];
 		}
 		else
 		{
+		$color1="black";
 		$faculty=$row2['First_Name']."  ".$row2['Last_Name'];
 		}
 
@@ -266,7 +270,7 @@ $studentinfo="".
 		 "<td style='border: 1px solid black;text-align:center;valign=baseline;'>".$row2['start_date']."</td>".
    "<td cellpadding=20 style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$view."</td>".
 	//"<td style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$row2['First_Name']."  ".$row2['Last_Name']."</td>
-	"<td style='border: 1px solid black;width:auto;text-align:center;valign=baseline'>".$faculty."</td>
+	"<td style='border: 1px solid black;width:auto;text-align:center;valign=baseline'><font color='".$color1."'>".$faculty."</font></td>
 	 <td style='border: 1px solid black;text-align:center'><font color='".$color."'>".$status."</font></td>";
 	 
 		if($i%2==0)
