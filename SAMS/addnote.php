@@ -288,13 +288,13 @@ echo "<input type='checkbox' name='close' style='width:18px;height:18px;' value=
 	<script>
 	function Download(vari1)
 	{
-		window.location.href='files.php?id='+vari1;
+		window.location.href='App_sampledata.php?function=addfile&id='+vari1;
 		
 	}
 	function Delete(vari1)
 	{
 		var vari2="Delete";
- window.location.href='files.php?id1='+vari1+"&Delete="+vari2;
+ 		window.location.href='App_sampledata.php?function=addfile&id1='+vari1+"&Delete="+vari2;
 		
 	}
 	</script>
@@ -319,7 +319,7 @@ echo "<input type='checkbox' name='close' style='width:18px;height:18px;' value=
     (function($){
         function processForm( e ){
             $.ajax({
-                url: 'sampledata.php',
+                url: 'App_sampledata.php?function=addnote',
                 dataType: 'text',
                 type: 'post',
                 contentType: 'application/x-www-form-urlencoded',
@@ -350,10 +350,9 @@ $(document).ready(function()
 var st=document.getElementById('appid').value;
 //var childwindow=window.location.href;
 var settings = {
-	url: "testingfile1.php",
+	url: "App_sampledata.php?function=testingfile1",
 	method: "POST",
 	formData: {appid:st},
-	//allowedTypes:"jpg,png,gif,doc,pdf,zip",
 	fileName: "myfile",
 	multiple: true,
 	onSuccess:function(files,data,xhr)

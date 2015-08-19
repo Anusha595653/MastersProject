@@ -417,24 +417,25 @@ else
  </div>
    <?php
 include("footer.php");
- ?> <script>
+ ?> 
+<script>
  
 $(document).ready(function()
 {
  
 var settings = {
-    url: "testingfile.php",
+    url: "App_sampledata.php?function=testingfile",
     method: "POST",
     fileName: "myfile",
     multiple: true,	
     onSuccess:function(files,data,xhr)
     {
-        $("#status").html("<font color='green'>Upload is success</font>"); 
+        //$("#status").html("<font color='green'>Upload is success</font>"); 
+	$( "#filesTable" ).load( "App_sampledata.php?function=filestable");
  
     },
 afterUploadAll:function()
-    {
-	$( "#myModal1" ).load( "studentsrch.php?aptid="+st+ " #myModal1 ");	
+    {	
     },
     onError: function(files,status,errMsg)
     {       
@@ -458,15 +459,51 @@ $("#mulitplefileuploader").uploadFile(settings);
 
 </script>
 
-
-
 <script>
   $("#mulitplefileuploader.upload form").text("Browse"); 
   </script>
+<script type="text/javascript">
+
+	$(document).ready(function()
+	{
+		$('table#delTable td a.delete').click(function()
+		{
+			if (confirm("Are you sure you want to delete this image?"))
+			{
+				var id = $(this).parent().attr('id');
+				var data = 'id=' + id ;
+				var parent = $(this).parent();
+
+				$.ajax(
+				{
+					   type: "POST",
+					   url: "delete_row.php?id="+id,
+					   data: data,
+					   cache: false,
+					
+					   success: function(data, textStatus, jQxhr)
+					   {
+						   if(data=='done'){
+							  alert('Successfully Deleted');
+						   parent.fadeOut('slow', function() {$(this).remove();});}
+						 else
+							 alert('failed  Try Again');
+					   }
+				 });				
+			}
+		});
+		
+		// style the table with alternate colors
+		// sets specified color for every odd row
+		$('table#delTable tr:odd').css('background',' #FFFFFF');
+	});
+	
+</script>	
+
 
      
 
-<div class="modal fade" id="myModal1" role="dialog" >
+<div class="modal fade" id="myModal1" role="dialog" data-backdrop="static" data-keyboard="false">
   <link href="upsrc/css/uploadfilemulti.css" rel="stylesheet">
  
 <script src="upsrc/js/jquery.fileuploadmulti.min.js"></script>
@@ -478,7 +515,7 @@ $("#mulitplefileuploader").uploadFile(settings);
         <div class="modal-header" style="">
 	<form id="my-form">
 
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" id="cross">&times;</button>
           <h4 style="color:red;"><span class="glyphicon glyphicon-lock"></span> Create Appointment</h4>
         </div>
         <div class="modal-body">
@@ -495,19 +532,25 @@ $("#mulitplefileuploader").uploadFile(settings);
           <textarea  class="form-control" rows="15" name="aNote"></textarea>  </div>
 		  
 		  
-		        <div class="form-group">
+	<div class="form-group">
   
               <label for="usrname" style="color:orange;font-size:20px">Upload File(Choose or Drag&Drop)</label>
-            <input name='documents[]' multiple='multiple'  type='file'  id="mulitplefileuploader"/> </div>   
+            <input name='documents[]' multiple='multiple'  type='file'  id="mulitplefileuploader"/> </div>
+<div id="status"></div>   
+<div class="table-responsive" id="filesTable">    
+<label for="usrname" style="color:orange;font-size:20px">Uploaded Files</label>   
+	
+</div>
+       
 		  
             <button type="submit" name="apsubmit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Submit</button>
 	</tr>
-       
+	
 
 		 </form>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+          <button type="submit" class="btn btn-default btn-default pull-left" id="cancel"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
          
         </div>
       </div>
@@ -518,7 +561,7 @@ $("#mulitplefileuploader").uploadFile(settings);
     (function($){
         function processForm( e ){
             $.ajax({
-                url: 'App_sampledata.php',
+                url: 'App_sampledata.php?function=createapp',
                 dataType: 'text',
                 type: 'post',
                 contentType: 'application/x-www-form-urlencoded',
@@ -541,3 +584,18 @@ $("#mulitplefileuploader").uploadFile(settings);
     })(jQuery);
 
    </script> 
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#cancel, #cross').click(function(){
+
+            $.ajax({
+                type: 'POST',
+                url: 'App_sampledata.php?function=cancelapp',
+                success: function(data) {
+			$('#myModal1').modal('hide');
+                }
+            });
+   });
+});
+</script>
