@@ -571,8 +571,7 @@ function filestable()
 			//once icon is determined, create the link and output file info in the table, do for each file found during looponclick='Download({$row['id']})'
 			$part2="
                 <td style='text-align:left; ' id='{$row['id']}'>
-					<a href='#' onclick='Download({$row['id']})'><img src='".$iconLocation."' title='".$doctype."' width='25' height='25' /></a><br>
-                   <a href='#' onclick='Download({$row['id']})'>{$row['name']}</a>
+					<a href='#' onclick='Download({$row['id']})'><img src='".$iconLocation."' title='".$doctype."' width='25' height='25' /></a>  <a href='#' onclick='Download({$row['id']})'>{$row['name']}</a>
        
 					";
 					
@@ -613,19 +612,31 @@ function filestable()
 	}
 	
 	echo "<Br><br>";
+	echo "<script type='text/javascript'>
+	function Download(vari1)
+	{
+		window.location.href='App_sampledata.php?function=addfile&id='+vari1;
+		
+	}
+	function Delete(vari1)
+	{
+		var vari2='Delete';
+ window.location.href='App_sampledata.php?function=addfile&id1='+vari1+'&Delete='+vari2;
+		
+	}
+	</script>";
+	
 	echo "</table>";
 
 } 
-?>
-<html>
-<head>
-<script type="text/javascript">
 
-	$(document).ready(function()
+echo"<script type='text/javascript'>";
+
+echo"$(document).ready(function()
 	{
 		$('table#delTable td a.delete').click(function()
 		{
-			if (confirm("Are you sure you want to delete this image?"))
+			if (confirm('Are you sure you want to delete this image?'))
 			{
 				var id = $(this).parent().attr('id');
 				var data = 'id=' + id ;
@@ -633,8 +644,8 @@ function filestable()
 
 				$.ajax(
 				{
-					   type: "POST",
-					   url: "delete_row.php?id="+id,
+				   type: 'POST',
+					   url: 'delete_row.php?id='+id,
 					   data: data,
 					   cache: false,
 					
@@ -648,27 +659,16 @@ function filestable()
 					   }
 				 });				
 			}
-		});
+		});";
 		
-		// style the table with alternate colors
-		// sets specified color for every odd row
+		
 		$('table#delTable tr:odd').css('background',' #FFFFFF');
-	});
+	});";
 	
-</script>	
-<script>
-	function Download(vari1)
-	{
-		window.location.href='App_sampledata.php?function=addfile&id='+vari1;
-		
-	}
-	function Delete(vari1)
-	{
-		var vari2="Delete";
- window.location.href='App_sampledata.php?function=addfile&id1='+vari1+"&Delete="+vari2;
-		
-	}
-	</script>
-</head>
-</html>
+echo"</script>";
+?>	
+
+
+
+
  

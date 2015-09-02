@@ -99,10 +99,19 @@ $description=$st[1];
 <input type ="hidden" name="appid" id="appid" value="<?php echo $q; ?>" />
 
 <div class="table-responsive">  
-  <table class="table" >
-<tr><td>
+  <table class="table">
+<tr><td colspan="2">
 
 <textarea name="Note" class="form-control" id="Note" rows="15" ><?php echo $updatenote; ?></textarea>&nbsp; </br>  </br>
+</tr>
+<tr>
+<td>
+<div class="form-group">
+              <label for="usrname" style="color:orange;font-size:20px">Upload Files(Choose or Drag&Drop)</label>
+			  <input name='documents[]' multiple='multiple' type='file' id="mulitplefileuploader"/>
+			<!--  <input type="file" class="form-control" multiple> --> </div>
+      <div id="status"></div> </td>
+<td style="padding:40px;">
 
 <?php
 $q=$_GET['aptid'];
@@ -132,15 +141,7 @@ echo "<input type='checkbox' name='close' style='width:18px;height:18px;' value=
 </td>
 </tr>
 <tr>
-<td>
-<div class="form-group">
-              <label for="usrname" style="color:orange;font-size:20px">Upload Files(Choose or Drag&Drop)</label>
-			  <input name='documents[]' multiple='multiple' type='file' id="mulitplefileuploader"/>
-			<!--  <input type="file" class="form-control" multiple> --> </div>
-      <div id="status"></div> </td>
-</tr>
-<tr>
-<td>
+<td colspan="2">
 <div class="table-responsive" id="filesTable">    
  <label for="usrname" style="color:orange;font-size:20px">Uploaded Files</label>     
   <table class="table" id="delTable">
@@ -177,11 +178,9 @@ echo "<input type='checkbox' name='close' style='width:18px;height:18px;' value=
 	{//open php rows if
  		// Print the top of a table
 		
-		$part1= '
-                <tr>
-					
+		$part1= '<tr>			
                 </tr>';
- $j=0;
+ 		$j=0;
 		while ($row = @mysql_fetch_assoc($result))
 		{//open php while
 		$i++;
@@ -231,7 +230,7 @@ echo "<input type='checkbox' name='close' style='width:18px;height:18px;' value=
 			//once icon is determined, create the link and output file info in the table, do for each file found during looponclick='Download({$row['id']})'
 			$part2="
                 <td style='text-align:left; ' id='{$row['id']}'>
-					<a href='#' onclick='Download({$row['id']})'><img src='".$iconLocation."' title='".$doctype."' width='25' height='25' /></a><br>
+					<a href='#' onclick='Download({$row['id']})'><img src='".$iconLocation."' title='".$doctype."' width='25' height='25' /></a>
                    <a href='#' onclick='Download({$row['id']})'>{$row['name']}</a>
        
 					";
@@ -300,13 +299,12 @@ echo "<input type='checkbox' name='close' style='width:18px;height:18px;' value=
 	</script>
 	</table>
 </div>
-
 </td>
 </tr>
 <tr>
-<td>
-<!--<input name="Submit" type="submit" onclick="return etext()" id="notesbutton" value="Submit" class="btn btn-warning" />-->
-<button type="submit" name="Submit" onclick="return etext()" id="notesbutton" value="Submit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Submit</button>
+<td colspan="2">
+<input name="Submit" type="submit" style="float: right;" onclick="return etext()" id="notesbutton" value="Submit" class="btn btn-warning" />
+<!--<button type="submit" name="Submit" onclick="return etext()" id="notesbutton" value="Submit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Submit</button>-->
 </td>
 </tr>
 </table></div>	
@@ -350,14 +348,14 @@ $(document).ready(function()
 var st=document.getElementById('appid').value;
 //var childwindow=window.location.href;
 var settings = {
-	url: "App_sampledata.php?function=testingfile1",
+	url: "testingfile1.php",
 	method: "POST",
 	formData: {appid:st},
 	fileName: "myfile",
 	multiple: true,
 	onSuccess:function(files,data,xhr)
 	{
-		$("#status").html("<font color='green'>File Uploaded Successfully</font>");
+		//$("#status").html("<font color='green'>File Uploaded Successfully</font>");
 	},
     afterUploadAll:function()
     {
@@ -412,7 +410,7 @@ $("#mulitplefileuploader").uploadFile(settings);
 
 </div></div>   </div>	<!-- /modal-body -->
             <div class="modal-footer">
-		<!---<button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>-->
+		<button type="button" Style="float:left" class="btn btn-default" data-dismiss="modal" >Cancel</button>
 <table id="dataTable">
 <thead>
 </thead>

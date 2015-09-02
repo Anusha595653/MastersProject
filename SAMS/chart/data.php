@@ -13,7 +13,7 @@ $category = array();
 $category['name'] = 'Month';
 
 $series1 = array();
-$series1['name'] = 'Students who meet the search criteria('.$_SESSION["squery1"].')';
+$series1['name'] = 'Students who meet the search criteria';
 
 $series2 = array();
 $series2['name'] = '';

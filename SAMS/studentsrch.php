@@ -547,8 +547,9 @@ $("#mulitplefileuploader").uploadFile(settings);
 </div>
        
 		  
-            <button type="submit" name="apsubmit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Submit</button>
-	</tr>
+            <!--<button type="submit" name="apsubmit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Submit</button>-->
+		<input name="apsubmit" type="submit" style="float: right;" value="Submit" class="btn btn-warning" />
+	
 	
 
 		 </form>

@@ -6,9 +6,11 @@ getheader();
  
  if($_SESSION['user_id']=='')
 header ('location:index.php');
+$criteria=$_SESSION["squery1"];
 ?>
 		<script type="text/javascript" src="chart/script3.js"></script>
 		<script type="text/javascript">
+		var criteria=<?php echo json_encode($criteria) ?>;
 		$(document).ready(function() {
 			var options = {
 	            chart: {
@@ -17,11 +19,23 @@ header ('location:index.php');
 	            },
 	            title: {
 	                text: 'Chart Builder',
-	                x: -20 //center
+			style: {
+				fontFamily:'Verdana, Geneva, sans-serif',
+				fontSize:'25',
+                		color: '#FF9933',
+                		fontWeight: 'bold'
+            			},
+			x: -10 //center,
 	            },
 	            subtitle: {
-	                text: '',
-	                x: -20
+	                text: criteria,
+			style: {
+				fontFamily:'Verdana, Geneva, sans-serif',
+				fontSize:'13',
+                		fontWeight: 'bold'
+            			},
+	                x: 50,
+			align:'left',
 	            },
 	            xAxis: {
 					 
@@ -30,7 +44,7 @@ header ('location:index.php');
 	            yAxis: {
 	                min: 0,
 	                title: {
-	                    text: 'Number of students'
+	                    text: ''
 	                },
 	                labels: {
 	                    overflow: 'justify'

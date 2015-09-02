@@ -112,12 +112,12 @@ function errorcheck()
 		inputError[4] = ("\n Office must be entered");
 		errorCount=errorCount+1;
 	}
-	if (password.length < 8)
+	if (password.length < 1)
 	{
-		inputError[5] = ("\n Password is too Short");
+		inputError[5] = ("\n Password must be entered");
 		errorCount=errorCount+1;
 	}
-	if (password.length >= 8 && password != confirmed)
+	if (password.length >= 1 && password != confirmed)
 	{
 		inputError[5] = ("\n Passwords do not Match");
 		errorCount=errorCount+1;

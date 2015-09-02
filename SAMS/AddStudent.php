@@ -142,12 +142,12 @@ if (lname.length < 1 )
 		inputError[5] = ("\n Admission Date must be entered");
 		errorCount=errorCount+1;
 	}
-	if (password.length < 8)
+	if (password.length < 1)
 	{
-		inputError[6] = ("\n Password is too Short");
+		inputError[6] = ("\n Password must be entered");
 		errorCount=errorCount+1;
 	}
-	if (password.length >= 8 && password != confirmed)
+	if (password.length >= 1 && password != confirmed)
 	{
 		inputError[6] = ("\n Passwords do not Match");
 		errorCount=errorCount+1;
@@ -280,12 +280,12 @@ document.form1.confirm.value=document.form1.password.value;
       <label class="control-label col-sm-2" for="email">Concentration:</label>
       <div class="col-sm-4">
 <?php
-$query = "SELECT concentration FROM dropDown where concentration IS NOT NULL"; 
+$query = "SELECT description FROM dropDowns where category ='concentration'"; 
 $result = mysql_query($query); ?> 
 <select name="major" class="form-control"> 
 <?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
-<option value="<?php echo $line['concentration'];?>"> 
-<?php echo $line['concentration'];?> </option>   <?php } ?> </select>  
+<option value="<?php echo $line['description'];?>"> 
+<?php echo $line['description'];?> </option>   <?php } ?> </select>  
 <!--<input type="text" class="form-control"  name="major" id="major" placeholder="Enter Concentration">-->
  </div>
  </div>
@@ -299,12 +299,12 @@ $result = mysql_query($query); ?>
       <div class="col-sm-4">
 
 <?php
-$query = "SELECT level FROM dropDown where level IS NOT NULL"; 
+$query = "SELECT description FROM dropDowns where category ='level'"; 
 $result = mysql_query($query); ?> 
 <select name="level" class="form-control"> 
 <?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
-<option value="<?php echo $line['level'];?>"> 
-<?php echo $line['level'];?> </option>   <?php } ?> </select> </div>
+<option value="<?php echo $line['description'];?>"> 
+<?php echo $line['description'];?> </option>   <?php } ?> </select> </div>
     </div>
 
 
@@ -314,12 +314,12 @@ $result = mysql_query($query); ?>
       <div class="col-sm-4">
 
 <?php
-$query = "SELECT status FROM dropDown where status IS NOT NULL"; 
+$query = "SELECT description FROM dropDowns where category ='status'"; 
 $result = mysql_query($query); ?> 
 <select name="status" id="status" class="form-control"> 
 <?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
-<option value="<?php echo $line['status'];?>"> 
-<?php echo $line['status'];?> </option>   <?php } ?> </select> </div>
+<option value="<?php echo $line['description'];?>"> 
+<?php echo $line['description'];?> </option>   <?php } ?> </select> </div>
     </div>
 
 
@@ -328,12 +328,12 @@ $result = mysql_query($query); ?>
       <label class="control-label col-sm-2" for="email" >Ethnicity  : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
 <?php
-$query = "SELECT ethinicity FROM dropDown where ethinicity IS NOT NULL"; 
+$query = "SELECT description FROM dropDowns where category ='ethinicity'"; 
 $result = mysql_query($query); ?> 
 <select name="ethnic" class="form-control"> 
 <?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
-<option value="<?php echo $line['ethinicity'];?>"> 
-<?php echo $line['ethinicity'];?> </option>   <?php } ?> </select> </div>
+<option value="<?php echo $line['description'];?>"> 
+<?php echo $line['description'];?> </option>   <?php } ?> </select> </div>
     </div>
 	
 	
@@ -344,12 +344,12 @@ $result = mysql_query($query); ?>
       <label class="control-label col-sm-2" for="email">Residency  : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
 <?php
-$query = "SELECT residency FROM dropDown where residency IS NOT NULL"; 
+$query = "SELECT description FROM dropDowns where category ='residency'"; 
 $result = mysql_query($query); ?> 
 <select name="residency" class="form-control"> 
 <?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
-<option value="<?php echo $line['residency'];?>"> 
-<?php echo $line['residency'];?> </option>   <?php } ?> </select> </div>
+<option value="<?php echo $line['description'];?>"> 
+<?php echo $line['description'];?> </option>   <?php } ?> </select> </div>
     </div>
 	
 	
