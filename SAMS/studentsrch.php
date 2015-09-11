@@ -139,10 +139,8 @@ var x;
  
  <div class="table-responsive">          
  
- 
-
- <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
-      <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.2.0/respond.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.2.0/respond.js"></script>
 	  
 
 <div class="modal fade" id="myModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -234,12 +232,12 @@ $session=$_SESSION['user_id'];
 		{
 		$view="<a data-toggle='modal' href='addnote.php?aptid=$row2[apptid]&sid=$_GET[sid]&usertype=$session' data-target='#myModals'>".$purpose."</a>";
 		//$image1="<span class='glyphicon glyphicon-user'></span>";
-		$color1="orange";
+		$color1="black";
 		$faculty=$row2['First_Name']."  ".$row2['Last_Name'];
 		}
 		else
 		{
-		$color1="black";
+		$color1="grey";
 		$view="<a data-toggle='modal' href='viewappoint.php?aptid=$row2[apptid]&sid=$_GET[sid]' data-target='#myModals'>".$purpose."</a>";
 		$faculty=$row2['First_Name']."  ".$row2['Last_Name'];
 		}
@@ -254,12 +252,12 @@ $view="<a data-toggle='modal' href='viewappoint.php?aptid=$row2[apptid]&sid=$_GE
 if($row2['fid']==$user)
 		{
 		//$color1="<span class='glyphicon glyphicon-user'></span>";
-		$color1="orange";
+		$color1="black";
 		$faculty=$row2['First_Name']."  ".$row2['Last_Name'];
 		}
 		else
 		{
-		$color1="black";
+		$color1="grey";
 		$faculty=$row2['First_Name']."  ".$row2['Last_Name'];
 		}
 
@@ -435,8 +433,8 @@ var settings = {
     onSuccess:function(files,data,xhr)
     {
         //$("#status").html("<font color='green'>Upload is success</font>"); 
-	$( "#filesTable" ).load( "App_sampledata.php?function=filestable");
- 
+	$( "#filesTable" ).load( "App_sampledata.php?function=filestable&createapp=1");
+ 	//location.reload();
     },
 afterUploadAll:function()
     {	
@@ -472,8 +470,7 @@ $("#mulitplefileuploader").uploadFile(settings);
 	{
 		$('table#delTable td a.delete').click(function()
 		{
-			if (confirm("Are you sure you want to delete this image?"))
-			{
+			
 				var id = $(this).parent().attr('id');
 				var data = 'id=' + id ;
 				var parent = $(this).parent();
@@ -494,7 +491,6 @@ $("#mulitplefileuploader").uploadFile(settings);
 							 alert('failed  Try Again');
 					   }
 				 });				
-			}
 		});
 		
 		// style the table with alternate colors
@@ -538,24 +534,178 @@ $("#mulitplefileuploader").uploadFile(settings);
 		  
 	<div class="form-group">
   
-              <label for="usrname" style="color:orange;font-size:20px">Upload File(Choose or Drag&Drop)</label>
+              <label for="usrname" style="color:orange;font-size:20px">Upload File</label>
             <input name='documents[]' multiple='multiple'  type='file'  id="mulitplefileuploader"/> </div>
 <div id="status"></div>   
 <div class="table-responsive" id="filesTable">    
-<label for="usrname" style="color:orange;font-size:20px">Uploaded Files</label>   
-	
-</div>
+<label for="usrname" style="color:orange;font-size:20px">Uploaded Files</label>  
+<table class='table' id='delTable'> 
+	<?php
+	//set part1 to be blank
+	$part1="";
+	//set part 2 to be blank
+	$part2="";
+	$status="open";
+	//if the appointment is still open, create the form for uploading files and attach it to $hint
+	if ($status=="open")
+	{
+		/*$hint=$hint.'
+			<p ><Br><br><label style=font-size:20px;color:orange>File Upload:</label>
+			<form action="" method="post" enctype="multipart/form-data">
+			<input type="file" name="uploaded_file" required class="btn btn-primary">
+			<input type="submit" name="addfile" value="Upload file" class="btn btn-warning">
+			<input type="hidden" name="apptid" id="apptid" value="'.$q.'"/>
+			<input type="hidden" name="studentid" id="studentid" value="'.$sid.'"/>
+			
+			<br/><br/>';*/
+	}
+	$st1 = mysql_fetch_row(mysql_query("SELECT max(apptid) as apptid FROM appts"));
+	$version1 = $st1[0] + 1;	
+	$sql = "select *,Date_FORMAT(created,'%Y-%d-%m %h:%m %p') as created from file where apptid = ".$version1." order by id desc";
+	//run the query
+	$i=0;
+	$result = @mysql_query($sql);
+	// Check if it was successfull
+	if (@mysql_num_rows($result) !=0) 
+	{//open php rows if
+ 		// Print the top of a table
+		
+		$part1= '<tr>			
+                </tr>';
+ 		$j=0;
+		while ($row = @mysql_fetch_assoc($result))
+		{//open php while
+		$i++;
+		$j++;	//pick icon
+			//set $mime to be the mimetype of the file in the db
+			$mime=$row['mime'];
+			//check to see if the uploaded files matches the description of the known file types
+			$position1 = substr_count($mime, 'word');
+			$position2= substr_count($mime, 'text');
+			$position3 = substr_count($mime, 'pdf');
+			$position4 = substr_count($mime, 'presentation');
+			$position5 = substr_count($mime, 'spre');
+			if ($position1 != 0)
+			{
+				$iconLocation = "./icons/doc.bmp";
+				$doctype = "Word Document";
+			}
+			else
+			if ($position2 != 0)
+			{
+				$iconLocation = "./icons/text.bmp";
+				$doctype = "Text Document";
+			}
+			else
+			if ($position3 != 0)
+			{
+				$iconLocation = "./icons/pdf.bmp";
+				$doctype = "PDF";
+			}
+			else
+			if ($position4 != 0)
+			{
+				$iconLocation = "./icons/ppt.bmp";
+				$doctype = "PowerPoint Document";
+			}
+			else
+			if ($position5 != 0)
+			{
+				$iconLocation = "./icons/xls.bmp";
+				$doctype = "Excel Document";
+			}
+			else
+			{
+				$iconLocation = "./icons/file.bmp";
+				$doctype = "Document";
+			}
+			//once icon is determined, create the link and output file info in the table, do for each file found during looponclick='Download({$row['id']})'
+			$part2="
+                <td style='text-align:left; ' id='{$row['id']}'>
+					<a href='#' onclick='Download({$row['id']})'><img src='".$iconLocation."' title='".$doctype."' width='25' height='25' /></a>
+                   <a href='#' onclick='Download({$row['id']})'>{$row['name']}</a>
        
+					";
+					
+			if($status == "open")
+			{
+				//if the appointment is still open, give link for deleting file, no file deleting after appointment is closed
+				$part2=$part2."  <a href='#' class='delete'><span class='glyphicon glyphicon-remove'></span></a>";
+			}
+          $part2=$part2;
+		  if($j>=5){
+			$j=1;
+			echo  "</tr><tr id='fortd1'>".$part2;
 		  
-            <!--<button type="submit" name="apsubmit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Submit</button>-->
-		<input name="apsubmit" type="submit" style="float: right;" value="Submit" class="btn btn-warning" />
+		  }
+		  else 
+			  echo "</td>".$part2;
+		/*  	if($i%2==0)
+		  echo "<tr id='fortd1'>".$part2;
+				else
+		 		  echo "<tr id='fortd2'>".$part2;*/
+			  
+		}//close php while
+		// Close table
+		
+        $part3='';
+
+		//add all parts to $hint
+		$hint=$hint.$part1.$part3;
+		echo $hint;
+		if($i==0)
+			echo "<font color=red>Sorry No Records</font>";
+	}//close php rows if
+	//if no files have been uploaded
+	else
+	{	
+		$hint=$hint."No uploaded files";
+		echo $hint;
+	}
+	
+	echo "<Br><br>";
+	?>
+	<?php
+	if(isset($_POST['addfile']))
+	{
+		addfile();
+                if($hint=="")
+		 echo "<script>alert('Select file before you upload')</script>";
+                  else
+ 		echo "<script>alert('File added successfully')</script>";
+		echo $meta;
+	}
+	?>
+	<script>
+	function Download(vari1)
+	{
+		window.location.href='App_sampledata.php?function=addfile&id='+vari1;
+		
+	}
+	function Delete(vari1)
+	{
+		var vari2="Delete";
+ 		window.location.href='App_sampledata.php?function=addfile&id1='+vari1+"&Delete="+vari2;
+		
+	}
+	</script>
+	</table>	
+</div>
+</br></br>
+<table class="table">
+<tr>
+<td>
+<button type="submit" class="btn btn-warning" style="float:left;" id="cancel"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+</td>
+<td>		
+<input name="apsubmit" type="submit" style="float: right;" value="Submit" class="btn btn-primary" /></td></tr></table>
 	
 	
 
-		 </form>
+	</form>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-default btn-default pull-left" id="cancel"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+          <!-- <button type="submit" class="btn btn-default btn-default pull-left" id="cancel"><span class="glyphicon glyphicon-remove"></span> Cancel</button>-->
          
         </div>
       </div>
@@ -591,16 +741,20 @@ $("#mulitplefileuploader").uploadFile(settings);
    </script> 
 
 <script type="text/javascript">
-    $(document).ready(function(){
+var stid=<?=$q;?>;
+    $(document).ready(function()
+	{
         $('#cancel, #cross').click(function(){
 
             $.ajax({
                 type: 'POST',
-                url: 'App_sampledata.php?function=cancelapp',
+                url: 'App_sampledata.php?function=cancelapp&stid='+stid,
                 success: function(data) {
 			$('#myModal1').modal('hide');
+			location.reload();
                 }
             });
    });
 });
 </script>
+

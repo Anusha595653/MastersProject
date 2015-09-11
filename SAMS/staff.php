@@ -52,25 +52,12 @@ error_reporting(0);
 
  <?php
  if($_GET["msg"]=="1"){
-	 echo "
-	 <script type='text/javascript'>
-    $(function () {
-        $('#dialog').dialog({
-            title: 'Success',
-            buttons: {
-                Close: function () {
-                    $(this).dialog('close');
-                }
-            }
-        });
-    });
-</script>
-";
- echo "<font color=green>Student Created Successfully</font>";}
+	 echo "<script>alert('Student Created Successfully')</script>";
+}
   if($_GET["msg"]=="11")
 	  {
 	 echo "<script>alert('Faculty/Staff Created Successfully')</script>";
-	  echo "<font color=green>Faculty/Staff Created Successfully</font>";}
+	 }
   if($_GET["msg"]=="2")
 	 echo "<font color=green>Appointment  Created Successfully<br>Appintment ID is:</font>".$_GET["appid"]. " <Br><a href=addnote.php?aptid=".$_GET["appid"]."&sid=".$_GET["sid"].">Add Note or View Appointment</a>";
 if($_GET["update"]=="1")

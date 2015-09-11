@@ -358,9 +358,20 @@ $result = mysql_query($query); ?>
 	
       <label class="control-label col-sm-2" for="email">Graduation Date to:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control"  name="graduationto" id="graduationto" placeholder="Enter Graduation Date">
+        <input type="text" class="form-control"  name="graduationto" id="graduationto" placeholder="Enter Graduation Date" onkeyup="check(this.value)">
       </div>
     </div>
+
+<script language='javascript' type='text/javascript'>
+    function check(input) {
+        if (input==null && document.getElementById('graduationfrom').value!=null) {
+            input.setCustomValidity('Please select to date');
+        } else {
+            // input is valid -- reset the error message
+            input.setCustomValidity('');
+        }
+    }
+</script>
 
 	
 	
@@ -369,7 +380,7 @@ $result = mysql_query($query); ?>
       <div class="col-sm-offset-2 col-sm-10">
 
        <!-- <button type="submit" class="btn btn-warning"  name="submit">Submit</button>-->
-	<button type="submit" class="btn btn-primary" onclick= "return errorcheck()" name="submit">Submit</button>
+	<button type="submit" class="btn btn-primary" name="submit">Submit</button>
 		 </div>
     </div>
 	
@@ -392,9 +403,24 @@ $admissionfrom=$_POST["admissionfrom"];
 $admissionto=$_POST["admissionto"];
 $gdr=$_POST["GDR"];
 $graduationfrom=$_POST["graduationfrom"];
-$graduationto=$_POST["graduationto"];	
+$graduationto=$_POST["graduationto"];
+
+
 $grandquery="";
 $grand="Students ";
+
+if($adr=='Between'&&!(empty($admissionfrom))&&empty($admissionto))
+{
+	echo "<script type='text/javascript'>window.alert('Select Admission To date');window.location = 'Chart.php';</script>";
+}
+
+elseif($adr=='Between'&&!(empty($graduationfrom))&&empty($graduationto))
+{
+	echo "<script type='text/javascript'>window.alert('Select Graduation To date');window.location = 'Chart.php';</script>";
+}
+	
+else
+{
 if(!(empty($major)||$major=='Any'))
 {
 $grandquery=$grandquery."  major='".$major."' and ";
@@ -413,7 +439,7 @@ $grand=$grand." with status ".$status;
 if(!(empty($ethinicity)||$ethinicity=='Any'))
 {
 	$grandquery=$grandquery."  ethnic='".$ethinicity."' and ";
-$grand=$grand." who are ".$ethinicity." s";
+$grand=$grand." who are ".$ethinicity;
 }
 if(!(empty($residency)||$residency=='Any'))
 {
@@ -422,30 +448,31 @@ $grand=$grand." with residency status as ".$residency;
 }
 if(!empty($admissionfrom))
 {
+	$adfrom=date_format(date_create($admissionfrom),"m/d/y");
+	$adto=date_format(date_create($admissionto),"m/d/y");
 	if($adr=='Before')
 	{
 		$grandquery=$grandquery."  admissiondate <'".$admissionfrom."' and ";
-		$grand=$grand." admitted before ".$admissionfrom;
+		$grand=$grand." admitted before ".$adfrom;
 
 	}
 	if($adr=='On')
 	{
 		$grandquery=$grandquery."  admissiondate='".$admissionfrom."' and ";
-		$grand=$grand." admitted on ".$admissionfrom;
+		$grand=$grand." admitted on ".$adfrom;
 
 	}
 
 	if($adr=='After')
 	{
 		$grandquery=$grandquery."  admissiondate >'".$admissionfrom."' and ";
-		$grand=$grand." admitted after ".$admissionfrom;
+		$grand=$grand." admitted after ".$adfrom;
 
 	}
 	if($adr=='Between')
 	{
 		$grandquery=$grandquery."  admissiondate between'".$admissionfrom."' and '".$admissionto."' and ";
-		$grand=$grand." admitted between ".$admissionfrom."and".$admissionto;
-
+		$grand=$grand." admitted between ".$adfrom." and ".$adto;
 	}
 		
 //$grandquery=$grandquery."  admissiondate='".$admission."' and "; 
@@ -453,29 +480,31 @@ if(!empty($admissionfrom))
 }
 if(!empty($graduationfrom))
 {
+	$gdfrom=date_format(date_create($graduationfrom),"m/d/y");
+	$gdto=date_format(date_create($graduationto),"m/d/y");
 	if($gdr=='Before')
 	{
 		$grandquery=$grandquery."  graduationdate <'".$graduationfrom."' and ";
-		$grand=$grand." graduated before ".$graduationfrom;
+		$grand=$grand." graduated before ".$gdfrom;
 
 	}
 	if($gdr=='On')
 	{
 		$grandquery=$grandquery."  graduationdate='".$graduationfrom."' and ";
-		$grand=$grand." graduated on ".$graduationfrom;
+		$grand=$grand." graduated on ".$gdfrom;
 
 	}
 
 	if($gdr=='After')
 	{
 		$grandquery=$grandquery."  graduationdate >'".$graduationfrom."' and ";
-		$grand=$grand." graduated after ".$graduationfrom;
+		$grand=$grand." graduated after ".$gdfrom;
 
 	}
 	if($gdr=='Between')
 	{
 		$grandquery=$grandquery."  graduationdate between'".$graduationfrom."' and '".$graduationto."' and ";
-		$grand=$grand." graduated between".$graduationfrom."and".$graduationto;
+		$grand=$grand." graduated between ".$gdfrom." and ".$gdto;
 
 	}
 
@@ -492,6 +521,7 @@ $grandquery=substr_replace($grandquery,"",-4);
 $_SESSION["query"]=$grandquery;
 $_SESSION["squery1"]=$grand;
 echo "<script>window.location.href='chart1.php'</script>";
+}
 }
 
 ?> 

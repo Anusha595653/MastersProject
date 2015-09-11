@@ -248,7 +248,7 @@ document.form1.confirm.value=document.form1.password.value;
   <div style="height:100%" >
 
    
- <label style="color:orange">
+ <label style="color:orange;font-size:20px;">
  <img src="images/student.png" width="150px" height="150px">
  Update Student Information</label><br />
 <form id="form1" name="form1" method="post"  action="updatesinfo.php" class="form-horizontal">
@@ -259,13 +259,13 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">First Name : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
-		<input type="text" name="fname" id="fname" class="form-control" value="<?php echo $sname1; ?>" />
+		<input type="text" name="fname" id="fname" class="form-control" value="<?php echo $sname1; ?>" required/>
        </div></div>    
 <div class="form-group">
 	
       <label class="control-label col-sm-2" for="email">Last Name : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
-		<input type="text" class="form-control" name="lname" id="lname" value="<?php echo $sname2; ?>"/>
+		<input type="text" class="form-control" name="lname" id="lname" value="<?php echo $sname2; ?>" required/>
        </div></div>
 	   
 	   
@@ -276,7 +276,7 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">Phone : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
-		<input type="text" class="form-control" name="phone" id="phone" value="<?php echo $phone; ?>"/>
+		<input type="text" class="form-control" name="phone" id="phone" value="<?php echo $phone; ?>" pattern="[1-9]{1}[0-9]{9}" required/>
        </div></div>
 	   
 	   
@@ -285,7 +285,7 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">Email : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
-		<input type="text" class="form-control" name="email" id="email" value="<?php echo $email; ?>" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
+		<input type="text" class="form-control" name="email" id="email" value="<?php echo $email; ?>" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required/>
        </div></div>
 	   
 	   <div class="form-group">
@@ -314,7 +314,7 @@ $result = mysql_query($query); ?>
 <?php
 $query = "SELECT description FROM dropDowns where category ='level'"; 
 $result = mysql_query($query); ?> 
-<select name="level" class="form-control"> 
+<select name="level" class="form-control" required> 
 <?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
 <option value="<?php echo $line['description'];?>"> 
 <?php echo $line['description'];?> </option>   <?php } ?> </select> </div>
@@ -329,7 +329,7 @@ $result = mysql_query($query); ?>
 <?php
 $query = "SELECT description FROM dropDowns where category ='status'"; 
 $result = mysql_query($query); ?> 
-<select name="status" id="status" class="form-control"> 
+<select name="status" id="status" class="form-control" required> 
 <?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
 <option value="<?php echo $line['description'];?>"> 
 <?php echo $line['description'];?> </option>   <?php } ?> </select></div>
@@ -343,7 +343,7 @@ $result = mysql_query($query); ?>
 <?php
 $query = "SELECT description FROM dropDowns where category ='ethinicity'"; 
 $result = mysql_query($query); ?> 
-<select name="ethnic" class="form-control"> 
+<select name="ethnic" class="form-control" required> 
 <?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
 <option value="<?php echo $line['description'];?>"> 
 <?php echo $line['description'];?> </option>   <?php } ?> </select> </div>
@@ -359,7 +359,7 @@ $result = mysql_query($query); ?>
 <?php
 $query = "SELECT description FROM dropDowns where category ='residency'"; 
 $result = mysql_query($query); ?> 
-<select name="residency" class="form-control"> 
+<select name="residency" class="form-control" required> 
 <?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
 <option value="<?php echo $line['description'];?>"> 
 <?php echo $line['description'];?> </option>   <?php } ?> </select> </div>
@@ -370,7 +370,7 @@ $result = mysql_query($query); ?>
 	
       <label class="control-label col-sm-2" for="email">Admission Date : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
-<input type="text" name ="admission" id="admission"  class="form-control" value="<?php echo $admissiondate; ?>">
+<input type="text" name ="admission" id="admission"  class="form-control" value="<?php echo $admissiondate; ?>" required>
 </div></div>
 	
  
@@ -389,7 +389,7 @@ $result = mysql_query($query); ?>
 	
       <label class="control-label col-sm-2" for="email">Password : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
-	<input type="password" name="password" id="password" class="form-control" value="<?php echo $password; ?>"> 
+	<input type="password" name="password" id="password" class="form-control" value="<?php echo $password; ?>" required> 
 	 </div></div>
 	 
     
@@ -400,7 +400,19 @@ $result = mysql_query($query); ?>
 	
       <label class="control-label col-sm-2" for="email">Confirm-Password : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
-	<input type="password" class="form-control" name="confirm" id="confirm" value="<?php echo $password; ?>"> </div></div>
+	<input type="password" class="form-control" name="confirm" id="confirm" value="<?php echo $password; ?>" required oninput="check(this)"> </div></div>
+
+<script language='javascript' type='text/javascript'>
+    function check(input) {
+        if (input.value != document.getElementById('password').value) {
+            input.setCustomValidity('Password Must be Matching.');
+        } else {
+            // input is valid -- reset the error message
+            input.setCustomValidity('');
+        }
+    }
+</script>
+	
 	
 
 
@@ -428,7 +440,7 @@ $result = mysql_query($query); ?>
 	
       <label class="control-label col-sm-2" for="email"> </label>
       <div class="col-sm-4">
-<button class="btn btn-primary" onclick= "errorcheck()" name="submit" type="submit">Submit</button>
+<button class="btn btn-primary" name="submit" type="submit">Submit</button>
 <button type="button" class="btn btn-warning" onclick= "cancel(<?php echo $_GET["student_id"];?>)" name="submit" id="myBtn">Cancel</button>
  
 </div></div>

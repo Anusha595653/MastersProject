@@ -88,26 +88,23 @@ $description=$st[1];
 
 <form id="my-form">
 <label style="color:orange;font-size:20px">Purpose</label> 
-<input type="text" class="form-control" name="epurpose" value="<?php echo $description;?>">
+<input type="text" class="form-control" name="epurpose" value="<?php echo $description;?>" required>
 
 <label style="color:orange;font-size:20px">Notes</label> 
- 
-
 <input type="hidden" name="sid" id="sid" value="<?php echo $sid; ?>" />
 <input type="hidden" name="time" id="time" value=""/>
 <input type ="hidden" name="Purpose" id="Purpose" value="  " />
 <input type ="hidden" name="appid" id="appid" value="<?php echo $q; ?>" />
 
 <div class="table-responsive">  
-  <table class="table">
+<table class="table">
 <tr><td colspan="2">
-
-<textarea name="Note" class="form-control" id="Note" rows="15" ><?php echo $updatenote; ?></textarea>&nbsp; </br>  </br>
+<textarea name="Note" class="form-control" id="Note" rows="15" required><?php echo $updatenote; ?></textarea>&nbsp; </br>  </br>
 </tr>
 <tr>
 <td>
 <div class="form-group">
-              <label for="usrname" style="color:orange;font-size:20px">Upload Files(Choose or Drag&Drop)</label>
+              <label for="usrname" style="color:orange;font-size:20px">Upload Files</label>
 			  <input name='documents[]' multiple='multiple' type='file' id="mulitplefileuploader"/>
 			<!--  <input type="file" class="form-control" multiple> --> </div>
       <div id="status"></div> </td>
@@ -302,10 +299,12 @@ echo "<input type='checkbox' name='close' style='width:18px;height:18px;' value=
 </td>
 </tr>
 <tr>
-<td colspan="2">
-<input name="Submit" type="submit" style="float: right;" onclick="return etext()" id="notesbutton" value="Submit" class="btn btn-warning" />
+<td><button type="button" Style="float:left" class="btn btn-warning" data-dismiss="modal" ><span class="glyphicon glyphicon-remove"></span>  Cancel</button></td>
+<td>
+<input name="Submit" type="submit" style="float: right;" onclick="return etext()" id="notesbutton" value="Submit" class="btn btn-primary" />
 <!--<button type="submit" name="Submit" onclick="return etext()" id="notesbutton" value="Submit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Submit</button>-->
 </td>
+
 </tr>
 </table></div>	
 </form>
@@ -318,13 +317,12 @@ echo "<input type='checkbox' name='close' style='width:18px;height:18px;' value=
         function processForm( e ){
             $.ajax({
                 url: 'App_sampledata.php?function=addnote',
-                dataType: 'text',
+                //dataType: 'text',
                 type: 'post',
                 contentType: 'application/x-www-form-urlencoded',
                 data: $(this).serialize(),
                 success: function( data, textStatus, jQxhr ){
-                    $('#response pre').html("Updated Successfully");
-					$('#Note').html( data );
+			//var dataonly=$(data).find('script').remove();
 					    alert(data);
    location.reload(true);
                 },
@@ -348,7 +346,7 @@ $(document).ready(function()
 var st=document.getElementById('appid').value;
 //var childwindow=window.location.href;
 var settings = {
-	url: "testingfile1.php",
+	url: "App_sampledata.php?function=testingfile1",
 	method: "POST",
 	formData: {appid:st},
 	fileName: "myfile",
@@ -359,7 +357,8 @@ var settings = {
 	},
     afterUploadAll:function()
     {
-	$( "#filesTable" ).load( "addnote.php?aptid="+st+ " #filesTable ");	
+	//$( "#filesTable" ).load( "addnote.php?aptid="+st+ " #filesTable ");	
+	$( "#filesTable" ).load( "App_sampledata.php?function=filestable&createapp=0&aptid="+st);
     },
 	onError: function(files,status,errMsg)
 	{		
@@ -376,8 +375,8 @@ $("#mulitplefileuploader").uploadFile(settings);
 	{
 		$('table#delTable td a.delete').click(function()
 		{
-			if (confirm("Are you sure you want to delete this image?"))
-			{
+			//if (confirm("Are you sure you want to delete this image?"))
+			//{
 				var id = $(this).parent().attr('id');
 				var data = 'id=' + id ;
 				var parent = $(this).parent();
@@ -398,7 +397,7 @@ $("#mulitplefileuploader").uploadFile(settings);
 							 alert('failed  Try Again');
 					   }
 				 });				
-			}
+			//}
 		});
 		
 		// style the table with alternate colors
@@ -410,7 +409,7 @@ $("#mulitplefileuploader").uploadFile(settings);
 
 </div></div>   </div>	<!-- /modal-body -->
             <div class="modal-footer">
-		<button type="button" Style="float:left" class="btn btn-default" data-dismiss="modal" >Cancel</button>
+		<!-- <button type="button" Style="float:left" class="btn btn-default" data-dismiss="modal" >Cancel</button>--->
 <table id="dataTable">
 <thead>
 </thead>

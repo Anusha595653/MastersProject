@@ -53,11 +53,11 @@ error_reporting(0);
  <?php
  if($_GET["msg"]=="1"){
 	 echo "<script type='text/javascript'>alert('Student Created Successfully')</script>";
- echo "<font color=green>Student Created Successfully</font>";}
+ }
   if($_GET["msg"]=="11")
 	  {
 	 echo "<script>alert('Faculty/Staff Created Successfully')</script>";
-	  echo "<font color=green>Faculty/Staff Created Successfully</font>";}
+	  }
   if($_GET["msg"]=="2")
 	 echo "<font color=green>Appointment  Created Successfully<br>Appintment ID is:</font>".$_GET["appid"]. " <Br><a href=addnote.php?aptid=".$_GET["appid"]."&sid=".$_GET["sid"].">Add Note or View Appointment</a>";
 if($_GET["update"]=="1")
@@ -124,7 +124,7 @@ if($_GET["update"]=="success")
  <div class="panel panel-primary" style="margin-top:-20px;border-radius:0px;background-color:#00A4D3">
       <div class="panel-heading" style="border-radius:0px;background-color:#00A4D3"><div class="col span_16" style="text-align:center;border-radius:0px">
 			5500 North St.Louis Ave, Chicago , IL , 60625
-			</div></div>
+			</div><div class="col span_16" style="text-align:center;border-radius:0px">Designed by : Anusha Bestha (abestha@neiu.edu)</div></div>
 </div>
 
 </body>

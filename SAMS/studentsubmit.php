@@ -110,7 +110,7 @@ if($results1)
 			}//close php while
 		}//close php rows if
 
-	$createLogin = "INSERT INTO Logins (user_id,username,pwd,user_type) values ('".$_POST['idn']."','".$_POST['uname']."','".$_POST['password']."','".$type."')";
+	$createLogin = "INSERT INTO Logins (user_id,username,pwd,user_type) values ('".$_POST['idn']."','".$_POST['uname']."','".$pwd."','".$type."')";
 	$results3 = @mysql_query ($createLogin);
 	if($results3)
 		{
@@ -145,7 +145,7 @@ echo	@mysql_error();
 }
 }//close continue if
 $subject = "New user account created";
-$body = "Your account for the Student Advisement System has been created. Your Username : ".$_POST['uname']." and Password :".$_POST['password'].". Please Change your password on your first login.";
+$body = "Your account for the Student Advisement System has been created.\n\n Your Username : ".$_POST['uname']." \n Password :".$_POST['password'].". \n\n Please Change your password on your first login.";
 $faculty = $_POST['email'];
 sendmail();
 $validus="";

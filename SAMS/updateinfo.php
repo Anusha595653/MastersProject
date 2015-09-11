@@ -242,7 +242,7 @@ else
 echo'</p></table></form>';
 echo '<table align=center><tr><td><p><label>&nbsp;</label><input type = "button" value = "Submit" name = "submit" onclick= "errorcheck()" class="btn btn-primary"/>
     </p></td>';
-echo '<td><p><label>&nbsp;</label><input type = "button" value = "cancel" name = "submit" onclick="cancel()" class="btn btn-warning"/>
+echo '<td><p><label>&nbsp;</label><input type = "button" value = "Cancel" name = "submit" onclick="cancel()" class="btn btn-warning"/>
     </p></td></tr></table>';
 ?>
  </div> </div> </div>

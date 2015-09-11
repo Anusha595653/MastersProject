@@ -118,22 +118,37 @@ window.location = 'student.php';
 	
       <label class="control-label col-sm-2" for="email">Old Password:</label>
       <div class="col-sm-4">
-        <input type="password" class="form-control"  name="pass" id="pass" onkeyup="nameSearch(this.value,'oldPass')" placeholder="Enter Old Password">
+        <input type="password" class="form-control"  name="pass" id="pass" onkeyup="nameSearch(this.value,'oldPass')" placeholder="Enter Old Password" required>
       </div>
     </div>
 
 <div class="form-group">
 	
       <label class="control-label col-sm-2" for="email"></label>
-      <div class="col-sm-4" id="oldPass">
+      <div class="col-sm-4" id="oldPass" style="display:none">
+	 
       </div>
     </div>
+
+
+<script language='javascript' type='text/javascript'>
+    function checkoldPass() {
+	var con =document.getElementById('oldPass').innerHTML;
+        if (con!="<o>Password entered is correct</o>") {
+            //input.setCustomValidity('Old password is not correct');
+		alert("Old password is not correct");
+        } else {
+            // input is valid -- reset the error message
+            input.setCustomValidity('');
+        }
+    }
+</script>
 
     <div class="form-group" align="center">
 	
       <label class="control-label col-sm-2" for="email">Password:</label>
       <div class="col-sm-4">
-        <input type="password" class="form-control"  name="password" id="password" placeholder="Enter Password">
+        <input type="password" class="form-control"  name="password" id="password" placeholder="Enter Password" required>
       </div>
     </div>
    
@@ -141,15 +156,27 @@ window.location = 'student.php';
 	
       <label class="control-label col-sm-2" for="email">Confirm-Password:</label>
       <div class="col-sm-4">
-        <input type="password" class="form-control"  name="confirm" id="confirm" placeholder="Enter Confirm Password">
+        <input type="password" class="form-control"  name="confirm" id="confirm" placeholder="Enter Confirm Password" required oninput="check(this)">
       </div>
     </div>
+
+
+<script language='javascript' type='text/javascript'>
+    function check(input) {
+        if (input.value != document.getElementById('password').value) {
+            input.setCustomValidity('Password Must be Matching.');
+        } else {
+            // input is valid -- reset the error message
+            input.setCustomValidity('');
+        }
+    }
+</script>
 	
     <div class="form-group">
 	  <label class="control-label col-sm-2" for="email">&nbsp;</label>
     
       <div class="col-sm-4">
-<button class="btn btn-primary"   name="submit" type="submit" onclick= "return errorcheck()">submit</button>
+<button class="btn btn-primary"   name="submit" type="submit">submit</button>
 <button type="button" class="btn btn-warning" onclick="cancel()" name="submit" id="myBtn">Cancel</button>
 
 
@@ -160,25 +187,50 @@ window.location = 'student.php';
   {
 	 echo "<script>alert('Successfully Updated Your Password')</script>";  
   }
+	if($_GET["password"]=="notsuccess")
+  {
+	 echo "<script>alert('Old password is not correct')</script>";  
+  }
   ?>
 
   <?php
   if(isset($_POST["submit"]))
   {
-	 if($_POST["password"]!=''){
-	$password=base64_encode($_POST["password"]);
-	  $updatepwd = "update Logins set pwd='".$password."' where user_id='".$_SESSION["user_id"]."'";
-	$results3 = @mysql_query ($updatepwd);
-     if($results3=="1")
-	 {	 
-  echo "<script>window.location = 'changepwd.php?password=success';</script>";
-     }
-  }
-  else
-  {
-	 echo "<label style=color:red>Please Enter Password and confirm password</label>";
+	$selectpwd = "select pwd from Logins where user_id='".$_SESSION["user_id"]."'";
+	$results1 = @mysql_query ($selectpwd);
+	if (@mysql_num_rows($results1) !=0)  
+	{//open php rows if
+
+		while ($row1 = @mysql_fetch_assoc($results1))
+		{//open php while
+		
+			// create variables for the a items that will be searched and make them all lowercase (what we want to search through)
+			$oldpass = base64_decode($row1['pwd']);
+			if($_POST["pass"]==$oldpass)
+			{
+				if($_POST["password"]!=''){
+				$password=base64_encode($_POST["password"]);
+	  			$updatepwd = "update Logins set pwd='".$password."' where user_id='".$_SESSION["user_id"]."'";
+				$results3 = @mysql_query ($updatepwd);
+     				if($results3=="1")
+	 			{	 
+  				echo "<script>window.location = 'changepwd.php?password=success';</script>";
+     				}
+  				}
+ 			 	else
+  				{
+				 echo "<label style=color:red>Please Enter Password and confirm password</label>";
 	  
-  }
+  				}
+				
+			}
+			else
+			{
+				echo "<script>window.location = 'changepwd.php?password=notsuccess';</script>";
+			}
+
+		}//close php while
+	}//close php rows if
   }
   ?>
   <input type="hidden" name="updateid" id="updateid" value="'.$user.'"/> 

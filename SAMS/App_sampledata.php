@@ -4,10 +4,8 @@ require_once ('mysql_connect.php');
 // The user is redirected here from login.php.
 session_start(); // Start the session.
 // If no session value is present,redirect the user:
- 
-//include ('includes/mailer.inc.php');
+//include ('assets/js/deletefile.js');
 $function=$_GET['function'];
-//echo "<script type='text/javascript'>alert(".$function.")</script>";
 if($function==createapp)
 	createapp();
 if($function==addnote)
@@ -16,22 +14,14 @@ if($function==testingfile)
 	testingfile();
 if($function==testingfile1)
 	testingfile1();
-
 if($function==addfile)
 	addfile();
-
 if($function==deletefile)
 	deletefile();
-
 if($function==cancelapp)
 	cancelapp();
-
-
 if($function==filestable)
 	filestable();
-
-
-
 function createapp()
 {
 $fname=$_POST['Purpose'];
@@ -46,10 +36,14 @@ $q1="INSERT INTO appts (sid,fid,start_date,end_date,start_time,stop_time,descrip
 $newaptid="";
 $time="";
 $results1 = @mysql_query ($q1);
+$data="";
 if($results1)
- echo "Successfully Created Appointment"; 
+{
+	$data="Successfully Created Appointment";
+ 	echo $data; 
+}
 else
- echo " Try Again Later"; 
+ echo "Try Again Later"; 
 } 
 
 function addnote()
@@ -63,20 +57,17 @@ if(!empty($close))
 
 	$d1=("update appts set status =3 where apptid =".$apptid);
 	$results2 = @mysql_query ($d1);
-
 	echo "Successfully updated and closed appointment";
 }
 else
 {
  echo "Successfully updated appointment";
 }
-
-
 }
 
 function cancelapp()
 {
-
+$stid=$_GET['stid'];
 $st = mysql_fetch_row(mysql_query("SELECT max(apptid) as apptid FROM appts"));
 $version = $st[0] + 1;	
 $d1=("delete from file where apptid =".$version);
@@ -112,10 +103,7 @@ $fileCount1 = count($_FILES["myfile"]['name']);
         // Execute the query
         $result = @mysql_query($query);
    
-  } 
-		
-		
-		
+  } 		
 	$ret = array();
 
 	$error =$_FILES["myfile"]["error"];
@@ -158,32 +146,19 @@ $fileCount1 = count($_FILES["myfile"]['name']);
    		}
     	}
 /*	
-	 	*/
-		
-		
-		
-		
-		
-		
+	 	*/	
     }
     echo json_encode($ret);
- 
 }
 }
-
 function testingfile1()
 {
 
 if(isset($_FILES["myfile"]))
 {
 
-  $st = mysql_fetch_row(mysql_query("SELECT max(apptid) as apptid FROM appts"));
+$st = mysql_fetch_row(mysql_query("SELECT max(apptid) as apptid FROM appts"));
 $version = $st[0] + 1;		 
-
-
-
-
-
 $newaptid1=$_POST['appid'];
 
  
@@ -253,22 +228,25 @@ $newaptid1=$_POST['appid'];
    		}
     	}
 /*	
-	 	*/
-		
-		
-		
-		
-		
+	 	*/		
 		
     }
     echo json_encode($ret);
- 
 }
 }
 
 function addfile()
 {
-	require_once ('mysql_connect.php');
+require_once ('mysql_connect.php');
+
+if($_GET['id1']&&$_GET['Delete']=="Delete")
+{
+	$query = "delete * FROM file WHERE id = ".$id;
+   	$result = @mysql_query($query);
+	$meta = '<meta http-equiv="Refresh" content="3;url=addnote.php" />';
+}
+
+
 // Check if a file has been uploaded
 
 if(isset($_FILES['uploaded_file'])) {
@@ -316,8 +294,6 @@ if(isset($_FILES['uploaded_file'])) {
         echo 'An error accured while the file was being uploaded. '
            . 'Error code: '. intval($_FILES['uploaded_file']['error']);
     }
- 
-
 }
 else {
     echo 'Error! A file was not sent!';
@@ -327,13 +303,6 @@ else {
 $meta = '<meta http-equiv="Refresh" content="3;url=addnote.php" />';
 //echo "window.location = 'addnote.php?sid=".$_POST['studentid']."&aptid=".$apptid."';";
 }
-
-if($_GET['id1']&&$_GET['Delete']=="Delete")
-{
-	
-	//	header('Location:studentsrch.php');
-}
-
 
 
 if($_GET['id']&&$_GET['student']==''){
@@ -393,11 +362,7 @@ the users click on  using get
         else 
 		{//open else
             echo "Error! Query failed: <pre>{$dbc->error}</pre>";
-        }//close else
-       
-
- 
- 
+        }//close else 
 }
 
 if($_GET['id']&&$_GET['student']){
@@ -425,8 +390,6 @@ if(isset($_GET['id']))
 			exit();
 		}//close session if
      }//close else
-	
-
 }
  else 
 {//open else
@@ -463,25 +426,24 @@ if(isset($_GET['id']))
 	echo $meta;
 echo '<script type="text/javascript">';
 $_SESSION["updatecounter"]=2;
- echo "<script>window.location = 'addnote.php?sid=".$_GET['student']."&aptid=".$_GET['aptid']."';</script>";
+echo "<script>window.location = 'addnote.php?sid=".$_GET['student']."&aptid=".$_GET['aptid']."';</script>";
  
-echo '</script>';
-
-	
+echo '</script>';	
 }
 
 function deletefile()
 {
 
-	$id1=$_GET['iddel'];
-	     $query1 = "delete FROM `file` WHERE `id` = {$id1}";
+	$id1=$_GET['id1'];
+	$query1 = "delete FROM `file` WHERE `id` = {$id1}";
        	$result12= @mysql_query($query1);
-	echo "done"; 
+	$meta = '<meta http-equiv="Refresh" content="3" />';
+	echo $meta; 
 }
 
 function filestable()
 {
-	
+	$createapp=$_GET['createapp'];
 	echo "<label for='usrname' style='color:orange;font-size:20px'>Uploaded Files</label>";
 	echo "<table class='table' id='delTable'> "; 
 	//set part1 to be blank
@@ -502,12 +464,17 @@ function filestable()
 			
 			<br/><br/>';*/
 	}
-	//create title for uploaded files and attach to $hint
-	//$hint=$hint.'<p><label style=font-size:20px;color:orange>Uploaded Files</label><br/>';
-	// Query for a list of all existing files and format the date
+	if($createapp==1)
+	{
 	$st1 = mysql_fetch_row(mysql_query("SELECT max(apptid) as apptid FROM appts"));
 	$version1 = $st1[0] + 1;	
 	$sql = "select *,Date_FORMAT(created,'%Y-%d-%m %h:%m %p') as created from file where apptid = ".$version1." order by id desc";
+	}
+	else
+	{
+		$version1=$_GET['aptid'];
+		$sql = "select *,Date_FORMAT(created,'%Y-%d-%m %h:%m %p') as created from file where apptid = ".$version1." order by id desc";
+	}
 	//run the query
 	$i=0;
 	$result = @mysql_query($sql);
@@ -521,7 +488,7 @@ function filestable()
                 <tr>
 					
                 </tr>';
- $j=0;
+ 		$j=0;
 		while ($row = @mysql_fetch_assoc($result))
 		{//open php while
 		$i++;
@@ -618,57 +585,13 @@ function filestable()
 		window.location.href='App_sampledata.php?function=addfile&id='+vari1;
 		
 	}
-	function Delete(vari1)
+	function Delete()
 	{
 		var vari2='Delete';
- window.location.href='App_sampledata.php?function=addfile&id1='+vari1+'&Delete='+vari2;
-		
+		//window.location.href='App_sampledata.php?function=delete;
 	}
 	</script>";
-	
 	echo "</table>";
-
-} 
-
-echo"<script type='text/javascript'>";
-
-echo"$(document).ready(function()
-	{
-		$('table#delTable td a.delete').click(function()
-		{
-			if (confirm('Are you sure you want to delete this image?'))
-			{
-				var id = $(this).parent().attr('id');
-				var data = 'id=' + id ;
-				var parent = $(this).parent();
-
-				$.ajax(
-				{
-				   type: 'POST',
-					   url: 'delete_row.php?id='+id,
-					   data: data,
-					   cache: false,
-					
-					   success: function(data, textStatus, jQxhr)
-					   {
-						   if(data=='done'){
-							  alert('Successfully Deleted');
-						   parent.fadeOut('slow', function() {$(this).remove();});}
-						 else
-							 alert('failed  Try Again');
-					   }
-				 });				
-			}
-		});";
-		
-		
-		$('table#delTable tr:odd').css('background',' #FFFFFF');
-	});";
-	
-echo"</script>";
-?>	
-
-
-
-
- 
+	echo "<script type='text/javascript' src='assets/js/deletefile.js'></script>";
+}
+?>
