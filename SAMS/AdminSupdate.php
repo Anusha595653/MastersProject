@@ -276,7 +276,7 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">Phone : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
-		<input type="text" class="form-control" name="phone" id="phone" value="<?php echo $phone; ?>" pattern="[1-9]{1}[0-9]{9}" required/>
+		<input type="text" class="form-control" name="phone" id="phone" value="<?php echo $phone; ?>" pattern="[0-9]{10}" required/>
        </div></div>
 	   
 	   

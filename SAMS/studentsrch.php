@@ -64,16 +64,16 @@ $r2 = @mysql_query ($q2);
  
  
  <?php
-echo "<table><tr><td id='t'><b>Name</b></td><td>&nbsp;&nbsp;:</td><td>$sname</td></tr>";
-echo "<tr><td id='t'><b>Student ID</b> </td><td>&nbsp;&nbsp;:</td><td> $q</td></tr>";
-echo "<tr><td id='t'><b>Phone #</b></td><td>&nbsp;&nbsp;:</td><td>		 $phone</td></tr>";
-echo '<tr><td id=t><b>E-Mail</b></td><td>&nbsp;&nbsp;:</td><td>  <a href="mailto:'.$email.'">'.$email.'</a></td></tr> ';
-echo "<tr><td id='t'><b>Concentration</b></td><td>&nbsp;&nbsp;:</td><td>  $major</td></tr>";
-echo "<tr><td id='t'><b>Level</b></td><td>&nbsp;&nbsp;:</td><td>  $level</td></tr>";
-echo "<tr><td id='t'><b>Status</b></td><td>&nbsp;&nbsp;:</td><td>  $status</td></tr>";
-echo "<tr><td id='t'><b>Processed On</b></td><td>&nbsp;&nbsp;:</td><td>  $admissiondate</td></tr>";
-echo "<tr><td id='t'><b>Graduated On</b></td><td>&nbsp;&nbsp;:</td><td>  $graddate </td></tr>";
-echo "<tr><td id='t'><b>Comments </b></td><td>&nbsp;&nbsp;:</td><td>  $comments </td></tr></table>";
+echo "<table><tr><td id='t'><b>Name</b></td><td>&nbsp;&nbsp;:&nbsp;</td><td>$sname</td></tr>";
+echo "<tr><td id='t'><b>Student ID</b> </td><td>&nbsp;&nbsp;:&nbsp;</td><td> $q</td></tr>";
+echo "<tr><td id='t'><b>Phone #</b></td><td>&nbsp;&nbsp;:&nbsp;</td><td>		 $phone</td></tr>";
+echo '<tr><td id=t><b>E-Mail</b></td><td>&nbsp;&nbsp;:&nbsp;</td><td>  <a href="mailto:'.$email.'">'.$email.'</a></td></tr> ';
+echo "<tr><td id='t'><b>Concentration</b></td><td>&nbsp;&nbsp;:&nbsp;</td><td>  $major</td></tr>";
+echo "<tr><td id='t'><b>Level</b></td><td>&nbsp;&nbsp;:&nbsp;</td><td>  $level</td></tr>";
+echo "<tr><td id='t'><b>Status</b></td><td>&nbsp;&nbsp;:&nbsp;</td><td>  $status</td></tr>";
+echo "<tr><td id='t'><b>Processed On</b></td><td>&nbsp;&nbsp;:&nbsp;</td><td>  $admissiondate</td></tr>";
+echo "<tr><td id='t'><b>Graduated On</b></td><td>&nbsp;&nbsp;:&nbsp;</td><td>  $graddate </td></tr>";
+echo "<tr><td id='t'><b>Comments </b></td><td>&nbsp;&nbsp;:&nbsp;</td><td>  $comments </td></tr></table>";
 ?>
 
  <?php
@@ -417,9 +417,7 @@ else
 </style>
 
  </div>
-   <?php
-include("footer.php");
- ?> 
+    
 <script>
  
 $(document).ready(function()
@@ -758,3 +756,6 @@ var stid=<?=$q;?>;
 });
 </script>
 
+<?php
+include("footer.php");
+ ?>
