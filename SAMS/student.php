@@ -173,7 +173,7 @@ $color="";
  if($row2['status']=='2'){
 	$status="Open"; 
 	$color="green";
-	$view="<a data-toggle='modal' href='addnote.php?aptid=$row2[apptid]&sid=$user' data-target='#myModals'>".$purpose."</a>";
+	$view="<a data-toggle='modal' href='viewappoint.php?aptid=$row2[apptid]&sid=$user' data-target='#myModals'>".$purpose."</a>";
 	//$Note="<a data-toggle='modal' class='btn btn-info' href='viewappoint.php?aptid=$row2[apptid]&sid=$user' data-target='#myModals'>Note</a>";
  }
  if($row2['status']=='3')

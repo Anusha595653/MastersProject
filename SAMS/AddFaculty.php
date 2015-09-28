@@ -75,6 +75,46 @@ window.location = 'begin.php';
 }
 
 </script>
+
+<script>
+
+function validatePhone(input) {
+
+    //logically decide and set custom validation message
+
+    if (document.getElementById('phone').validity.patternMismatch) 
+	{
+        input.setCustomValidity('Please enter only digits,min 6 digits and max 16 digits with optional "+" as first character');
+
+    } else {
+
+        // reset the validation message - makes it valid for checkValidity function
+
+        input.setCustomValidity('');
+
+    }
+
+}
+
+function validateEmail(input) {
+
+    //logically decide and set custom validation message
+
+    if (document.getElementById('email').validity.patternMismatch) 
+	{
+        input.setCustomValidity('Please enter correct format "example@ex.com"');
+
+    } else {
+
+        // reset the validation message - makes it valid for checkValidity function
+
+        input.setCustomValidity('');
+
+    }
+
+}
+
+</script>
 <script>
 var keylist="abcdefghijklmnopqrstuvwxyz123456789"
 var temp=''
@@ -122,7 +162,7 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">Phone # : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
-        <input type="text" class="form-control"  name="phone" id="phone" placeholder="Enter Phone Number" pattern="[0-9]{10}" required>
+        <input type="text" class="form-control"  name="phone" id="phone" placeholder="+1234567" required pattern="[+]?([0-9]){6,16}" oninput="validatePhone(this)">
       </div>
     </div>
 
@@ -133,7 +173,7 @@ document.form1.confirm.value=document.form1.password.value;
 	
       <label class="control-label col-sm-2" for="email">Email : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
-        <input type="email" class="form-control"  name="email" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="example@ex.com" required>
+        <input type="email" class="form-control"  name="email" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="example@ex.com" required oninput="validateEmail(this)">
       </div>
     </div>
 		<div class="form-group">

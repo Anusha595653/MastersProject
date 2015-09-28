@@ -20,7 +20,7 @@ if($db1_result&&$db2_result)
 {
 	// Logins Table insertion
 
-	/***$LoginsSql="select * from ".$db1.".Logins";
+	$LoginsSql="select * from ".$db1.".Logins";
 	$result1=@mysql_query(LoginsSql);
 	
 	if (@mysql_num_rows($result1) !=0) 
@@ -32,15 +32,15 @@ if($db1_result&&$db2_result)
 			$sql2="insert into ".$db2.".Logins(user_id,username,pwd,user_type)values('".$row1['user_id']."','".$row1['username']."','".$password."','".$row1[user_type]."')";
 			$result2=@mysql_query($sql2);
 		}//close php while
-	}//close php rows i***/
+	}//close php rows i
 
 
 	// logins table insertion
-	$loginsSql="Insert into ".$db2.".Logins(user_id,username,pwd,user_type)SELECT user_id,username,pwd,user_type FROM ".$db1.".Logins";
+	/***$loginsSql="Insert into ".$db2.".Logins(user_id,username,pwd,user_type)SELECT user_id,username,pwd,user_type FROM ".$db1.".Logins";
 	$loginsResult=@mysql_query($loginsSql);
 	
 	$updateSql="update".$db2.".Logins set pwd=base64_encode(pwd)";
-	$resultupdate=@mysql_query($updateSql);
+	$resultupdate=@mysql_query($updateSql);***/
 
 
 	// USERS table insertion

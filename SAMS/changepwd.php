@@ -15,92 +15,6 @@ $t=$_GET["t"];
 <link href="jquery.custom.css" rel="stylesheet" type="text/css"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-<script type="text/javascript">
-function nameSearch(str,divid)
-	{
-		var userId = "<?= $userId ?>";
-		if (str.length<2)
-		{ 
-			document.getElementById(divid).innerHTML="";
-
-			document.getElementById(divid).style.border="0px";
-			return;
-		}
-		if (window.XMLHttpRequest)
-		{// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp=new XMLHttpRequest();
-		}
-		else
-		{// code for IE6, IE5
-			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange=function()
-		{
-			if (xmlhttp.readyState==4 && xmlhttp.status==200)
-			{
-				if(divid=="oldPass")
-				document.getElementById("oldPass").innerHTML=xmlhttp.responseText;
-				  
-
-			}
-		}
-	
-		//when search function is called, send the search string, the search type (user vs appt), user id, and searcher type (faculty vs student)
-		if(divid=="oldPass")
-			xmlhttp.open("GET","namesearch.php?Pass="+str+"& userid="+userId,true);
-		xmlhttp.send();
-	}
-function errorcheck()
-{//begin inputCheck function
-	var inputError=new Array(" "," "," "," "," "," "," "," ",""," ");
-	var errorCount=0;
-	var password =document.forms.form1['password'].value;
-	var confirmed =document.forms.form1['confirm'].value;
-	var con =document.getElementById('oldPass').innerHTML;
-	//alert(con);
-	if (con!="<o>Password entered is correct</o>") 
-		{
-		inputError[0] = ("\n Old password is incorrect.");
-		errorCount=errorCount+1;
-
-		}
-	if (password.length < 8)
-	{
-		inputError[1] = ("\n Password is too short");
-		errorCount=errorCount+1;
-	}
-	if (password.length >= 8 && password != confirmed)
-	{
-		inputError[1] = ("\n Passwords do not Match");
-		errorCount=errorCount+1;
-	}
-	
-	if (errorCount >0)
-		alert(errorCount+" Error(s). "+inputError[0]+inputError[1]);
-	if(errorCount == 0)
-	{
-		document.forms["form1"].submit();
-	}
-	else
-		return false;
-}// end errorcheck function
-
-function cancel()
-{
-var type="<?= $t ?>";
-//alert(type);
-if(type==1)
-window.location = 'begin.php';
-if(type==2)
-window.location = 'student.php';
-}
-
-</script>
-
-
-
-
-
  <div class="panel panel-primary" style="margin-top:-20px; border-radius:0px;">
 
 
@@ -130,19 +44,6 @@ window.location = 'student.php';
       </div>
     </div>
 
-
-<script language='javascript' type='text/javascript'>
-    function checkoldPass() {
-	var con =document.getElementById('oldPass').innerHTML;
-        if (con!="<o>Password entered is correct</o>") {
-            //input.setCustomValidity('Old password is not correct');
-		alert("Old password is not correct");
-        } else {
-            // input is valid -- reset the error message
-            input.setCustomValidity('');
-        }
-    }
-</script>
 
     <div class="form-group" align="center">
 	
@@ -189,7 +90,7 @@ window.location = 'student.php';
   }
 	if($_GET["password"]=="notsuccess")
   {
-	 echo "<script>alert('Old password is not correct')</script>";  
+	 echo "<script>alert('Old password is not correct');window.location='changepwd.php?t=2';</script>";  
   }
   ?>
 
@@ -236,6 +137,18 @@ window.location = 'student.php';
   <input type="hidden" name="updateid" id="updateid" value="'.$user.'"/> 
  
   </div> </div></div> 
+<script>
+function cancel()
+{
+var type="<?= $t ?>";
+//alert(type);
+if(type==1)
+window.location = 'begin.php';
+if(type==2)
+window.location = 'student.php';
+}
+
+</script>
 
 <?php
 

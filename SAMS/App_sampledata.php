@@ -27,10 +27,13 @@ function createapp()
 $fname=$_POST['Purpose'];
 $lname=$_POST['Note'];
 $sid=$_POST['studentid'];
+$close=$_POST['close'];
 $continue=0;
 $today =  date('Y-m-d');
 $student="";
 $faculty="";
+if(empty($close))
+{
    
 $q1="INSERT INTO appts (sid,fid,start_date,end_date,start_time,stop_time,description,note,status) VALUES ('".$_POST['studentid']."','".$_SESSION['user_id']."','".$today."','".$today."',CURTIME(),'".$_POST['time']."','".$_POST['Purpose']."','".$_POST['aNote']."',2)";
 $newaptid="";
@@ -44,6 +47,11 @@ if($results1)
 }
 else
  echo "Try Again Later"; 
+}
+else
+{
+	echo "Cancelled the appointment creation"; 
+}
 } 
 
 function addnote()

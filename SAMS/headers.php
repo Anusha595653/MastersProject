@@ -295,6 +295,7 @@ body{background-color:#D8DDD8}
 	        <li><a href='staff.php'><span>HOME</span></a></li>
 
         <li><a href='AddStudent.php?type=3'>ADD STUDENT</a></li>
+	<li><a href='Chart.php'>CHART BUILDER</a></li> 
 <li class='dropdown'>
           <a class='dropdown-toggle' data-toggle='dropdown' href='#'>SETTINGS
           <span class='caret'></span></a>

@@ -105,8 +105,9 @@ $description=$st[1];
 <td>
 <div class="form-group">
               <label for="usrname" style="color:orange;font-size:20px">Upload Files</label>
-			  <input name='documents[]' multiple='multiple' type='file' id="mulitplefileuploader"/>
-			<!--  <input type="file" class="form-control" multiple> --> </div>
+			<table><tr><td>
+			  <input name='documents[]' multiple='multiple' type='file'id="mulitplefileuploader"/></td><td><div></div></td></tr></table>
+      </div>
       <div id="status"></div> </td>
 <td style="padding:40px;">
 

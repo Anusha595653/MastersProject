@@ -529,12 +529,24 @@ $("#mulitplefileuploader").uploadFile(settings);
               <label for="usrname" style="color:orange;font-size:20px">Notes</label>
           <textarea  class="form-control" rows="15" name="aNote"></textarea>  </div>
 		  
-		  
+	<div class="table-responsive">
+	<table clas="table">
+	<tr>
+	<td>	  
 	<div class="form-group">
-  
+  	
               <label for="usrname" style="color:orange;font-size:20px">Upload File</label>
             <input name='documents[]' multiple='multiple'  type='file'  id="mulitplefileuploader"/> </div>
-<div id="status"></div>   
+<div id="status"></div> </td>
+<td style="padding:40px;">
+<div class="form-group">
+<input type="checkbox" name="close" style="width:18px;height:18px;" value="close"><font style="color:orange;font-size:20px">   Close Appointment</font>
+</div>
+</td>
+</tr>
+</table>
+</div>
+ 
 <div class="table-responsive" id="filesTable">    
 <label for="usrname" style="color:orange;font-size:20px">Uploaded Files</label>  
 <table class='table' id='delTable'> 
