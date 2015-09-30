@@ -14,7 +14,7 @@ $json_arr = array();
 $user_input = preg_replace('/\s+/', ' ', $user_input);
   $dquery="";
  $type="3";
-$dquery='SELECT * FROM dup_users WHERE   user_id like "%'.$user_input.'%" or First_Name like "%'.$user_input.'%" or Last_Name like "%'.$user_input.'%"    ';
+$dquery='SELECT * FROM users WHERE   user_id like "%'.$user_input.'%" or First_Name like "%'.$user_input.'%" or Last_Name like "%'.$user_input.'%" and Add2 is NULL   ';
 //WHERE bg.First_Name "%'.$user_input.'%"    and a.user_type="'.type.'" and bg.user_id=auser_id';				
 //(bg.First_Name like "%'.$user_input.'%" or bg.Last_Name like "%'.$user_input.'%") or 	
 $ip=0;

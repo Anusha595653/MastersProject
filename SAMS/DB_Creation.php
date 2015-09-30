@@ -123,7 +123,7 @@ $created2 = @mysql_query ($tablecreate2);
 $tablecreate3 ="CREATE TABLE  ".$_POST['dbn'].".`sdtinfo` (`user_id` INT( 12 ) NOT NULL,`level` VARCHAR( 15 ) NOT NULL,`major` VARCHAR( 30 ) NOT NULL,`status` VARCHAR( 20 ) NOT NULL,`ethnic` VARCHAR( 50 ) NOT NULL,`residency` VARCHAR( 50 ) NOT NULL,`addby` INT( 12 ) NOT NULL ,`createdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,`admissiondate` DATE NOT NULL,`graduationdate` DATE NULL DEFAULT NULL,`Comments` VARCHAR( 100 ) NOT NULL ) ENGINE = MYISAM";
 $created3 = @mysql_query ($tablecreate3);
 
-$tablecreate4 ="CREATE TABLE  ".$_POST['dbn'].".`appts` (`apptid` INT( 11 ) NOT NULL KEY AUTO_INCREMENT ,`sid` INT( 12 ) NOT NULL ,`fid` INT( 12 ) NOT NULL ,`start_date` DATE NOT NULL,`end_date` DATE NOT NULL,`start_time` TIME NOT NULL,`stop_time` TIME NOT NULL,`description` VARCHAR( 300 ) NOT NULL,`status` INT( 1 ) NOT NULL ) ENGINE = MYISAM";
+$tablecreate4 ="CREATE TABLE  ".$_POST['dbn'].".`appts` (`apptid` INT( 11 ) NOT NULL KEY AUTO_INCREMENT ,`sid` INT( 12 ) NOT NULL ,`fid` INT( 12 ) NOT NULL ,`start_date` DATE NOT NULL,`end_date` DATE NOT NULL,`start_time` TIME NOT NULL,`stop_time` TIME NOT NULL,`description` VARCHAR( 300 ) NOT NULL,`note` VARCHAR( 300 ) NOT NULL,`status` INT( 1 ) NOT NULL ) ENGINE = MYISAM";
 $created4 = @mysql_query ($tablecreate4);
 
 
