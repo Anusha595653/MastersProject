@@ -104,12 +104,12 @@ body{background-color:#D8DDD8}
 <?php
 if(isset($_POST["submit"])&&isset($_POST["dbn"]))
 {
-	$conn=mysql_connect("localhost","root","root");
+	$conn=mysql_connect("localhost","root","root") or die("Unable to connect to MySQL");
 	$sql="CREATE DATABASE ".$_POST["dbn"];
-	if(mysql_query($sql,$conn))
-	{
-	 
-	$db_result=mysql_select_db($_POST["dbn"]);
+	$db_result1=mysql_query($sql,$conn) or die('Unable to create the database: '. mysql_error());
+	if($db_result1)
+	{ 
+	$db_result=mysql_select_db($_POST["dbn"]) or die("Unable to select the database");
 	if($db_result)
 	{
 	 
@@ -120,7 +120,7 @@ $created1 = @mysql_query ($tablecreate1);
 $tablecreate2 ="CREATE TABLE  ".$_POST['dbn'].".`users` (`user_id` INT( 12 ) NOT NULL ,`First_Name` VARCHAR( 15 ) NOT NULL,`Last_Name` VARCHAR( 15 ) NOT NULL,`Add2` VARCHAR( 15 ) NULL DEFAULT NULL,`phone` VARCHAR( 15 ) NOT NULL,`email` VARCHAR( 150 ) NOT NULL ) ENGINE = MYISAM";
 $created2 = @mysql_query ($tablecreate2);
 
-$tablecreate3 ="CREATE TABLE  ".$_POST['dbn'].".`sdtinfo` (`user_id` INT( 12 ) NOT NULL,`level` VARCHAR( 15 ) NOT NULL,`major` VARCHAR( 30 ) NOT NULL,`status` VARCHAR( 20 ) NOT NULL,`ethnic` VARCHAR( 50 ) NOT NULL,`residency` VARCHAR( 50 ) NOT NULL,`addby` INT( 12 ) NOT NULL ,`createdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,`admissiondate` DATE NOT NULL,`graduationdate` DATE NULL DEFAULT NULL,`Comments` VARCHAR( 100 ) NOT NULL ) ENGINE = MYISAM";
+$tablecreate3 ="CREATE TABLE  ".$_POST['dbn'].".`sdtinfo` (`user_id` INT( 12 ) NOT NULL,`level` VARCHAR( 15 ) NOT NULL,`major` VARCHAR( 30 ) NOT NULL,`status` VARCHAR( 20 ) NOT NULL,`ethnic` VARCHAR( 50 ) NOT NULL,`residency` VARCHAR( 50 ) NOT NULL,`addby` INT( 12 ) NOT NULL ,`createdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,`admissiondate` DATE NOT NULL,`graduationdate` DATE NULL DEFAULT NULL,`Comments` VARCHAR( 100 ) NULL ) ENGINE = MYISAM";
 $created3 = @mysql_query ($tablecreate3);
 
 $tablecreate4 ="CREATE TABLE  ".$_POST['dbn'].".`appts` (`apptid` INT( 11 ) NOT NULL KEY AUTO_INCREMENT ,`sid` INT( 12 ) NOT NULL ,`fid` INT( 12 ) NOT NULL ,`start_date` DATE NOT NULL,`end_date` DATE NOT NULL,`start_time` TIME NOT NULL,`stop_time` TIME NOT NULL,`description` VARCHAR( 300 ) NOT NULL,`note` VARCHAR( 300 ) NOT NULL,`status` INT( 1 ) NOT NULL ) ENGINE = MYISAM";
@@ -241,7 +241,7 @@ fclose($FileHandle);
 }
 else
 	{
- 	
+ 		echo "<p style='color:red>Database already exists!<br>Try Again";
 	}
 }
 else
