@@ -29,7 +29,7 @@ if($db1_result&&$db2_result)
 		while ($row1 = @mysql_fetch_assoc($result1))
 		{//open php while
 			$password=base64_encode($row1['pwd']);
-			$sql2="insert into ".$db2.".Logins(user_id,username,pwd,user_type)values('".$row1['user_id']."','".$row1['username']."','".$password."','".$row1[user_type]."')";
+			$sql2="insert into ".$db2.".Logins(user_id,username,pwd,user_type)values('".$row1['user_id']."','".$row1['username']."','".$password."','".$row1['user_type']."')";
 			$result2=@mysql_query($sql2) or die('unable to migrate logins table:'. mysql_error());
 			$countMigRows=$countMigRows+$result2;
 		}//close php while
@@ -74,7 +74,7 @@ if($db1_result&&$db2_result)
 	$AppsSql="Insert into ".$db2.".appts(apptid,sid,fid,start_date,end_date,start_time,stop_time,description,note,status)SELECT a1.apptid,a1.sid,a1.fid,a1.start_date,a1.end_date,1.start_time,a1.stop_time,a1.description,a2.note,a1.status FROM ".$db1.".appts a1,".$db1.".temp a2 where a1.apptid=a2.apptid";
 	$AppsResult=@mysql_query($AppsSql) or die('unable to migrate appts table:'. mysql_error());
 		
-	//$dropTemp=@mysql_query("drop table ".$db1.".temp");
+	$dropTemp=@mysql_query("drop table ".$db1.".temp");
 	if($AppsResult>=1)
 	echo "Appointments table migration completed.\n";
 	else

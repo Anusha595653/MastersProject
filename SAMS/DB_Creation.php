@@ -241,7 +241,7 @@ fclose($FileHandle);
 }
 else
 	{
- 		echo "<p style='color:red>Database already exists!<br>Try Again";
+ 		
 	}
 }
 else
