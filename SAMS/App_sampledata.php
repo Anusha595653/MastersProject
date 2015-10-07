@@ -22,6 +22,8 @@ if($function==cancelapp)
 	cancelapp();
 if($function==filestable)
 	filestable();
+if($function==get_file)
+	get_file();
 function createapp()
 {
 $fname=$_POST['Purpose'];
@@ -50,7 +52,18 @@ else
 }
 else
 {
-	echo "Cancelled the appointment creation"; 
+	$q1="INSERT INTO appts (sid,fid,start_date,end_date,start_time,stop_time,description,note,status) VALUES ('".$_POST['studentid']."','".$_SESSION['user_id']."','".$today."','".$today."',CURTIME(),'".$_POST['time']."','".$_POST['Purpose']."','".$_POST['aNote']."',3)";
+$newaptid="";
+$time="";
+$results1 = @mysql_query ($q1);
+$data="";
+if($results1)
+{
+	$data="Successfully Created and Closed Appointment";
+ 	echo $data; 
+}
+else
+ echo "Try Again Later"; 
 }
 } 
 
@@ -356,15 +369,30 @@ the users click on  using get
 		{//open if result
             // Make sure the result is valid
             // Get the row
-			$row = @mysql_fetch_assoc($result);
+			
+$row = @mysql_fetch_assoc($result);
+$file_name=$row['name'];
+
+switch(strtolower(substr(strrchr($file_name, '.'), 1))) {
+		case 'pdf': $mime = 'application/pdf'; break;
+		case 'zip': $mime = 'application/zip'; break;
+		case 'jpeg':$mime = 'image/jpg'; break;
+		case 'jpg': $mime = 'image/jpg'; break;
+		default: $mime = 'application/force-download';
+	}
+
             
                 // Print headers
-                header("Content-Type: ". $row['mime']);
-                header("Content-Length: ". $row['size']);
-                header("Content-Disposition: attachment; filename=". $row['name']);
+		header('Content-Description: File Transfer');
+   		header('Cache-Control: public');
+                header("Content-Type: ". $mime);
+		header("Content-Transfer-Encoding: binary");
+                header("Content-Disposition: attachment; filename=\"$filename\"");
+		header("Content-Length: ". $row['size']);
  
                 // Print data
                 echo $row['data'];
+		
 
         }//close if result
         else 
@@ -590,7 +618,7 @@ function filestable()
 	echo "<script type='text/javascript'>
 	function Download(vari1)
 	{
-		window.location.href='App_sampledata.php?function=addfile&id='+vari1;
+		window.location.href='App_sampledata.php?function=get_file&id='+vari1;
 		
 	}
 	function Delete()
@@ -601,5 +629,75 @@ function filestable()
 	</script>";
 	echo "</table>";
 	echo "<script type='text/javascript' src='assets/js/deletefile.js'></script>";
+}
+
+function get_file()
+{
+/*
+This page is used for downloading files, the file id is passed by the link
+the users click on  using get
+*/
+ require_once ('mysql_connect.php');
+// Make sure an ID was passed
+if(isset($_GET['id'])) 
+{//open main if
+// Get the ID
+    $id = intval($_GET['id']);
+ 
+    // Make sure the ID is in fact a valid ID
+    if($id <= 0) 
+	{//open id if
+        die('The ID is invalid!');
+    }//close id if
+    else 
+	{//open else
+       session_start(); 
+		if (!isset($_SESSION['user_id'])) 
+		{//open session if
+			require_once ('includes/login_functions.inc.php');
+			$url = absolute_url();
+			header("Location: $url");
+			exit();
+		}//close session if
+     }//close else
+ 
+        // Fetch the file information
+        $query = "
+            SELECT `mime`, `name`, `size`, `data`
+            FROM `file`
+            WHERE `id` = {$id}";
+       	$result = @mysql_query($query);
+ 
+// Check if it was successfull
+	if (@mysql_num_rows($result) ==1) 
+		{//open if result
+            // Make sure the result is valid
+            // Get the row
+			$row = @mysql_fetch_assoc($result);
+            
+                // Print headers
+                header("Content-Type: ". $row['mime']);
+                header("Content-Length: ". $row['size']);
+                header("Content-Disposition: attachment; filename=". $row['name']);
+ 
+                // Print data
+                echo $row['data'];
+
+        }//close if result
+        else 
+		{//open else
+            echo "Error! Query failed: <pre>{$dbc->error}</pre>";
+        }//close else
+       
+
+}
+else 
+{//open else
+    echo 'Error! No ID was passed.';
+}//close else
+
+
+
+
 }
 ?>

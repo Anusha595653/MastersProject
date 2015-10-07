@@ -216,7 +216,7 @@ $description=$st[1];
 	<script>
 	function Download(vari1)
 	{
-		window.location.href='App_sampledata.php?function=addfile&id='+vari1;
+		window.location.href='App_sampledata.php?function=get_file&id='+vari1;
 		
 	}
 	function Delete(vari1)

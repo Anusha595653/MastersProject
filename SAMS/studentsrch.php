@@ -536,7 +536,8 @@ $("#mulitplefileuploader").uploadFile(settings);
 	<div class="form-group">
   	
               <label for="usrname" style="color:orange;font-size:20px">Upload File</label>
-            <input name='documents[]' multiple='multiple'  type='file'  id="mulitplefileuploader"/> </div>
+		<table><tr><td>
+            <input name='documents[]' multiple='multiple'  type='file'  id="mulitplefileuploader"/> <td><td><div></div></td></tr></table></div>
 <div id="status"></div> </td>
 <td style="padding:40px;">
 <div class="form-group">
@@ -689,7 +690,7 @@ $("#mulitplefileuploader").uploadFile(settings);
 	<script>
 	function Download(vari1)
 	{
-		window.location.href='App_sampledata.php?function=addfile&id='+vari1;
+		window.location.href='App_sampledata.php?function=get_file&id='+vari1;
 		
 	}
 	function Delete(vari1)

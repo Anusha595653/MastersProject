@@ -6,7 +6,7 @@ $dbh1 = mysql_connect("localhost","root","root") or die("Unable to connect to My
 
 // change database names here
 $db1=src;
-$db2=dest;
+$db2=dest1;
 
 // select the databases.
 $db1_result=mysql_select_db($db1) or die('unable to select database:'. mysql_error());
@@ -64,17 +64,16 @@ if($db1_result&&$db2_result)
 
 	echo "Appointments table migration in progres.....";
 
-	$tempTable="CREATE TABLE  ".$db1.".`temp` (`apptid` INT( 12 ) NULL ,`note` VARCHAR( 1000 )  NULL) ENGINE = MYISAM";
+	$tempTable="CREATE TABLE  ".$db2.".`temp` (`apptid` INT( 12 ) NULL ,`note` VARCHAR( 1000 )  NULL) ENGINE = MYISAM";
 	$tempResult=@mysql_query($tempTable) or die('unable to create table temp:'. mysql_error());
-	$insertTemp="insert into ".$db1.".temp(apptid,note)SELECT apptid, GROUP_CONCAT(note) AS note FROM ".$db1.".apptnote GROUP BY apptid";
+	$insertTemp="insert into ".$db2.".temp(apptid,note)SELECT apptid, GROUP_CONCAT(note) AS note FROM ".$db1.".apptnote GROUP BY apptid";
 	$insertResult=@mysql_query($insertTemp) or die('unable to insert into table temp:'. mysql_error());
 		
 
 	// Appointments table insertion
-	$AppsSql="Insert into ".$db2.".appts(apptid,sid,fid,start_date,end_date,start_time,stop_time,description,note,status)SELECT a1.apptid,a1.sid,a1.fid,a1.start_date,a1.end_date,1.start_time,a1.stop_time,a1.description,a2.note,a1.status FROM ".$db1.".appts a1,".$db1.".temp a2 where a1.apptid=a2.apptid";
-	$AppsResult=@mysql_query($AppsSql) or die('unable to migrate appts table:'. mysql_error());
-		
-	$dropTemp=@mysql_query("drop table ".$db1.".temp");
+	$AppsSql="Insert into ".$db2.".appts(apptid,sid,fid,start_date,end_date,start_time,stop_time,description,note,status)SELECT a1.apptid,a1.sid,a1.fid,a1.start_date,a1.end_date,1.start_time,a1.stop_time,a1.description,a2.note,a1.status FROM ".$db1.".appts a1,".$db2.".temp a2 where a1.apptid=a2.apptid";
+	$AppsResult=@mysql_query($AppsSql) or die('unable to migrate appts table:'. mysql_error());	
+	$dropTemp=@mysql_query("drop table ".$db2.".temp");
 	if($AppsResult>=1)
 	echo "Appointments table migration completed.\n";
 	else

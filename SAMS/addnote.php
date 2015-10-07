@@ -285,7 +285,7 @@ echo "<input type='checkbox' name='close' style='width:18px;height:18px;' value=
 	<script>
 	function Download(vari1)
 	{
-		window.location.href='App_sampledata.php?function=addfile&id='+vari1;
+		window.location.href='App_sampledata.php?function=get_file&id='+vari1;
 		
 	}
 	function Delete(vari1)

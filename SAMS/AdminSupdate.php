@@ -38,6 +38,8 @@ $r2 = @mysql_query ($q2);
 			$major = $row2['major'];
 			$level = $row2['level'];
 			$status =  $row2['status'];
+			$ethnic=$row2['ethnic'];
+			$residency=$row2['residency'];
 			$admissiondate = $row2['admissiondate'];
 			$graddate = $row2['graduationdate'];
 			$comments = $row2['Comments'];
@@ -333,9 +335,10 @@ document.form1.confirm.value=document.form1.password.value;
       <label class="control-label col-sm-2" for="email">Concentration:</label>
       <div class="col-sm-4">
 <?php
-$query = "SELECT description FROM dropDowns where category ='concentration'"; 
+$query = "SELECT description FROM dropDowns where category ='concentration' and description <>'".$major."'"; 
 $result = mysql_query($query); ?> 
 <select name="major" class="form-control"> 
+<option value="<?php echo $major;?>"><?php echo $major;?></option>
 <?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
 <option value="<?php echo $line['description'];?>"> 
 <?php echo $line['description'];?> </option>   <?php } ?> </select>  
@@ -352,9 +355,10 @@ $result = mysql_query($query); ?>
       <div class="col-sm-4">
 
 <?php
-$query = "SELECT description FROM dropDowns where category ='level'"; 
+$query = "SELECT description FROM dropDowns where category ='level' and description <>'".$level."'";; 
 $result = mysql_query($query); ?> 
 <select name="level" class="form-control" required> 
+<option value="<?php echo $level;?>"><?php echo $level;?></option>
 <?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
 <option value="<?php echo $line['description'];?>"> 
 <?php echo $line['description'];?> </option>   <?php } ?> </select> </div>
@@ -367,9 +371,10 @@ $result = mysql_query($query); ?>
       <div class="col-sm-4">
 
 <?php
-$query = "SELECT description FROM dropDowns where category ='status'"; 
+$query = "SELECT description FROM dropDowns where category ='status' and description <>'".$status."'"; 
 $result = mysql_query($query); ?> 
-<select name="status" id="status" class="form-control" required> 
+<select name="status" id="status" class="form-control" required>
+<option value="<?php echo $status;?>"><?php echo $status;?></option> 
 <?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
 <option value="<?php echo $line['description'];?>"> 
 <?php echo $line['description'];?> </option>   <?php } ?> </select></div>
@@ -381,9 +386,10 @@ $result = mysql_query($query); ?>
       <label class="control-label col-sm-2" for="email" >Ethnicity  : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
 <?php
-$query = "SELECT description FROM dropDowns where category ='ethinicity'"; 
+$query = "SELECT description FROM dropDowns where category ='ethinicity' and description <>'".$ethnic."'"; 
 $result = mysql_query($query); ?> 
-<select name="ethnic" class="form-control" required> 
+<select name="ethnic" class="form-control" required>
+<option value="<?php echo $ethnic;?>"><?php echo $ethnic;?></option> 
 <?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
 <option value="<?php echo $line['description'];?>"> 
 <?php echo $line['description'];?> </option>   <?php } ?> </select> </div>
@@ -397,9 +403,10 @@ $result = mysql_query($query); ?>
       <label class="control-label col-sm-2" for="email">Residency  : <sup><font color="red" size="3">*</font></sup></label>
       <div class="col-sm-4">
 <?php
-$query = "SELECT description FROM dropDowns where category ='residency'"; 
+$query = "SELECT description FROM dropDowns where category ='residency' and description <>'".$residency."'"; 
 $result = mysql_query($query); ?> 
 <select name="residency" class="form-control" required> 
+<option value="<?php echo $residency;?>"><?php echo $residency;?></option>
 <?php while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) { ?> 
 <option value="<?php echo $line['description'];?>"> 
 <?php echo $line['description'];?> </option>   <?php } ?> </select> </div>
